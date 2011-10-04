@@ -1,5 +1,5 @@
 # Universal Makefile for all programs, huh)
-INSTALL_PATH=\'/home/minz/prog/tab_calc/bin/\'
+INSTALL_PATH=\'/home/Tux/minz/prog/tabcalc/bin/\'
 
 F90=gfortran -Jlib -Ilib
 #F90=pgf95 
