@@ -3,15 +3,16 @@ module tcUtils !Special utility functions for TabCalc
 !
 !
 use tcGlobals
+use tcOutput
 use quickSort
 use array_works
 implicit none 
 
 contains
-subroutine ApplyDataCuts(xMin, xMax, iCol)
-real*8, intent(in) :: xMin
-real*8, intent(in) :: xMax
-integer, intent(in) :: iCol
+subroutine ApplyDataCuts(xMin, xMax, iCol) !Removes all data outside a given range
+real*8, intent(in) :: xMin ! Lower-limit
+real*8, intent(in) :: xMax ! Upper-limit
+integer, intent(in) :: iCol ! Column index
 integer i
   i = 1
   do while (i.le.rownum)
@@ -40,20 +41,33 @@ real*8 det, a0, b0
   det = 1D0/(asize*x2-xx*xx)
   a = (asize*xy-xx*yy)*det
   b = (yy*x2 - xx*xy)*det
-
-  y_(:) = -a*x(:) - b + y(:)
-  yy0 = sum(y_(:))
-  xy0 = sum(x(:)*y_(:))
-  a0 = (asize*xy0-xx*yy0)*det
-  b0 = (yy0*x2 - xx*xy0)*det
-  a = a + a0
-  b = b + b0
 end subroutine LinearFit
 
+subroutine LinearFitWeight(x, y, w, asize, a, b)
+real*8, intent(in) :: x(asize), y(asize) !! input data
+real*8, intent(in) :: w(asize) ! Weights
+integer, intent(in) :: asize !! size of input arrays
+real*8, intent(out):: a,b !! y = a*x + b : result
+!local variables
+real*8 xx, x2, xy, yy, ww
+real*8 xy0, yy0, y_(asize)
+real*8 det, a0, b0
+  xx = sum(x(:)*w(:))
+  yy = sum(y(:)*w(:))
+  ww = sum(w(:)) !*dble(asize)
+  x2 = sum(x(:)*x(:)*w(:))
+  xy = sum(x(:)*y(:)*w(:))
+  det = 1D0/(ww*x2-xx*xx)
+  a = (ww*xy - xx*yy)*det
+  b = (yy*x2 - xx*xy)*det
+end subroutine LinearFitWeight
+
 subroutine LinearFitFilter(x, y, asize, xSigma, a, b)
+! Performs linear fit, then cuts off all outliers (more than xSigma
+! dispersions) and re-fits.
 real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: asize !! size of input arrays
-real*8, intent(in) :: xSigma
+real*8, intent(in) :: xSigma ! Cut-off limit
 real*8, intent(out):: a,b !! y = a*x + b : result
 
 real*8 sigma, xx(asize), yy(asize)
@@ -64,7 +78,6 @@ integer i, arrsize
     sigma = sigma + (y(i) - a*x(i)-b)**2
   enddo
   sigma = dsqrt(sigma)/dble(asize)
-!   write(*,*) a, b, sigma
   arrsize = asize
   i = 1
   xx(:) = x(:)
@@ -86,9 +99,11 @@ integer i, arrsize
 end subroutine LinearFitFilter
 
 subroutine LinearFitPercFilter(x, y, asize, xSigma, a, b)
+! Performs linear fit, then cuts off all outliers (leaving xSigma
+! procents of best-fit data, and then re-fits.
 real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: asize !! size of input arrays
-real*8, intent(in) :: xSigma
+real*8, intent(in) :: xSigma ! Percentage of data to keep
 real*8, intent(out):: a,b !! y = a*x + b : result
 
 real*8 sigma, xx(asize), yy(asize), dy(asize)
@@ -104,9 +119,6 @@ integer i, arrsize, iDy(asize)
   end if
   xx(1:arrsize) = x(iDy(1:arrsize))
   yy(1:arrsize) = y(iDy(1:arrsize))
-  do i = 1, arrsize
-    write(44, *) exp(xx(i)), exp(yy(i))
-  enddo
   if (arrsize.gt.1) then
     call LinearFit(xx(1:arrsize), yy(1:arrsize), arrsize, a, b)
   else if (verbose) then
@@ -114,7 +126,133 @@ integer i, arrsize, iDy(asize)
   end if
 end subroutine LinearFitPercFilter
 
-subroutine FillGroupBySums
+real*8 function ScanWeight(i, w)
+integer, intent(in) :: i, w
+  ScanWeight = exp(-10d0*dble(i*i)/dble(w*w))
+end function ScanWeight
+
+subroutine LinearFitScanned(x, y, asize, window, a, b)
+real*8, intent(in) :: x(asize), y(asize) !! input data
+integer, intent(in) :: asize !! size of input arrays
+integer, intent(in) :: window ! Percentage of data to keep
+real*8, intent(out):: a(asize),b(asize) !! y = a*x + b : result
+real*8 weight(asize)
+integer i, j, w
+do i = 1, window
+  do j = 1, i+window
+    weight(j) = ScanWeight(j-i, window)
+    write(33,*) x(j), y(j), weight(j)
+  enddo
+  weight(i+window+1:asize) = 0
+  call LinearFitWeight(x(1:i+window), y(1:i+window), weight(1:i+window), i+window, a(i), b(i))
+  write(33,*) a(i), b(i), i
+enddo
+do i = window + 1, asize - window
+  do j = i - window, i + window
+    weight(j - i + window + 1) = ScanWeight(j - i, window)
+  enddo
+  call LinearFitWeight(x(i-window:i+window), y(i-window:i+window), &
+                       weight(1:2*window+1), 2*window+1, a(i), b(i))
+enddo
+do i = asize-window + 1, asize
+  do j = i, asize
+    weight(j) = ScanWeight(j-i, window)
+  enddo
+  call LinearFitWeight(x(i:asize), y(i:asize), weight(1:asize-i+1), asize-i + 1, a(i), b(i))
+enddo
+end subroutine LinearFitScanned
+
+
+subroutine TabCalcFit(bLogX, bLogY, iFilterMode, bWeighted, a, b)
+logical, intent(in) :: bLogX, bLogY ! Use logarithmic scale
+integer, intent(in) :: iFilterMode ! Filter: 0-none, 1-sigma, 2-percent, 3-window
+logical, intent(in) :: bWeighted ! Use third column as weights
+real*8, intent(out) :: a, b ! y = a*x + b fit
+real*8 x_data(rownum), y_data(rownum), w_data(rownum)
+real*8 a_set(rownum), b_set(rownum)
+integer j
+  if (bLogX.or.bLogY) then !Clear data from negative values
+    if (verbose) then
+      if (any(datatable(1:rownum, xcol_add(1:2)).le.0D0)) then
+        write(*,*) cComment//'Non-positive values from the input data will be omitted!'
+      endif
+    end if
+    j = 1
+    do while (j.le.rownum)
+      if ((bLogX.and.(datatable(j, xcol_add(1)).le.0D0)).or. &
+          (bLogY.and.(datatable(j, xcol_add(2)).le.0D0))) then
+        datatable(j:rownum, xcol_add(1)) = datatable(j+1:rownum+1, xcol_add(1))
+        datatable(j:rownum, xcol_add(2)) = datatable(j+1:rownum+1, xcol_add(2))
+        rownum = rownum - 1
+      else
+        j = j + 1
+      endif
+    enddo
+  endif
+  
+  if (bLogX) then
+    x_data(1:rownum) = dlog10(datatable(1:rownum, xcol_add(1)))
+  else
+    x_data(1:rownum) = datatable(1:rownum, xcol_add(1))
+  end if
+  if (bLogY) then
+    y_data(1:rownum) = dlog10(datatable(1:rownum, xcol_add(2)))
+  else
+    y_data(1:rownum) = datatable(1:rownum, xcol_add(2))
+  end if
+  if (bWeighted) then
+    w_data(1:rownum) = datatable(1:rownum, xcol_add(3))
+  else
+    w_data(1:rownum) = 1d0
+  end if
+  fit_case: select case (iFilterMode)
+    case (0)
+      call LinearFitWeight(x_data(1:rownum), y_data(1:rownum), w_data(1:rownum), rownum, a, b)
+    case (1)
+      if (threshold.le.0d0) then
+        if (verbose) then
+          write(*,*) cComment//'Threshold must be positive. Setting to default (2d0)'
+        end if
+        threshold = 2d0
+      endif
+      call LinearFitFilter(x_data(1:rownum), y_data(1:rownum), rownum, threshold, a, b)
+    case (2)
+      if (threshold.le.0d0) then
+        if (verbose) then
+          write(*,*) cComment//'Threshold must be positive. Setting to default (50%)'
+        end if
+        threshold = 50d0
+      endif      
+      call LinearFitPercFilter(x_data(1:rownum), y_data(1:rownum), rownum, threshold, a, b)
+    case (3)
+      a = 0d0
+      b = 0d0
+      call LinearFitScanned(x_data(1:rownum), y_data(1:rownum), rownum, step_num, a_set, b_set)
+  end select fit_case
+  
+  if (iFilterMode.ne.3) then
+    fit_modes: select case (mode)
+      case(0)
+        call PrepareRealFormat(2)
+        write(*,sFormat) a, b
+      case(1)
+        call PrepareRealFormat(4)
+        do j = 1, rownum
+          write(*,sFormat) datatable(j, xcol_add(1)),  &
+                           datatable(j, xcol_add(2)),  &
+                           datatable(j, xcol_add(1))*a + b, &
+                           datatable(j, xcol_add(2)) - datatable(j, xcol_add(1))*a - b
+        enddo
+    end select fit_modes
+  else
+    call PrepareRealFormat(3)
+    do j = 1, rownum
+      write(*, sFormat) datatable(j, xcol_add(1)), a_set(j), b_set(j)
+    enddo
+  end if
+end subroutine TabCalcFit
+
+subroutine FillGroupBySums() !Fills Group-by columns
 integer j,k
 logical flag
   aGroupByValues(:,:) = 0D0

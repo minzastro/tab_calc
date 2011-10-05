@@ -3,12 +3,7 @@ module histograms
 use tcGlobals
 
   integer, parameter :: MAX_ITERATIONS = 10 !Maximum number of itegations for optimizing histogram
-  integer mode                       ! 0=absolute; 1={max=1}; 2={sum=1};
   !character*(6) align                ! bin value alignment ('left', 'right', 'center'), UNUSED
-  real*8, save :: steps(0:MAX_STEPS)         ! positions of each step
-  real*8, save :: range_min, range_max       ! minimum & maximum values of data
-  real*8, save :: step_size                  ! size of 1 step = (range_max-range_min)/step_num
-  integer, save :: step_num                   ! number of steps
   integer, save :: hist_data(0:MAX_STEPS)     ! number of points in each bin
   real*8 , save :: distr_sum(0:MAX_STEPS)     ! sum of data per bin
 

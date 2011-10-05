@@ -12,6 +12,7 @@ program tab_calc
 use tcGlobals
 use tcUtils
 use tcOutput
+use tcPower
 use operators
 use quickSort
 use array_works
@@ -52,7 +53,6 @@ implicit none
   real*8 fit_a, fit_b                !! best-fit parameters
 
   !!root-finder
-  real*8 threshold                   !!root threshold (0.0 by default)
 
   character*(100) sIniFileName       !! name of .ini file
   type (TIniFile) xIni !! File with ini_values must be named 'tab_calc2.ini'
@@ -277,6 +277,7 @@ implicit none
     enddo
   endif
   
+  ! Removing empty rows:
   call RemoveNanRows()
   if (bAligned) then
     if (rownum.eq.0) then
@@ -284,6 +285,15 @@ implicit none
       stop
     endif
   endif
+
+  ! Applying data cuts (if set)
+  if (range_min.eq.1D100) then
+    range_min = minval(datatable(1:rownum, xcol_add(1):xcol_add(1)))
+  end if
+  if (range_max.eq.-1D100) then
+    range_max = maxval(datatable(1:rownum, xcol_add(1):xcol_add(1)))
+  end if
+  call ApplyDataCuts(range_min, range_max, xcol_add(1))
 
   !++++++++++++++++++++++++++ MAIN PART ++++++++++++++++++++++++++++++
   my_case: select case (trim(sCommand))
@@ -393,18 +403,6 @@ implicit none
         enddo
       endif
 
-    case ('fit') !fitting (linear)
-      if (xcol_add(2).eq.XCOL_NULL) then
-        if (ycol_add(1).eq.XCOL_NULL) then
-          write(*,*) 'Error! Second column for fitting not set'
-        else !get from Y columns
-          xcol_add(2) = ycol_add(1)
-        endif
-      endif
-      call LinearFit(datatable(1:rownum, xcol_add(1):xcol_add(1)), &
-                     datatable(1:rownum, xcol_add(2):xcol_add(2)), rownum, fit_a, fit_b)
-      write(*,*) fit_a, fit_b
-
     case ('sqrt') !getting vector length
       do j=1,rownum
         k = 1
@@ -428,6 +426,15 @@ implicit none
   
   
 contains
+
+subroutine RequireXCols(i)
+integer, intent(in) :: i
+  if (xcol_num.ne.i) then
+    write(*,*) cComment//'Error! ', i,' columns required!'
+    stop
+  end if
+end subroutine RequireXCols
+
 subroutine PrintInfo()
 #ifdef INCLUDE_TEXTFILES
 #include "USAGE.wrap"

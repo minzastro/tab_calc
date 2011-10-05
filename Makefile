@@ -2,10 +2,8 @@
 INSTALL_PATH=\'/home/Tux/minz/prog/tabcalc/bin/\'
 
 F90=gfortran -Jlib -Ilib
-#F90=pgf95 
-#-Jlib -Ilib
 SRCS=histograms.f90 file_io.f90 operators.f90 logs.f90 quickSort.f90 stringUtils.f90 array_works.f90 \
-ini_file.f90 StringArray.f90 tcUtils.f90 tcOutput.f90
+ini_file.f90 StringArray.f90 tcOutput.f90 tcUtils.f90 tcPower.f90
 OBJS=$(SRCS:%.f90=lib/%.o)
 XSRCS=$(SRCS:%.f90=src/%.f90)
 PROG=tab_calc

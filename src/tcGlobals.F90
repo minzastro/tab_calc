@@ -11,6 +11,7 @@ integer, parameter :: LINE_LENGTH = 2000   ! Maximum string length
 real*8, save :: datatable(MAX_ROW, 0:MAX_COLUMN)              !! main array with data
 integer, save :: rownum !Number of rows in file
 integer, save :: colnum !Number of columns in file
+integer, save :: mode   ! 0=absolute; 1={max=1}; 2={sum=1};
 
 integer, save :: xcol_add(MAX_COLUMN), xcol_num !Columns to proceed and their count
 integer, save :: xcol_ignore(MAX_COLUMN), xcol_ignore_num !Columns to ignore and their count (textual columns go here)
@@ -24,6 +25,14 @@ character*(1) :: cDelimiter = ' '        ! Default field delimiter
 logical, save :: bTabsToSpaces           ! Wether to expand tabs to spaces (1 tab = 1 space)
 logical, save :: bRemoveDuplicateDelimiters ! Wether to remove duplicate delimiters
 logical, save :: bFormattedOutput  ! Flag for formatted output (UNUSED)
+
+real*8, save  :: threshold                   !!root threshold (0.0 by default)
+
+!For histograms and functions
+real*8, save :: steps(0:MAX_STEPS)         ! positions of each step
+real*8, save :: range_min, range_max       ! minimum & maximum values of data
+real*8, save :: step_size                  ! size of 1 step = (range_max-range_min)/step_num
+integer, save :: step_num                   ! number of steps
 
 !TEMPORARY variables
 real*8, save  :: temp_value !temporary value

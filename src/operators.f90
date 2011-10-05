@@ -5,7 +5,7 @@ module operators
 !
   implicit none
   
-  logical, save :: operatorsChecking = .false.
+  logical, save :: operatorsChecking = .true.
 
 ! Override operators:
   interface assignment(=)

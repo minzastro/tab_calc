@@ -11,6 +11,7 @@ implicit none
 real*8, parameter :: NANVALUE = HUGE(1d0) !not-a-number 
 integer, save :: iFieldBreaks(MAX_COLUMN) !field border locations
 integer, save :: iIgnoranceMode = 1
+integer, save :: iSkipAmount = 0 ! Number of lines to be skipped from the beginning of the data (header size)
 
 contains
 ! Subroutine to load data from text file into double-precision array.
@@ -54,13 +55,22 @@ character*(512) sErrorMsg
 	!detect number of columns
 	flag = .false.
 	iLine = 0
-	do while (flag.eqv..false.)
+	!Skipping header
+	do i = 1, iSkipAmount
 	  read(unit_id,'(a)', iostat=istat) sLine
-	  iLine = iLine + 1
 	  if (istat.ne.0) then
 		write(*,*) 'Error! No data to proceed!'
 		stop
 	  endif
+	enddo
+	! Reading the data
+	do while (flag.eqv..false.)
+	  read(unit_id,'(a)', iostat=istat) sLine
+	  if (istat.ne.0) then
+		write(*,*) 'Error! No data to proceed!'
+		stop
+	  endif
+	  iLine = iLine + 1
 	  if (sLine(1:1) .ne. cComment) then !Looking for first non-commented line
 		call replace_substring(sLine, '	', ' ') !replacing TABS with SPACEs
 		call TrimLeft(sLine, sLine) !adjust left
