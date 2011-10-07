@@ -157,12 +157,14 @@ implicit none
       call TStringArraySplit(sKeyValue, ',', xArray)
       call toIntegerArray(xArray, ARRAY_SIZE, aGroupByColumns, iGroupByColumns)
     case('-c')
-      sCommand=sKeyValue
+      sCommand = sKeyValue
     case('-comment')
-      cComment=sKeyValue(1:1)
+      cComment = sKeyValue(1:1)
     case('-s')
-      i=i-1
+      i = i - 1
       bSingleValue = .true.
+    case('--skip')
+      iSkipAmount = sKeyValue
     case('-S')
       call TStringArraySplit(sKeyValue, ',', xSubCommands)
     case('-x')

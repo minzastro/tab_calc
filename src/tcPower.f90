@@ -74,7 +74,7 @@ real*8 alpha, alpha2, h
     alpha = -30d0
     alpha2 = -1d-3
     do while (dabs(alpha2 - alpha).gt.epsil)
-      !write(*,*) m0, x, m1, alpha, alpha2
+     ! write(*,*) m0, x, m1, alpha, alpha2
       call get_next_estimate(alpha, alpha2)
     enddo
   endif
