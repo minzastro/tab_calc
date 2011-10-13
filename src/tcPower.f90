@@ -58,7 +58,7 @@ real*8 f1, f2, f3, ax
   endif
 end subroutine get_next_estimate
 
-function find_alpha(in_x, in_m0, in_m1, epsil) result (alpha)
+function find_alpha1(in_x, in_m0, in_m1, epsil) result (alpha)
 real*8, intent(in) :: in_x, in_m0, in_m1, epsil
 real*8 alpha, alpha2, h
   x = in_x
@@ -70,6 +70,7 @@ real*8 alpha, alpha2, h
     !write(*,*) m0, x, m1, alpha, alpha2
     call get_next_estimate(alpha, alpha2)
   enddo
+  
   if (alpha.le.2*epsil) then
     alpha = -30d0
     alpha2 = -1d-3
@@ -79,5 +80,23 @@ real*8 alpha, alpha2, h
     enddo
   endif
   !write(*,*) x, m0, m1
+end function find_alpha1
+
+function find_alpha(in_x, asize, x_cut) result (alpha)
+integer, intent(in) :: asize
+real*8, intent(in) :: in_x(asize), x_cut
+real*8 tmp, alpha
+integer i, n
+  tmp = 0d0
+  n = 0
+  do i = 1, asize
+    if (in_x(i).ge.x_cut) then
+      n = n + 1
+      tmp = tmp + dlog(in_x(i)/x_cut)
+    endif
+  enddo
+  alpha = 1 + n/tmp
+  !write(*,*) alpha, n
 end function find_alpha
+
 end module tcPower

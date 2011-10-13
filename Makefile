@@ -2,8 +2,8 @@
 INSTALL_PATH=\'/home/Tux/minz/prog/tabcalc/bin/\'
 
 F90=gfortran -Jlib -Ilib
-SRCS=histograms.f90 file_io.f90 operators.f90 logs.f90 quickSort.f90 stringUtils.f90 array_works.f90 \
-ini_file.f90 StringArray.f90 tcOutput.f90 tcUtils.f90 tcPower.f90
+SRCS=file_io.f90 operators.f90 logs.f90 quickSort.f90 stringUtils.f90 array_works.f90 \
+ini_file.f90 StringArray.f90 histograms.f90 tcOutput.f90 tcUtils.f90 tcPower.f90
 OBJS=$(SRCS:%.f90=lib/%.o)
 XSRCS=$(SRCS:%.f90=src/%.f90)
 PROG=tab_calc
@@ -38,6 +38,9 @@ lib/tcGlobals.o: src/tcGlobals.F90 src/vars.i src/StringArray.f90 lib/StringArra
 lib/StringArray.o: src/StringArray.f90 lib/operators.o lib/logs.o
 	$(F90) -c -o $@ src/StringArray.f90
 
+lib/histograms.o: src/histograms.f90 lib/tcGlobals.o
+	$(F90) -c -o $@ $?
+
 src/vars.i: variables/*.vars
 	cat variables/*.vars > src/vars.i
 
@@ -54,4 +57,4 @@ variables/%.vars:
 # This entry allows you to type " make clean " to get rid of
 # all object and module files
 clean:
-	 rm -f -r f_{files,modd}* *.o *.mod *.M *.d V*.inc *.vo  V*.f *.dbg album F.err
+	 rm -f -r f_{files,modd}* lib/*.o lib/*.mod *.M *.d V*.inc *.vo  V*.f *.dbg album F.err
