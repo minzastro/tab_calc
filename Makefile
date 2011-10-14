@@ -28,6 +28,8 @@ inline: src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/c
 	$(F90) -o $(PROG) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINCLUDE_TEXTFILES
 	rm src/*.wrap
 
+tests: $(XSRCS)
+	funit -s src $(ls src/*.fun)
 
 src/commands.i: commands/%.commands
 	cat commands/*.command > src/commands.i

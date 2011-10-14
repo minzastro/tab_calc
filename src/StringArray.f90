@@ -1,7 +1,7 @@
+module StringArray
 !! Set of strings handling
 !!@author Alexey A. Mints
 !!@version 0.2 (12.10.2009)
-module StringArray
 use operators
 use logs
 
@@ -73,7 +73,7 @@ integer i
   do i = 1, x%length
     if (trim(s).eq.trim(x%member(i)%chars)) then
       TStringArrayIn = .true.
-      exit
+      return
     end if
   enddo
   TStringArrayIn = .false.
@@ -85,7 +85,7 @@ type(TString) s3
   if ((len(trim(s1%chars))+len(trim(s2%chars))).lt.256) then
     s3%chars = trim(s1%chars)//trim(s2%chars)
   else
-    print*, 'Warning! lines too long!'
+    print*, 'Warning! lines are too long!'
     s3%chars=''
   endif
 end function TStringSum
