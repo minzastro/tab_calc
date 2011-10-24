@@ -1,5 +1,4 @@
-# Universal Makefile for all programs, huh)
-INSTALL_PATH=\'/home/Tux/minz/prog/tabcalc/bin/\'
+INSTALL_PATH=\'/home/minz/prog/tab_calc/bin/\'
 
 F90=gfortran -Jlib -Ilib
 SRCS=file_io.f90 operators.f90 logs.f90 quickSort.f90 stringUtils.f90 array_works.f90 \
