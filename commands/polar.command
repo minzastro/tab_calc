@@ -14,9 +14,10 @@
       datatable(i, xcol_add(2)) = datan2(temp_values(1)/temp_values(5), temp_values(2)/temp_values(5))
       if (xcol_num.eq.4) then
         temp_values(6) = datatable(i, xcol_add(3))**2 + datatable(i, xcol_add(4))**2
-        temp_values(7) = datatable(i, xcol_add(3))*dcos(datatable(i, xcol_add(2))) + &
+        temp_values(7) = datatable(i, xcol_add(3))*dcos(datatable(i, xcol_add(2))) -   &
                          datatable(i, xcol_add(4))*dsin(datatable(i, xcol_add(2)))
-        temp_values(8) = dsqrt(temp_values(6) - temp_values(7)**2)
+        temp_values(8) =  datatable(i, xcol_add(3))*dsin(datatable(i, xcol_add(2))) + &
+                          datatable(i, xcol_add(4))*dcos(datatable(i, xcol_add(2)))
         datatable(i, xcol_add(3)) = temp_values(7)
         datatable(i, xcol_add(4)) = temp_values(8)
       endif

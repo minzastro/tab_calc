@@ -5,7 +5,7 @@ case ('dis')
     do j = 1, rownum
       temp_values(1:xcol_num) = temp_values(1:xcol_num)+(datatable(j, xcol_add(1:xcol_num))-temp_values2(1,1:xcol_num))**2
     enddo !rownum
-    temp_values(1:xcol_num) = dsqrt(temp_values(1:xcol_num))/rownum
+    temp_values(1:xcol_num) = dsqrt(temp_values(1:xcol_num)/rownum)
     call PrepareRealFormat(xcol_num)
     write(*,sFormat) temp_values(1:xcol_num)
   else
@@ -20,7 +20,7 @@ case ('dis')
         end if
       enddo
     enddo
-    aGroupByValues(:, -2) = dsqrt(aGroupByValues(:, -2))/aGroupByValues(:, -1)
+    aGroupByValues(:, -2) = dsqrt(aGroupByValues(:, -2)/aGroupByValues(:, -1))
     sFormat = '('//trim(GetRealFormat(iGroupByColumns))//',1X,'//sIntegerFormat//',1X,'//sRealFormat//')'
     do j = 1, iGroupByCount
       write(*,sFormat) aGroupByValues(j, 1:iGroupByColumns), int(aGroupByValues(j,-1)), aGroupByValues(j,-2)
@@ -34,7 +34,7 @@ case ('rel_dis')
     do j = 1, rownum
       temp_values(1:xcol_num) = temp_values(1:xcol_num)+(datatable(j, xcol_add(1:xcol_num))-temp_values2(1,1:xcol_num))**2
     enddo !rownum
-    temp_values(1:xcol_num) = dsqrt(temp_values(1:xcol_num))/rownum
+    temp_values(1:xcol_num) = dsqrt(temp_values(1:xcol_num)/rownum)
     write(*,*) temp_values(1:xcol_num)/temp_values2(1,1:xcol_num)
   else
     call FillGroupBySums()
@@ -48,7 +48,7 @@ case ('rel_dis')
         end if
       enddo
     enddo
-    aGroupByValues(:, -1) = dsqrt(aGroupByValues(:, -2))/(aGroupByValues(:, -1)*long_values(:))
+    aGroupByValues(:, -1) = dsqrt(aGroupByValues(:, -2)/(aGroupByValues(:, -1)*long_values(:)))
     do j = 1, iGroupByCount
       write(*,*) aGroupByValues(j, 1:iGroupByColumns), int(aGroupByValues(j,-1)), aGroupByValues(j,-2)
     enddo
