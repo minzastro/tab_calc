@@ -39,7 +39,14 @@ case('many')
             do k = 1, rownum
               temp_values2(j,i) = temp_values2(j,i)+(datatable(k, xcol_add(i))-temp_values(i))**2
             enddo !rownum
-            temp_values2(j,i) = dsqrt(temp_values2(j,i))/rownum
+            temp_values2(j, i) = dsqrt(temp_values2(j,i))/rownum
+          case('med')
+            call quick_sort(datatable(1:rownum, xcol_add(i)), long_values(1:rownum))
+            temp_values2(j, i) = long_values((rownum+1)/2)
+          case('gmean')
+            temp_values2(j, i) = exp(sum(dlog(datatable(1:rownum, xcol_add(i))))/rownum)
+          case('hmean')
+            temp_values2(j, i) = rownum/sum(1d0/datatable(1:rownum, xcol_add(i)))
         end select subcomm_case
       enddo
     enddo
