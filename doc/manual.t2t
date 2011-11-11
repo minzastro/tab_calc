@@ -2,7 +2,7 @@ Tab_calc program
 Alexey A. Mints
 Last updated: %%mtime(%c)
 
-%! Target: wiki
+%! Target: html
 
 
 = Quickref =
@@ -17,7 +17,7 @@ operations on single ASCII data-files. The entire file is read into an
 array, which is then analyzed. Number of columns is detected automatically.
 Some support for Vizier-format datafiles is also provided.
 
-Data size is limited to 30 columns and 50.000 rows. Comment lines are allowed,
+Data size is limited to 50 columns and 300.000 rows. Comment lines are allowed,
 starting with ';' symbol (this can be changed in [ini-file #ini_file] COMMENT option)
 
 == Installation ==[install]
@@ -84,12 +84,14 @@ adding more operation file into 'commands' folder (see [Developer manual #d_manu
 | fit_log                | Logarithmic fit                                                                 | 2          | no       | no      |
 | fit_log_filter         | Logarithmic fit with outliers rejection (absolute value of maximum error given) | 2          | no       | no      |
 | fit_log_procent_filter | Logarithmic fit with outliers rejection (percentage of maximum error given)     | 2          | no       | no      |
+| fit_power              | Logarithmic fit (maximum likelihood method)                                     | 2          | no       | no      |
 | gmean                  | Get geometric mean from values in column                                        | 1-any      | no       | yes     |
 | grid                   | Make equal-spaced grid from table function                                      | 2          | no       | yes     |
 | help                   | Print help and quit                                                             | not needed | no       | no      |
 | hist                   | Make dimple histogram                                                           | 1          | no       | yes     |
 | hist2                  | Make local density distribution                                                 | 1          | no       | yes     |
 | histl                  | Make histogram with logarithmic bins                                            | 1          | no       | yes     |
+| hmean                  | Get harmonic mean from values in column                                         | 1-any      | no       | yes     |
 | int                    | Integrate table function                                                        | 2          | no       | no      |
 | int_avg                | Make average for a given table function                                         | 2-any      | no       | no      |
 | many                   | Various statistical information on column(s)                                    | 1-any      | no       | no      |
@@ -103,8 +105,10 @@ adding more operation file into 'commands' folder (see [Developer manual #d_manu
 | norm_max               | Same as norm                                                                    | 1-any      | no       | no      |
 | norm_min               | Normalize data (set minimum value to 1)                                         | 1-any      | no       | no      |
 | path                   | Write install path end quit                                                     | not needed | no       | no      |
+| polar                  | Convert X,Y (and, optionaly, VX and VY) from cartesian to polar coordinates     | 2 or 4     | no       | no      |
 | rel_dis                | Relative dispersion                                                             | 1-any      | yes      | no      |
 | root                   | Find root of f(x)=t equation                                                    | 2          | no       | no      |
+| shift_center           | Shift columns, so that the average value is zero                                | 1-any      | no       | no      |
 | smooth                 | Smooth table function with a given window                                       | 2          | no       | no      |
 | sort                   | Sort one column                                                                 | 1          | no       | no      |
 | sort_by                | Sort table by one column                                                        | 1          | no       | no      |
@@ -139,7 +143,7 @@ Some more comments:
  - //int//    - integrates (1-st order) function. X and Y columns must be set
  - //int_avg//    - integrates (1-st order) function, then devides the result by the length of integration interval. X and Y columns must be set.
  - //many// - several sub-commands can be defined via //-S// option. Then for every column results of these
-sub-commands are printed. Implemented sub-commands are **avg, min, max, dis**.
+sub-commands are printed. Implemented sub-commands are **avg, min, max, dis, med, gmean, hmean**.
  - //med//    - gives median column value. NOTE: if //-s// option is not set,
            then median values for each column is evaluated.
  - //rel_dis// - finds relatve dispersion (dis/avg)
@@ -147,7 +151,6 @@ sub-commands are printed. Implemented sub-commands are **avg, min, max, dis**.
  - //sort//   - performs sorting of a given column (//-x//)
  - //smooth// - performs simple n-point smoothing on key column. n can be set by //-t// option
  - //sqrt//   - returns sqare root of columns from //-x// option (from 1 to 3 columns)
- - //tertia// - gives tertia values     
 
 
 == Command line options ==[options]
@@ -375,4 +378,3 @@ Provides an easy way to accsess values of different types by thier names.
 + better formatted output support
 + new commands:
   + moments of distribution
-  + avg+dis+... in one command
