@@ -160,7 +160,15 @@ character*(512) sErrorMsg
 	!detect number of columns
 	flag = .false.
 	iLine = 0
-	do while (flag.eqv..false.)
+	!Skipping header
+	do i = 1, iSkipAmount
+	  read(unit_id,'(a)', iostat=istat) sLine
+	  if (istat.ne.0) then
+		write(*,*) 'Error! No data to proceed!'
+		stop
+	  endif
+	enddo
+  do while (flag.eqv..false.)
 	  read(unit_id, '(a)', iostat=istat) sLine
 	  iLine = iLine + 1
 	  if (istat.ne.0) then
@@ -298,6 +306,14 @@ character*(50) sField
   datatable(:,:) = 0D0
   iFieldBreaks(1) = 1
   iColTotalEstimate = 1
+	!Skipping header
+	do i = 1, iSkipAmount
+	  read(unit_id,'(a)', iostat=istat) sLine
+	  if (istat.ne.0) then
+		write(*,*) 'Error! No data to proceed!'
+		stop
+	  endif
+	enddo
   !Parsing first non-comment line - should contain field separators
   do while (istat.eq.0)
     read(unit_id, '(a)', iostat=istat) sLine

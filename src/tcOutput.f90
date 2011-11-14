@@ -88,11 +88,16 @@ subroutine WriteFormattedLineX(xdata, xFmt) !write a line with a given array of 
 real*8, dimension(:), intent(in) :: xdata
 type(TStringArray), intent(in) :: xFmt
 character*(LINE_LENGTH) sLine, sField, sFmt
-integer j
+integer j, j_col
   sLine = ''
+  j_col = 0
   do j = 1, ubound(xdata, 1)
+    if (j.in.xcol_ignore(1:xcol_ignore_num)) then
+      cycle
+    end if
+    j_col = j_col + 1
     sField = ''
-    call TStringArrayGet(xFmt, j, sFmt)
+    call TStringArrayGet(xFmt, j_col, sFmt)
     if (sFmt(1:1).eq.'I') then
       write(sField, '('//trim(sFmt)//',a)') int(xdata(j)), '!'
     else
