@@ -13,7 +13,9 @@
       temp_values(1:xcol_num) = datatable(i, xcol_add(1:xcol_num))
       temp_values(5) = dsqrt(temp_values(1)**2 + temp_values(2)**2)
       datatable(i, xcol_add(1)) = temp_values(5)
-      datatable(i, xcol_add(2)) = datan2(temp_values(1)/temp_values(5), temp_values(2)/temp_values(5))
+      temp_values(15) = temp_values(1)/temp_values(5) ! cosinus
+      temp_values(16) = temp_values(2)/temp_values(5) ! sinus
+      datatable(i, xcol_add(2)) = datan2(temp_values(15), temp_values(16))
       if (mode.eq.1) then ! Special mode for gradual angle increase
         if (temp_values(10).eq.HUGE_REAL) then !first set the temporary variable
           temp_values(10) = datatable(i, xcol_add(2))
@@ -28,11 +30,10 @@
         endif  
       endif
       if (xcol_num.eq.4) then
-        temp_values(6) = datatable(i, xcol_add(3))**2 + datatable(i, xcol_add(4))**2
-        temp_values(7) = datatable(i, xcol_add(3))*dcos(datatable(i, xcol_add(2))) -   &
-                         datatable(i, xcol_add(4))*dsin(datatable(i, xcol_add(2)))
-        temp_values(8) =  datatable(i, xcol_add(3))*dsin(datatable(i, xcol_add(2))) + &
-                          datatable(i, xcol_add(4))*dcos(datatable(i, xcol_add(2)))
+        temp_values(7) = datatable(i, xcol_add(3))*temp_values(15) -   &
+                         datatable(i, xcol_add(4))*temp_values(16)
+        temp_values(8) =  datatable(i, xcol_add(3))*temp_values(16) + &
+                          datatable(i, xcol_add(4))*temp_values(15)
         datatable(i, xcol_add(3)) = temp_values(7)
         datatable(i, xcol_add(4)) = temp_values(8)
       endif

@@ -5,8 +5,9 @@
       if (bSingleValue) then
         write(*,*) datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
       else
+        call PrepareFormatAllExt()
         datatable(i, xcol_add(1:xcol_num)) = datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
-        write(*,*) datatable(i, 1:colnum)
+        call WriteFormattedLineX(datatable(i, 1:colnum), xFormat)
       end if
     enddo !i
   case('norm_min')
@@ -15,8 +16,9 @@
       if (bSingleValue) then
         write(*,*) datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
       else
+        call PrepareFormatAllExt()
         datatable(i, xcol_add(1:xcol_num)) = datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
-        write(*,*) datatable(i, 1:colnum)
+        call WriteFormattedLineX(datatable(i, 1:colnum), xFormat)
       end if
     enddo !i
   case('norm_avg')
@@ -25,7 +27,20 @@
       if (bSingleValue) then
         write(*,*) datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
       else
+        call PrepareFormatAllExt()
         datatable(i, xcol_add(1:xcol_num)) = datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
-        write(*,*) datatable(i, 1:colnum)
+        call WriteFormattedLineX(datatable(i, 1:colnum), xFormat)
       end if
     enddo !i        
+  case('norm_sum')
+    temp_values(1:xcol_num)=sum(datatable(1:rownum,xcol_add(1:xcol_num)))
+    do i = 1, rownum
+      if (bSingleValue) then
+        write(*,*) datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
+      else
+        call PrepareFormatAllExt()
+        datatable(i, xcol_add(1:xcol_num)) = datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
+        call WriteFormattedLineX(datatable(i, 1:colnum), xFormat)
+      end if
+    enddo !i
+  
