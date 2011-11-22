@@ -21,7 +21,7 @@ integer i
       rownum = rownum - 1
     else
       i = i + 1
-    end if
+    endif
   enddo
 end subroutine ApplyDataCuts
 
@@ -89,13 +89,13 @@ integer i, arrsize
       arrsize = arrsize - 1
     else
       i = i + 1
-    end if
+    endif
   enddo
   if (arrsize.gt.1) then
     call LinearFit(xx(1:arrsize), yy(1:arrsize), arrsize, a, b)
   else if (verbose) then
     write(*,*) 'Filter is too hard. No data left'
-  end if
+  endif
 end subroutine LinearFitFilter
 
 subroutine LinearFitPercFilter(x, y, asize, xSigma, a, b)
@@ -116,14 +116,14 @@ integer i, arrsize, iDy(asize)
   arrsize = int(asize*xSigma*0.01D0)+1
   if (arrsize.gt.asize) then
     arrsize = asize
-  end if
+  endif
   xx(1:arrsize) = x(iDy(1:arrsize))
   yy(1:arrsize) = y(iDy(1:arrsize))
   if (arrsize.gt.1) then
     call LinearFit(xx(1:arrsize), yy(1:arrsize), arrsize, a, b)
   else if (verbose) then
     write(*,*) 'Filter is too hard. No data left'
-  end if
+  endif
 end subroutine LinearFitPercFilter
 
 real*8 function ScanWeight(i, w)
@@ -176,7 +176,7 @@ integer j
       if (any(datatable(1:rownum, xcol_add(1:2)).le.0D0)) then
         write(*,*) cComment//'Non-positive values from the input data will be omitted!'
       endif
-    end if
+    endif
     j = 1
     do while (j.le.rownum)
       if ((bLogX.and.(datatable(j, xcol_add(1)).le.0D0)).or. &
@@ -194,17 +194,17 @@ integer j
     x_data(1:rownum) = dlog10(datatable(1:rownum, xcol_add(1)))
   else
     x_data(1:rownum) = datatable(1:rownum, xcol_add(1))
-  end if
+  endif
   if (bLogY) then
     y_data(1:rownum) = dlog10(datatable(1:rownum, xcol_add(2)))
   else
     y_data(1:rownum) = datatable(1:rownum, xcol_add(2))
-  end if
+  endif
   if (bWeighted) then
     w_data(1:rownum) = datatable(1:rownum, xcol_add(3))
   else
     w_data(1:rownum) = 1d0
-  end if
+  endif
   fit_case: select case (iFilterMode)
     case (0)
       call LinearFitWeight(x_data(1:rownum), y_data(1:rownum), w_data(1:rownum), rownum, a, b)
@@ -212,7 +212,7 @@ integer j
       if (threshold.le.0d0) then
         if (verbose) then
           write(*,*) cComment//'Threshold must be positive. Setting to default (2d0)'
-        end if
+        endif
         threshold = 2d0
       endif
       call LinearFitFilter(x_data(1:rownum), y_data(1:rownum), rownum, threshold, a, b)
@@ -220,7 +220,7 @@ integer j
       if (threshold.le.0d0) then
         if (verbose) then
           write(*,*) cComment//'Threshold must be positive. Setting to default (50%)'
-        end if
+        endif
         threshold = 50d0
       endif
       call LinearFitPercFilter(x_data(1:rownum), y_data(1:rownum), rownum, threshold, a, b)
@@ -249,7 +249,7 @@ integer j
     do j = 1, rownum
       write(*, sFormat) datatable(j, xcol_add(1)), a_set(j), b_set(j)
     enddo
-  end if
+  endif
 end subroutine TabCalcFit
 
 subroutine FillGroupBySums() !Fills Group-by columns
@@ -265,14 +265,14 @@ logical flag
         aGroupByValues(k, -1) = aGroupByValues(k, -1) + 1
         flag = .true.
         exit
-      end if
+      endif
     enddo
     if (.not.flag) then
       iGroupByCount = iGroupByCount + 1
       aGroupByValues(iGroupByCount, 1:iGroupByColumns) = datatable(j, aGroupByColumns(1:iGroupByColumns))
       aGroupByValues(iGroupByCount, -2) = aGroupByValues(iGroupByCount, -2) + datatable(j, xcol_add(1))
       aGroupByValues(iGroupByCount, -1) = aGroupByValues(iGroupByCount, -1) + 1
-    end if
+    endif
   enddo
 end subroutine FillGroupBySums
 
@@ -288,5 +288,55 @@ integer iR
     endif
   enddo
 end subroutine RemoveNanRows
+
+recursive function calcMatrix(a, n) result (x)
+real*8, intent(in) :: a(n, n)
+integer, intent(in) :: n
+real*8 :: x
+real*8 temp, b(n-1, n-1)
+integer i, iSig
+  if (n.eq.2) then
+    x = a(1, 1)*a(2, 2) - a(1, 2)*a(2, 1)
+    return
+  endif
+  iSig = 1
+  temp = 0d0
+  do i = 1, n
+    b(1:n-1, 1:i-1) = a(2:n, 1:i-1)
+    b(1:n-1, i:n-1) = a(2:n, i+1:n)
+    temp = temp + dble(iSig)*a(1, i)*calcMatrix(b, n-1)
+    iSig = -iSig
+  enddo
+  x = temp
+end function calcMatrix
+
+subroutine solveSystem(a, b, n, x)
+real*8, intent(in) :: a(n, n), b(n)
+integer, intent(in) :: n
+real*8, intent(out) :: x(n)
+integer i
+real*8 da, dx, a1(n, n)
+  da = calcMatrix(a, n)
+  do i = 1, n
+    a1 = a
+    a1(:, i) = b(:)
+    dx = calcMatrix(a1, n)
+    x(i) = dx/da
+  enddo
+end subroutine solveSystem
+
+subroutine fitParabola(pts, coeff)
+real*8, intent(in) :: pts(2, 3) ! x & y coordinates for 3 points
+real*8, intent(out) :: coeff(3) ! a, b, c for y = ax**2 + bx + c
+real*8 aaa(3, 3), bbb(3)
+integer i
+  aaa(:, 3) = 1d0
+  bbb(:) = pts(2, :)
+  do i = 1, 3
+    aaa(i, 1) = pts(1, i)**2
+    aaa(i, 2) = pts(1, i)
+  enddo
+  call solveSystem(aaa, bbb, 3, coeff)
+end subroutine fitParabola
 
 end module tcUtils
