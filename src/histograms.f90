@@ -9,7 +9,7 @@ use tcGlobals
 
 contains
 
-subroutine histBuilder() !Build histogram of a given column 
+subroutine histBuilder() !Build histogram of a given column
 real*8 step_size_inv !inversed step size
 integer k
   step_size=(range_max-range_min)/step_num

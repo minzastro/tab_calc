@@ -16,7 +16,7 @@ end type TIniItem
 !! This type contains whole information about .ini filename
 !! contents is read into TIniItem-array whith TIniFileOpen command.
 !! It can then be accessed with TIniGet... functions.
-!! If You're trying to access a non-existent item, You can get 
+!! If You're trying to access a non-existent item, You can get
 !! zero values or an error, so use TIniFileCheck to check it
 !!@see TIniFileCheck
 type TIniFile
@@ -25,7 +25,7 @@ type TIniFile
   integer item_count          !! number of ini-items
 end type TIniFile
 
-!INTEGER FUNCTION find_io(start) 
+!INTEGER FUNCTION find_io(start)
 !                 Find an unused unit number for input or output.
 !
 !subroutine TIniFileOpen(xIniFile, filename)
@@ -186,7 +186,7 @@ type (TIniItem) xIniItem
     else
       write(*,*) 'Only "yes"/"y" for thue and "no"/"n" for false are allowed'
       stop
-    end if      
+    end if
   else
     if (Present(bDefault)) then
       TIniFileGetLogical = bDefault

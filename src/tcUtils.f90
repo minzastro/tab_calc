@@ -6,7 +6,7 @@ use tcGlobals
 use tcOutput
 use quickSort
 use array_works
-implicit none 
+implicit none
 
 contains
 subroutine ApplyDataCuts(xMin, xMax, iCol) !Removes all data outside a given range
@@ -17,7 +17,7 @@ integer i
   i = 1
   do while (i.le.rownum)
     if ((datatable(i, iCol).gt.xMax).or.(datatable(i, iCol).lt.xMin)) then
-      datatable(i:rownum-1, :) = datatable(i+1:rownum, :) 
+      datatable(i:rownum-1, :) = datatable(i+1:rownum, :)
       rownum = rownum - 1
     else
       i = i + 1
@@ -189,7 +189,7 @@ integer j
       endif
     enddo
   endif
-  
+
   if (bLogX) then
     x_data(1:rownum) = dlog10(datatable(1:rownum, xcol_add(1)))
   else
@@ -222,14 +222,14 @@ integer j
           write(*,*) cComment//'Threshold must be positive. Setting to default (50%)'
         end if
         threshold = 50d0
-      endif      
+      endif
       call LinearFitPercFilter(x_data(1:rownum), y_data(1:rownum), rownum, threshold, a, b)
     case (3)
       a = 0d0
       b = 0d0
       call LinearFitScanned(x_data(1:rownum), y_data(1:rownum), rownum, step_num, a_set, b_set)
   end select fit_case
-  
+
   if (iFilterMode.ne.3) then
     fit_modes: select case (mode)
       case(0)

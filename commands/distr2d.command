@@ -29,8 +29,8 @@
             (datatable(j, xcol_add(1)).le.range_max  ).and. &
             (datatable(j, xcol_add(2)).ge.range_min_2).and. &
             (datatable(j, xcol_add(2)).le.range_max_2))     then
-          k  = int((datatable(j, xcol_add(1))-range_min)/step_size) 
-          k2 = int((datatable(j, xcol_add(2))-range_min_2)/step_size_2) 
+          k  = int((datatable(j, xcol_add(1))-range_min)/step_size)
+          k2 = int((datatable(j, xcol_add(2))-range_min_2)/step_size_2)
           hist_data_2d(k,k2) = hist_data_2d(k, k2) + 1
           distr_sum_2d(k,k2) = distr_sum_2d(k, k2) + datatable(j, xcol_add(3))
         endif

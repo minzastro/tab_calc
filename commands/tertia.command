@@ -13,4 +13,3 @@
       else
         write(*,*) temp_values2(1:2,1:colnum)
       end if
-      

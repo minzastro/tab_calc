@@ -116,6 +116,6 @@
   100 CONTINUE
       RETURN
       END SUBROUTINE SSORT_INDEX
-      
-      
+
+
       END MODULE SORTING

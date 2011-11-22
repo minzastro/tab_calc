@@ -32,5 +32,5 @@
         do j = 1, iGroupByCount
           aGroupByValues(j, -xcol_add(1:xcol_num)) = exp(aGroupByValues(j, -xcol_add(1:xcol_num)) / aGroupByValues(k, 0))
           write(*, sFormat) aGroupByValues(j, 1:iGroupByColumns), aGroupByValues(j, -xcol_add(1:xcol_num))
-        enddo      
+        enddo
       endif

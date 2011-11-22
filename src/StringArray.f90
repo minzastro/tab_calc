@@ -108,7 +108,7 @@ integer pos1, pos2, i
   sa1%length = i
 end subroutine TStringArraySplitPlain
 
-subroutine TStringArraySplitDup(c, delimiter, sa1, bRemoveDelimiter) 
+subroutine TStringArraySplitDup(c, delimiter, sa1, bRemoveDelimiter)
 ! converts delimited string into a string array,
 ! but removes repeated delimiters
 character*(*), intent(in) :: c

@@ -26,7 +26,7 @@ case ('dis')
       write(*,sFormat) aGroupByValues(j, 1:iGroupByColumns), int(aGroupByValues(j,-1)), aGroupByValues(j,-2)
     enddo
   end if
-  
+
 !relative dispersion
 case ('rel_dis')
   if (.not.bGroupByMode) then

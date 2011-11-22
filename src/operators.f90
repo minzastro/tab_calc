@@ -4,7 +4,7 @@
 module operators
 !
   implicit none
-  
+
   logical, save :: operatorsChecking = .true.
 
 ! Override operators:
@@ -13,7 +13,7 @@ module operators
     module procedure Chars_to_Real
     module procedure Integer_to_Chars
   end interface
-  
+
 ! Similarly the next interface will arrange for Add_logicals
 ! to be called if two logical values are added together. The
 ! procedure named must be a function with two intent(in)
@@ -23,7 +23,7 @@ module operators
   interface operator(+)
     module procedure Add_logicals
   end interface
-  
+
   interface operator(.in.) !true if a == any symbol in b
     module procedure StringIn
     module procedure IntegerIn
@@ -45,7 +45,7 @@ contains
     end do
     return
   end function StringIn
-  
+
   logical function IntegerIn(a,b)
   integer, intent(in) :: a
   integer, intent(in) :: b(:)
@@ -63,7 +63,7 @@ contains
   subroutine Chars_to_Integer(inte, int_as_chars)
     ! Subroutine to convert a character string containing
   ! digits to an integer.
-          
+
     Character*(*), intent(in)  :: int_as_chars
     Integer, intent(OUT)          :: inte
     integer iSize
@@ -84,7 +84,7 @@ contains
   subroutine Chars_to_Real(reale, int_as_chars)
     ! Subroutine to convert a character string containing
   ! digits to an integer.
-          
+
     Character*(*), intent(in)  :: int_as_chars
     real*8, intent(OUT)          :: reale
     if (operatorsChecking) then
@@ -143,13 +143,13 @@ end function getCharsFromInt
   ! Description:
   ! Function to implement addition of logical values as an
   ! OR operation.
-          
+
     logical, intent(in)  :: a
     logical, intent(in)  :: b
     logical              :: c
-            
+
     c = a .OR. b
-            
+
   end function Add_logicals
 
 
@@ -168,7 +168,7 @@ logical bStart
       cycle
     else if ((.not.bStart).and.(sChar.eq.' ')) then
       cycle
-    else if ((iC.lt.48).or.(iC.gt.57)) then 
+    else if ((iC.lt.48).or.(iC.gt.57)) then
       istat = 1
       bStart = .true.
       exit

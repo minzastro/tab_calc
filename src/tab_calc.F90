@@ -58,7 +58,7 @@ implicit none
   type (TIniFile) xIni !! File with ini_values must be named 'tab_calc2.ini'
 
   type (TStringArray) xArray !! For parsing comma-separated arguments
-  
+
   type (TStringArray) xSubCommands
 
 #ifdef INSTALL_PATH
@@ -94,7 +94,7 @@ implicit none
   ycol_num = 0
   int_columns(:) = XCOL_NULL
   int_col_num = 0
-  
+
   colnum  = 0
   bSingleValue = .false.
   bAligned     = .false.
@@ -210,7 +210,7 @@ implicit none
     end select comm_case
     i = i + 2
   enddo
-  
+
   if (verbose) then
     print *, cComment//' Verbose mode on'
   endif
@@ -219,7 +219,7 @@ implicit none
   temp_values(:)=0D0
   temp_values2(:,:)=0D0
   datatable(:,:)=0D0
-  
+
   if (cDelimiter.eq.' ') then
     bRemoveDuplicateDelimiters = .true.
     bTabsToSpaces = .true.
@@ -227,7 +227,7 @@ implicit none
     bRemoveDuplicateDelimiters = .false.
     bTabsToSpaces = .false.
   endif
-    
+
   if (bAligned) then
     if (verbose) then
       print *, cComment//'Reading aligned data'
@@ -250,7 +250,7 @@ implicit none
   if((maxval(xcol_add).gt.colnum))then
     write(*,*) cComment//' WARNING! Number of column to proceed is greater, than total number of columns in the file'
   endif
-  
+
   if (bGroupByMode.and.(xcol_num.gt.1)) then
     write(*,*) cComment//' WARNING! Only one column can be processed in groupby mode'
   endif
@@ -265,7 +265,7 @@ implicit none
     enddo
     xcol_num = colnum
   endif
-  
+
   !Remove columns marked as ignored
   if (xcol_ignore_num.gt.0) then
     j = 1
@@ -278,7 +278,7 @@ implicit none
       endif
     enddo
   endif
-  
+
   ! Removing empty rows:
   call RemoveNanRows()
   if (bAligned) then
@@ -310,7 +310,7 @@ implicit none
         if (xcol_num.gt.0) then
           datatable(1:rownum, 1:xcol_num) = datatable(1:rownum, xcol_add(1:xcol_num))
           call PrepareRealFormat(xcol_num)
-          write(*,sFormat) & 
+          write(*,sFormat) &
                 sum(transpose(datatable(1:rownum, 1:xcol_num)), dim=2)/rownum
         endif
       else
@@ -346,7 +346,7 @@ implicit none
       enddo
       call PrepareFormatXcol()
       call WriteFormattedLineX(temp_values(1:xcol_num), xFormat)
-      
+
     case ('med_q') !Median value with quartiles
       do j = 1, xcol_num
         call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
@@ -425,8 +425,8 @@ implicit none
       write(*,*) 'Illegal command: ', trim(sCommand)
       call PrintInfo
   end select my_case
-  
-  
+
+
 contains
 
 subroutine RequireXCols(i)

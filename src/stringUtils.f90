@@ -33,7 +33,7 @@ integer iX
   iX = index(str(begin:len(str)), substr)
   if (iX.ne.0) then
     index2 = iX+begin-1
-  else 
+  else
     index2 = 0
   end if
 end function index2

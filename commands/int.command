@@ -10,7 +10,7 @@ case('int', 'integrate')
 		     (datatable(j-1, ycol_add(1))+datatable(j, ycol_add(1)))
   enddo
   write(*,*) temp_values(1)
-case('int_avg')              
+case('int_avg')
   if ((xcol_num.lt.1).or.(ycol_num.lt.1)) then
     write(*,*) cComment//'Error! X or Y column not specified'
   endif

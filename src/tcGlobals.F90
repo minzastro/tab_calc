@@ -54,7 +54,7 @@ integer , save :: iGroupByCount ! Number of distinct values
 character*(300), save :: sFormat            !!FORMAT string
 character*(6), save :: sRealFormat          !!FORMAT for real values
 character*(4), save :: sIntegerFormat       !!FORMAT for integer values
-type(TStringArray), save :: xFormat 
+type(TStringArray), save :: xFormat
 
 
 !Additional variables definitions go here

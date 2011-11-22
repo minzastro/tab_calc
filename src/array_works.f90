@@ -8,7 +8,7 @@ use StringArray
 
 implicit none
 
-real*8, parameter :: NANVALUE = HUGE(1d0) !not-a-number 
+real*8, parameter :: NANVALUE = HUGE(1d0) !not-a-number
 integer, save :: iFieldBreaks(MAX_COLUMN) !field border locations
 integer, save :: iIgnoranceMode = 1
 integer, save :: iSkipAmount = 0 ! Number of lines to be skipped from the beginning of the data (header size)
@@ -97,7 +97,7 @@ character*(512) sErrorMsg
 	  iColnum = MAX_COLUMN
 	endif
 	!Reading data
-	!TODO: add checks for non-numeric data in file, replace/store elsewhere    
+	!TODO: add checks for non-numeric data in file, replace/store elsewhere
 	do while ((istat.eq.0).and.(i.le.MAX_ROW))
 	  if ((sLine(1:1).ne.cComment).and.(len(trim(sLine)).gt.0)) then
       read(sLine, fmt=*, iostat=iTemp) datatable(i, 1:iColnum)
@@ -179,7 +179,7 @@ character*(512) sErrorMsg
 	    call RemoveDelimiters(sLine, bRemoveDuplicateDelimiters, bTabsToSpaces)
 		  if (cDelimiter.eq.' ') then
 		    call TrimLeft(sLine, sLine)
-		  endif 
+		  endif
 			if (len(trim(sLine)).gt.0) then
 			  iColnum = 1 !first column
 			endif
@@ -211,7 +211,7 @@ character*(512) sErrorMsg
             datatable(iLine, iTemp) = get_empty_value()
             istat = 0
           endif
-        else 
+        else
           datatable(iLine, iTemp) = get_empty_value()
         endif
       enddo
@@ -228,7 +228,7 @@ logical, intent(in) :: bRemoveRepeat
 logical, intent(in) :: bExpandTabs
 integer ipos, ilength
 	if (bExpandTabs) then !replacing TABS with SPACEs
-  	call replace_substring(sLine, char(9),' ') 
+  	call replace_substring(sLine, char(9),' ')
 	endif
 	if (bRemoveRepeat) then !removing duplicate delimiters
 	  ipos = 1

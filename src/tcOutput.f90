@@ -6,7 +6,7 @@ use stringUtils
 contains
 
 character function GetColumnPreFormat(iCol) !Returns column type
-!Returns column type: 
+!Returns column type:
 ! I for intger
 ! R for float/real
 integer, intent(in) :: iCol
