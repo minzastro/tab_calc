@@ -29,7 +29,6 @@ implicit none
   character*(20) sKey                      ! Command-line key
   character*(120) sKeyValue                ! input key & it's value
   character*(20) sKeyPart
-  character*(120) filename                 ! data filename
   character*9 dtToday                      ! Today's date
   real*8 rTemp, x_1, x_2, y_1, y_2
   integer iTemp

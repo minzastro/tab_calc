@@ -9,6 +9,30 @@ use array_works
 implicit none
 
 contains
+
+subroutine PrepareSteps() ! Fill steps data according to a given range
+integer j
+  !changind data limits
+  if (range_min.eq.1D100) then
+    range_min = minval(datatable(1:rownum, xcol_add(1):xcol_add(1)))
+  end if
+  if (range_max.eq.-1D100) then
+    range_max = maxval(datatable(1:rownum, xcol_add(1):xcol_add(1)))
+  end if
+  step_size=(range_max-range_min)/step_num
+  if (verbose) then
+    if (trim(filename).eq.'') then
+      write(*,*) '# Generated from $stdin'
+    else
+      write(*,*) '# Generated from: ', trim(filename)
+    endif
+    write(*,*) '# Minimum= ', range_min, ' Maximum=', range_max, ' Step=', step_size
+  end if
+  do j = 0, step_num - 1
+    steps(j)=range_min + j*step_size
+  enddo
+end subroutine PrepareSteps
+
 subroutine ApplyDataCuts(xMin, xMax, iCol) !Removes all data outside a given range
 real*8, intent(in) :: xMin ! Lower-limit
 real*8, intent(in) :: xMax ! Upper-limit

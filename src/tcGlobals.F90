@@ -12,6 +12,7 @@ integer, parameter :: XCOL_NULL = -100    ! Value for xcol_add(), treated as "no
 
 integer, parameter :: LINE_LENGTH = 2000   ! Maximum string length
 
+character*(120) filename                 ! data filename
 real*8, save :: datatable(MAX_ROW, 0:MAX_COLUMN)              !! main array with data
 integer, save :: rownum !Number of rows in file
 integer, save :: colnum !Number of columns in file

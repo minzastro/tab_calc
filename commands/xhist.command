@@ -10,9 +10,9 @@
       if (verbose) then
         if (trim(filename).eq.'') then
           write(*,*) '# Generated from $stdin'
-	else
+        else
           write(*,*) '# Generated from: ', trim(filename)
-	endif
+        endif
         write(*,*) '# Minimum= ', range_min, ' Maximum=', range_max, ' Step=', step_size
       end if
       call iterativeHistBuilder

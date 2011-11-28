@@ -11,9 +11,9 @@
       if (verbose) then
         if (trim(filename).eq.'') then
           write(*,*) '# Generated from $stdin'
-	else
+        else
           write(*,*) '# Generated from: ', trim(filename)
-	endif
+        endif
         write(*,*) '# Minimum= ', range_min, ' Maximum=', range_max, ' Step=', step_size
       end if
       do j = 0, step_num - 1
@@ -23,7 +23,7 @@
         if ((datatable(j, xcol_add(1)).ge.range_min).and.(datatable(j, xcol_add(1)).le.range_max)) then
           k = int((datatable(j, xcol_add(1))-range_min)/step_size)
           hist_data(k) = hist_data(k) + 1
-	endif
+      endif
       enddo
       do j = 0, step_num - 1
         hist_modes: select case (mode)
