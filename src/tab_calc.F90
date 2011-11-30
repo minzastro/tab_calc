@@ -110,6 +110,9 @@ implicit none
   step_num   = 10
   !roots
   threshold  = 0D0
+  
+  bBinaryInput = .false.
+  bBinaryOutput = .false.
 
 ! reading .ini file (see description of ini_file.f90 for details)
   if (TIniFileOpen(xIni, trim(sIniFileName))) then
@@ -191,7 +194,7 @@ implicit none
       step_num  = sKeyValue
     case('-thr')
       threshold = sKeyValue
-    case('-o')
+    case('-o', '--mode')
       mode=sKeyValue
     case('-v', '--version')
       call PrintVersion

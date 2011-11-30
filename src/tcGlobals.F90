@@ -58,6 +58,8 @@ character*(4), save :: sIntegerFormat       !!FORMAT for integer values
 type(TStringArray), save :: xFormat
 
 
+logical bBinaryInput
+logical bBinaryOutput
 !Additional variables definitions go here
 #include "vars.i"
 

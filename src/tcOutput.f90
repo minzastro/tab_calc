@@ -161,5 +161,7 @@ real*8 xx
   sFormat = '('//trim(sFormat)//')'
 end subroutine PrepareFormatXcol
 
-
+!subroutine WriteFullBinaryData()
+!
+!end subroutine
 end module tcOutput

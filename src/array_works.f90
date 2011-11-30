@@ -43,7 +43,6 @@ logical file_exists
   open_file = unit_id
 end function open_file
 
-
 ! Subroutine to load data from text file into double-precision array.
 ! Number of lines/columns in file is detected,
 ! Comments are also supported as lines, starting with 'cComment' character (default to ';')
@@ -167,6 +166,50 @@ character*(512) sErrorMsg
   enddo
 
 end subroutine LoadFromFileFast
+
+subroutine LoadFromFileBinary(sFilename, iColnum, datatable, iSize)
+!Load data from ASCII file with known number of columns
+!                               Input parameters
+character(*), intent(in) :: sFilename
+!                               Output parameters
+integer, intent(out) :: iColNum !Number of columns in file
+real*8, intent(out) :: datatable(MAX_ROW, 0:MAX_COLUMN) !Data from file will be placed here
+integer, intent(out) :: iSize   !Number of lines in file
+
+integer unit_id
+logical flag
+integer i, istat, iTemp, iLine
+character*(LINE_LENGTH) sLine                    !! one line from file
+character*(512) sErrorMsg
+
+logical file_exists
+
+  if (trim(sFilename).eq.'') then
+    write(*,*) cComment//' No filename specified, cannot read binary data.'
+    stop
+  else
+    !checking for input file existance
+    inquire(file=trim(sFilename), exist=file_exists)
+    if (file_exists) then
+      unit_id=find_io(7)
+      open(unit=unit_id, file=trim(sFilename), status="OLD", access="STREAM")
+    else
+      print *, 'Error! File "', trim(sFilename), '" does not exists! '
+      stop
+    endif
+  endif
+  istat = 0
+  iSize = 1
+  read(unit_id, iostat=istat) iColnum
+  do while (istat.eq.0)
+    read(unit_id, iostat=istat) datatable(iSize, 1:iColnum)
+  enddo
+  iSize = iSize - 1
+  do i = 1, iSize
+    datatable(i, 0) = dble(i)
+  enddo
+  close(unit_id)
+end subroutine LoadFromFileBinary
 
 subroutine LoadFromFileExt(sFilename, datatable, iColNum, iSize)
 !Load data from ASCII file with possible character fields
