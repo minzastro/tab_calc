@@ -20,6 +20,7 @@ use stringUtils
 use ini_file
 use StringArray
 use histograms
+use comline
 
 implicit none
 
@@ -135,80 +136,38 @@ implicit none
 
   !parsing parameters=========================================
   i = 1
-  do while (i.le.iargc())
-    call GetArg(i, sKey)
-    call GetArg(i+1, sKeyValue)
-!    write(*,*) i, sKey, sKeyValue
-    comm_case:select case (trim(sKey))
-    case('-a', '--aligned')
-      i = i-1
-      bAligned = .true.
-    case('-d', '--delimiter')
-      cDelimiter = sKeyValue(1:1)
-    case('-f')
-      filename=trim(sKeyValue)
-    !case('-F')
-    !  bFormattedOutput = .true.
-    !  i=i-1
-    case('-g', '--groupby')
-      bGroupByMode = .true.
-      call Sqeeze(sKeyValue, ' ')
-      call TStringArraySplit(sKeyValue, ',', xArray)
-      call toIntegerArray(xArray, ARRAY_SIZE, aGroupByColumns, iGroupByColumns)
-    case('-c')
-      sCommand = sKeyValue
-    case('-comment')
-      cComment = sKeyValue(1:1)
-    case('-s')
-      i = i - 1
-      bSingleValue = .true.
-    case('--skip')
-      iSkipAmount = sKeyValue
-    case('-S')
-      call TStringArraySplit(sKeyValue, ',', xSubCommands)
-    case('-x')
-      !parsing xcol_add array to get
-      call TStringArraySplit(sKeyValue, ',', xArray)
-      call toIntegerArray(xArray, MAX_COLUMN, xcol_add, xcol_num)
-    case('-xi')
-      !parsing xcol_add array to get
-      call TStringArraySplit(sKeyValue, ',', xArray)
-      call toIntegerArray(xArray, MAX_COLUMN, xcol_ignore, xcol_ignore_num)
-    case('-y')
-      !parsing xcol_add array to get
-      call TStringArraySplit(sKeyValue, ',', xArray)
-      call toIntegerArray(xArray, MAX_COLUMN, ycol_add, ycol_num)
-    case('-i', '--int')
-      !parsing int_columns array
-      call TStringArraySplit(sKeyValue, ',', xArray)
-      call toIntegerArray(xArray, MAX_COLUMN, int_columns, int_col_num)
-      bFormattedOutput = .true.
-    case('-m', '--min')
-      range_min = sKeyValue
-    case('-M', '--max')
-      range_max = sKeyValue
-    case('-t')
-      step_num  = sKeyValue
-    case('-thr')
-      threshold = sKeyValue
-    case('-o')
-      mode=sKeyValue
-    case('-v', '--version')
-      call PrintVersion
-    case('-Q', '--quiet')
-      i=i-1
-      verbose=.false.
-    case('-V', '--verbose')
-      i=i-1
-      verbose=.true.
-    case('-h', '/?', '-?', '--help')
-      call PrintInfo
+  call clReadParams()
+  bAligned = clCheckParam('-a', '--aligned')
+  cDelimiter = clGetParamValue('-d', '--delimiter', cDelimiter)
+  filename = clGetParamValue('-f')
+  if (clCheckParam('-g', '--groupby')) then
+    bGroupByMode = .true.
+    call paramToArrayData(clGetParamValue('-g', '--groupby', ''), ARRAY_SIZE, aGroupByColumns, iGroupByColumns)
+  endif
+  sCommand = clGetParamValue('-c', 'none')
+  cComment = clGetParamValue('-comment', cComment)
+  bSingleValue = clCheckParam('-s')
+  iSkipAmount = clGetParamValue('--skip')
+  if (clCheckParam('-S')) then
+    call TStringArraySplit(clGetParamValue('-S'), ',', xSubCommands)
+  endif
+  call paramToArrayData(clGetParamValue('-x'), MAX_COLUMN, xcol_add, xcol_num)
+  call paramToArrayData(clGetParamValue('-xi'), MAX_COLUMN, xcol_ignore, xcol_ignore_num)
+  call paramToArrayData(clGetParamValue('-y'), MAX_COLUMN, ycol_add, ycol_num)
+  call paramToArrayData(clGetParamValue('-i', '--int', ''), MAX_COLUMN, int_columns, int_col_num)
+  range_min = clGetParamValue('-m', '--min', range_min)
+  range_max = clGetParamValue('-M', '--max', range_max)
+  step_num  = clGetParamValue('-t', step_num)
+  threshold = clGetParamValue('-thr', threshold)
+  mode      = clGetParamValue('-o', '--mode', mode)
+  if (clCheckParam('-v', '--version')) then
+    call PrintVersion()
+  endif
+  verbose = clCheckParam('-V', '--verbose')
+  if (clCheckParam('-h', '/?').or.clCheckParam('-?', '--help')) then
+    call PrintInfo()
+  endif
 #include "params.i"
-    case default
-      call PrintInfo
-    end select comm_case
-    i = i + 2
-  enddo
 
   if (verbose) then
     print *, cComment//' Verbose mode on'
@@ -435,6 +394,16 @@ integer, intent(in) :: i
     stop
   end if
 end subroutine RequireXCols
+
+subroutine paramToArrayData(sParam, iMaxSize, iArr, iArrSize)
+character*(*), intent(in) :: sParam
+integer, intent(in) :: iMaxSize
+integer, intent(inout) :: iArr(1:iMaxSize)
+integer, intent(out) :: iArrSize
+type(TStringArray) :: xArray
+  call TStringArraySplit(sParam, ',', xArray)
+  call toIntegerArray(xArray, iMaxSize, iArr, iArrSize)
+end subroutine paramToArrayData
 
 subroutine PrintInfo()
 #ifdef INCLUDE_TEXTFILES

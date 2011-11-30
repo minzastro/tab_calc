@@ -104,8 +104,12 @@ integer pos1, pos2, i
     i = i + 1
     pos2 = index(c(pos1+1:), delimiter)
   enddo
-  sa1%member(i)%chars = c(pos1+1:)
-  sa1%length = i
+  if (len(trim(c(pos1+1:))).gt.0) then
+    sa1%member(i)%chars = c(pos1+1:)
+    sa1%length = i
+  else
+    sa1%length = i - 1
+  endif
 end subroutine TStringArraySplitPlain
 
 subroutine TStringArraySplitDup(c, delimiter, sa1, bRemoveDelimiter)
@@ -131,8 +135,12 @@ integer pos1, pos2, i
       end do
     end if
   enddo
-  sa1%member(i)%chars = c(pos1+1:)
-  sa1%length = i
+  if (len(trim(c(pos1+1:))).gt.0) then
+    sa1%member(i)%chars = c(pos1+1:)
+    sa1%length = i
+  else
+    sa1%length = i - 1
+  endif  
 end subroutine TStringArraySplitDup
 
 function TStringArraySplitX1(c, delimiter) result (sa1)

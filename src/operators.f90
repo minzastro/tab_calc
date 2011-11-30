@@ -76,14 +76,18 @@ contains
       end if
     end if
     iSize = len(trim(int_as_chars))+48
-    sFormat = '(I'//achar(iSize)//')'
-    Read (int_as_chars, FMT = sFormat) inte
+    if (iSize.eq.48) then
+      inte = 0
+    else
+      sFormat = '(I'//achar(iSize)//')'
+      read(int_as_chars, FMT = sFormat) inte
+    endif    
   end subroutine Chars_to_Integer
 
 
   subroutine Chars_to_Real(reale, int_as_chars)
     ! Subroutine to convert a character string containing
-  ! digits to an integer.
+  ! digits to a real/float.
 
     Character*(*), intent(in)  :: int_as_chars
     real*8, intent(OUT)          :: reale
@@ -94,7 +98,11 @@ contains
         stop
       end if
     end if
-    Read (int_as_chars, *) reale
+    if (len(trim(int_as_chars)).eq.0) then
+      reale = 0d0
+    else
+      read(int_as_chars, *) reale
+    endif    
   end subroutine Chars_to_Real
 
 
