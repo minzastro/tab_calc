@@ -1,3 +1,4 @@
-case('-path')
-  write(*,*) sInstallPath
-  stop
+  if (clCheckParam('-path')) then
+    write(*,*) sInstallPath
+    stop
+  endif
