@@ -126,7 +126,7 @@ real*8 xResult
 integer i
   i = 1
   xResult = xDefault
-  do while (i.lt.comline_count-1)
+  do while (i.le.comline_count-1)
     if (trim(comline_param(i)).eq.s) then
       if (isReal(comline_param(i+1))) then
         xResult = comline_param(i+1)
@@ -147,7 +147,7 @@ real*8 xResult
 integer i
   i = 1
   xResult = xDefault
-  do while (i.lt.comline_count-1)
+  do while (i.le.comline_count-1)
     if ((trim(comline_param(i)).eq.s).or.(trim(comline_param(i)).eq.s2)) then
       if (isReal(comline_param(i+1))) then
         xResult = comline_param(i+1)
@@ -168,7 +168,7 @@ integer iResult
 integer i
   i = 1
   iResult = iDefault
-  do while (i.lt.comline_count-1)
+  do while (i.le.comline_count-1)
     if (trim(comline_param(i)).eq.s) then
       if (isInteger(comline_param(i+1))) then
         iResult = comline_param(i+1)
@@ -189,7 +189,7 @@ integer iResult
 integer i
   i = 1
   iResult = iDefault
-  do while (i.lt.comline_count-1)
+  do while (i.le.comline_count-1)
     if ((trim(comline_param(i)).eq.s).or.(trim(comline_param(i)).eq.s2)) then
       if (isInteger(comline_param(i+1))) then
         iResult = comline_param(i+1)

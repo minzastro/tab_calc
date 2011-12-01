@@ -337,17 +337,20 @@ implicit none
       enddo
 
     case ('smooth') !smooth with window size = step_num
-      do j = 1, step_num
-        long_values(j) = sum(datatable(1:2*j-1, xcol_add(1):xcol_add(1)))/(2*j-1)
-      enddo
-      do j = 1+step_num, rownum-step_num
-        long_values(j) = sum(datatable(j-step_num:j+step_num, xcol_add(1):xcol_add(1))) &
-                         /(2*step_num + 1)
-      enddo
-      do j = 1, step_num
-        k = step_num-j
-        long_values(rownum-k) = sum(datatable(rownum-2*k:rownum, xcol_add(1):xcol_add(1))) &
-                                /(2*k + 1)
+      do k = 1, xcol_num
+        do j = 1, step_num
+          long_values(j) = sum(datatable(1:2*j-1, xcol_add(k):xcol_add(k)))/(2*j-1)
+        enddo
+        do j = 1+step_num, rownum-step_num
+          long_values(j) = sum(datatable(j-step_num:j+step_num, xcol_add(k):xcol_add(k))) &
+                           /(2*step_num + 1)
+        enddo
+        do j = 1, step_num
+          k2 = step_num-j
+          long_values(rownum-k2) = sum(datatable(rownum-2*k2:rownum, xcol_add(k):xcol_add(k))) &
+                                  /(2*k2 + 1)
+        enddo
+        datatable(1:rownum, xcol_add(k)) = long_values(1:rownum)
       enddo
       if (bSingleValue) then
         sFormat = GetColumnPreFormat(xcol_add(1))
@@ -357,9 +360,7 @@ implicit none
       else
         call PrepareFormatAllExt()
         do j = 1, rownum
-          temp_values(1:colnum) = datatable(j, 1:colnum)
-          temp_values(xcol_add(1)) = long_values(j)
-          call WriteFormattedLineX(temp_values(1:colnum), xFormat)
+          call WriteFormattedLineX(datatable(j, 1:colnum), xFormat)
         enddo
       endif
 
