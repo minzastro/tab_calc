@@ -36,8 +36,8 @@
       do j = 0, step_num-1
         if (hist_data(j).gt.0) then
           temp_values(j) = dsqrt(temp_values(j)/real(hist_data(j)))
-          write(*,*) steps(j), distr_sum(j), temp_values(j)
+          write(*,*) steps(j), distr_sum(j), temp_values(j), hist_data(j)
         else
-          write(*,*) steps(j), 0D0, 0D0
+          write(*,*) steps(j), 0D0, 0D0, 0
         endif
       enddo !j

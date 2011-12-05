@@ -32,7 +32,7 @@ contains
 !reads all parameters from command line into an array
 subroutine clReadParams
 integer i
-  comline_count = iargc()
+  comline_count = COMMAND_ARGUMENT_COUNT() !iargc()
   iFirstFreeParameter = 1
   if (comline_count.gt.COMLINE_MAX) then
      if (DO_DEBUG) then

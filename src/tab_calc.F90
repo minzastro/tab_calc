@@ -67,7 +67,7 @@ implicit none
   sInstallPath=''
 #endif
 
-  if (iargc().eq.0) then
+  if (COMMAND_ARGUMENT_COUNT().eq.0) then
     print *, 'Error: not enough parameters!'
     call PrintInfo
   endif
@@ -77,7 +77,7 @@ implicit none
   sIniFileName=trim(sInstallPath)//'tab_calc.ini'
 
   !checking for --ini option first...
-  do i = 1, iargc()-1
+  do i = 1, COMMAND_ARGUMENT_COUNT()-1 !iargc()-1
     call GetArg(i, sKey)
     if (trim(sKey) .eq. '--ini') then
       call GetArg(i,sIniFileName)
