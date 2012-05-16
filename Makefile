@@ -1,4 +1,4 @@
-INSTALL_PATH=\'/home/Tux/minz/prog/tabcalc/bin/\'
+INSTALL_PATH=\'$(CURDIR)/bin/\'
 
 F90=gfortran -Jlib -Ilib -O3
 #F90=pgf90 -Llib -Ilib
@@ -14,6 +14,9 @@ $(PROG): src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/
 	ruby make_vers.rb
 	cat params/*.param > src/params.i
 	$(F90) -o $(PROG) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)
+
+profile:
+	$(MAKE) $(MAKEFILE) F90="gfortran -Jlib -Ilib -pg"
 
 update: src/commands.i #src/vars.i
 	ruby make_vers.rb

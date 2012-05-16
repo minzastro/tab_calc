@@ -41,7 +41,7 @@ INTEGER, INTENT(IN) :: left_end, right_end
 !     Local variables
 INTEGER             :: i, j, itemp
 real*8                :: reference, temp
-INTEGER, PARAMETER  :: max_simple_sort_size = 6
+INTEGER, PARAMETER  :: max_simple_sort_size = 4
 
 IF (right_end < left_end + max_simple_sort_size) THEN
   ! Use interchange sort for small lists
