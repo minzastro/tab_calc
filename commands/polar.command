@@ -30,9 +30,9 @@
         endif
       endif
       if (xcol_num.eq.4) then
-        temp_values(7) = datatable(i, xcol_add(3))*temp_values(15) -   &
+        temp_values(7) = datatable(i, xcol_add(3))*temp_values(15) +   &
                          datatable(i, xcol_add(4))*temp_values(16)
-        temp_values(8) =  datatable(i, xcol_add(3))*temp_values(16) + &
+        temp_values(8) =  datatable(i, xcol_add(3))*temp_values(16) - &
                           datatable(i, xcol_add(4))*temp_values(15)
         datatable(i, xcol_add(3)) = temp_values(7)
         datatable(i, xcol_add(4)) = temp_values(8)

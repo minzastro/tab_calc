@@ -1,1 +1,23 @@
-/media/FLASH/prog/tab_calc/bin/USAGE
+Usage: tab_calc [-c command] [-f filename] 
+       [-m value] [-n column_number] [-o mode]
+       [-t steps] [-x column_number]
+       [-M value]
+       [-hsQVv]
+Options:
+  -c command          command [avg|sum|max|min|med|med_q|smooth|hist|hist2|fit|root]
+  -f filename         input file name
+  -h                  print this help
+  -i ini-filename     name of ini-file
+  -m value            minimum range value [data minimum]
+  -n column_number    number of columns in the file [autodetect]
+  -o mode             histogram mode (0 - absolute values, 
+                                      1 - normalized to maximum value,
+                                      2 - normalized to total)
+  -s                  print result only for one column
+  -t steps            number of bins for a histogram/smoothing range [10]
+  -thr threshold      threshold for root-finder
+  -v                  print version & author information
+  -x column_number    number of column to proceed
+  -M value            maximum range value [data maximum]
+  -Q                  quiet mode: hide information messages
+  -V                  verbose mode: print all information messages
