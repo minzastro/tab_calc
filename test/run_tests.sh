@@ -5,7 +5,7 @@ for file in *.F90; do
   cpp -E ${file} > ${file/F90/f90}
 done
 funit
-funit --clean
+#funit --clean
 mv *.[oi] .hidden
 mv *.mod .hidden
 mv *.[fF]90 .hidden

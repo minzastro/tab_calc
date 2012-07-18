@@ -6,7 +6,11 @@ real*8, parameter :: PI = 3.1415926535897932d0
 real*8, parameter :: HUGE_REAL = huge(1d0)
 
 integer, parameter :: MAX_COLUMN = ARRAY_SIZE     ! maximum number of columns in file
+#ifdef HUGE
+integer, parameter :: MAX_ROW    = 400000 ! maximum number of rows in file
+#else
 integer, parameter :: MAX_ROW    = 20000 ! maximum number of rows in file
+#endif
 integer, parameter :: MAX_STEPS  = 200    ! maximum number of steps in histogram/smoothing range
 integer, parameter :: XCOL_NULL = -100    ! Value for xcol_add(), treated as "not set"
 

@@ -7,16 +7,19 @@ ini_file.f90 StringArray.f90 histograms.f90 tcOutput.f90 tcUtils.f90 tcPower.f90
 OBJS=$(SRCS:%.f90=lib/%.o)
 XSRCS=$(SRCS:%.f90=src/%.f90)
 PROG=tab_calc
-
+EXECUTABLE=$(PROG)
 #COMMANDS=
 
 $(PROG): src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/commands.i #src/vars.i
 	ruby make_vers.rb
 	cat params/*.param > src/params.i
-	$(F90) -o $(PROG) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)
+	$(F90) -o $(EXECUTABLE) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)
 
 profile:
 	$(MAKE) $(MAKEFILE) F90="gfortran -Jlib -Ilib -pg"
+
+huge:
+	$(MAKE) -B $(MAKEFILE) F90="gfortran -Jlib -Ilib -O3 -DHUGE" EXECUTABLE="tab_calc_huge"
 
 update: src/commands.i #src/vars.i
 	ruby make_vers.rb
@@ -32,7 +35,12 @@ inline: src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/c
 	rm src/*.wrap
 
 tests: $(XSRCS)
+	export FSFLAG=-I
 	funit -s src $(ls src/*.fun)
+
+commands/%.commands: ;
+
+variables/%.vars: ;
 
 src/commands.i: commands/%.commands
 	cat commands/*.command > src/commands.i
@@ -51,12 +59,6 @@ src/vars.i: variables/*.vars
 
 lib/%.o: src/%.f90
 	$(F90) -c -o $@ $?
-
-commands/%.commands:
-	
-
-variables/%.vars:
-	
 
 
 # This entry allows you to type " make clean " to get rid of
