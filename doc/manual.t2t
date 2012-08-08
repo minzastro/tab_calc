@@ -85,13 +85,13 @@ adding more operation file into 'commands' folder (see [Developer manual #d_manu
 | fit_log_filter         | Logarithmic fit with outliers rejection (absolute value of maximum error given) | 2          | no       | no      |
 | fit_log_procent_filter | Logarithmic fit with outliers rejection (percentage of maximum error given)     | 2          | no       | no      |
 | fit_power              | Logarithmic fit (maximum likelihood method)                                     | 2          | no       | no      |
-| gmean                  | Get geometric mean from values in column                                        | 1-any      | no       | yes     |
+| gmean                  | Get geometric mean from values in column                                        | 1-any      | yes      | no      |
 | grid                   | Make equal-spaced grid from table function                                      | 2          | no       | yes     |
 | help                   | Print help and quit                                                             | not needed | no       | no      |
 | hist                   | Make dimple histogram                                                           | 1          | no       | yes     |
 | hist2                  | Make local density distribution                                                 | 1          | no       | yes     |
 | histl                  | Make histogram with logarithmic bins                                            | 1          | no       | yes     |
-| hmean                  | Get harmonic mean from values in column                                         | 1-any      | no       | yes     |
+| hmean                  | Get harmonic mean from values in column                                         | 1-any      | yes      | no      |
 | int                    | Integrate table function                                                        | 2          | no       | no      |
 | int_avg                | Make average for a given table function                                         | 2-any      | no       | no      |
 | many                   | Various statistical information on column(s)                                    | 1-any      | no       | no      |

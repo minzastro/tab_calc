@@ -363,4 +363,20 @@ integer i
   call solveSystem(aaa, bbb, 3, coeff)
 end subroutine fitParabola
 
+subroutine errorEllipse(posX, posY, tilt, axisA, axisB)
+real*8, intent(out) :: posX, posY, tilt, axisA, axisB
+real*8 sigmax, sigmay, sigmaxy
+real*8 sig_summa, sig_root
+  posX = sum(datatable(1:rownum, xcol_add(1)))/rownum
+  posY = sum(datatable(1:rownum, xcol_add(2)))/rownum
+  sigmax = dsqrt(sum((datatable(1:rownum, xcol_add(1)) - posX)**2)/rownum)
+  sigmay = dsqrt(sum((datatable(1:rownum, xcol_add(2)) - posY)**2)/rownum)
+  sigmaxy = sum(datatable(1:rownum, xcol_add(1))*datatable(1:rownum, xcol_add(2)))/rownum-&
+            posX * posY
+  sig_summa = sigmax**2 + sigmay**2
+  sig_root = dsqrt((sigmax**2 - sigmay**2)**2 + 4*sigmaxy**2)
+  tilt = 0.5*datan(2d0 * sigmaxy/ (sigmax**2 - sigmay**2))
+  axisA = dsqrt(0.5*(sig_summa + sig_root))
+  axisB = dsqrt(0.5*(sig_summa - sig_root))
+end subroutine errorEllipse
 end module tcUtils
