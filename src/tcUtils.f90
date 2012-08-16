@@ -363,20 +363,27 @@ integer i
   call solveSystem(aaa, bbb, 3, coeff)
 end subroutine fitParabola
 
-subroutine errorEllipse(posX, posY, tilt, axisA, axisB)
+subroutine errorEllipse(posX, posY, axisA, axisB, tilt)
 real*8, intent(out) :: posX, posY, tilt, axisA, axisB
-real*8 sigmax, sigmay, sigmaxy
-real*8 sig_summa, sig_root
+real*8 det, b(2)
+real*8 sig_summa, sig_root, cov(2, 2), eigenvector(2), eig_len
   posX = sum(datatable(1:rownum, xcol_add(1)))/rownum
   posY = sum(datatable(1:rownum, xcol_add(2)))/rownum
-  sigmax = dsqrt(sum((datatable(1:rownum, xcol_add(1)) - posX)**2)/rownum)
-  sigmay = dsqrt(sum((datatable(1:rownum, xcol_add(2)) - posY)**2)/rownum)
-  sigmaxy = sum(datatable(1:rownum, xcol_add(1))*datatable(1:rownum, xcol_add(2)))/rownum-&
-            posX * posY
-  sig_summa = sigmax**2 + sigmay**2
-  sig_root = dsqrt((sigmax**2 - sigmay**2)**2 + 4*sigmaxy**2)
-  tilt = 0.5*datan(2d0 * sigmaxy/ (sigmax**2 - sigmay**2))
+  cov(1, 1) = sum((datatable(1:rownum, xcol_add(1)) - posX)**2)/(rownum - 1)
+  cov(2, 2) = sum((datatable(1:rownum, xcol_add(2)) - posY)**2)/(rownum - 1)
+  !sigmaxy = sum(datatable(1:rownum, xcol_add(1))*datatable(1:rownum, xcol_add(2)))/rownum-&
+  !          posX * posY
+  cov(1, 2) = sum((datatable(1:rownum, xcol_add(1)) - posX) * (datatable(1:rownum, xcol_add(2)) - posY)) /(rownum - 1)
+  cov(2, 1) = cov(1, 2)
+  det = cov(1,1) * cov(2,2) - cov(1,2)**2
+  sig_root = dsqrt( (cov(1, 1) + cov(2, 2))**2  - 4. * det)
+  sig_summa = cov(1, 1) + cov(2, 2)
+  !write(*, *) 2d0 * sigmaxy/ (sigmax**2 - sigmay**2), sigmax, sigmay, sigmaxy, '|', sig_summa, sig_root
   axisA = dsqrt(0.5*(sig_summa + sig_root))
   axisB = dsqrt(0.5*(sig_summa - sig_root))
+  b(:) = axisB
+  call solveSystem(cov, b, 2, eigenvector)
+  eig_len = dsqrt(eigenvector(1)**2 + eigenvector(2)**2)
+  tilt = - datan2(eigenvector(1)/eig_len, eigenvector(2)/eig_len)
 end subroutine errorEllipse
 end module tcUtils
