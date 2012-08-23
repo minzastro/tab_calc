@@ -1,7 +1,7 @@
 !dispersion
 case ('dis')
   if (.not.bGroupByMode) then
-    temp_values2(1,1:xcol_num)=sum(transpose(datatable(1:rownum,xcol_add(1:xcol_num))),dim=2)/rownum
+    temp_values2(1,1:xcol_num)=sum(datatable(1:rownum,xcol_add(1:xcol_num)),dim=1)/rownum
     do j = 1, rownum
       temp_values(1:xcol_num) = temp_values(1:xcol_num)+(datatable(j, xcol_add(1:xcol_num))-temp_values2(1,1:xcol_num))**2
     enddo !rownum
