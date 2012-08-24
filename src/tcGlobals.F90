@@ -53,6 +53,7 @@ logical , save :: bGroupByMode =  .false. !use grouping
 integer , save :: iGroupByColumns ! Number of distinct coluumns
 integer , save :: aGroupByColumns(ARRAY_SIZE) !Limited to maximum size of StringArray
 real*8  , save :: aGroupByValues(MAX_ROW, -ARRAY_SIZE-1:ARRAY_SIZE) !1st index is group, 2nd = value
+integer , save :: iGroupByIndex(1:MAX_ROW)
 integer , save :: iGroupByCount ! Number of distinct values
 
 !Variables for formatted output

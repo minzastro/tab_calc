@@ -1,7 +1,7 @@
 module tcPower
 use tcGlobals
 use quickSort
-use tcUtils
+use tcFit
 
 implicit none
 
@@ -35,7 +35,7 @@ integer isize, i
     call quick_sort(in_x, in_)
 
     out_med = in_(asize/2)
-    isize = asize/3
+    isize = asize/5
     part(1:isize) = in_(1:isize)
     do i = 2, isize
       diff(i) = dlog10(part(i) - part(i - 1))

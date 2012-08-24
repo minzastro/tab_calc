@@ -135,6 +135,7 @@ end subroutine LoadFromFile
 
 subroutine LoadFromFileFast(sFilename, iColnum, datatable, iSize)
 !Load data from ASCII file with known number of columns
+!no comments suppported
 !                               Input parameters
 character(*), intent(in) :: sFilename
 integer, intent(in) :: iColNum !Number of columns in file
@@ -152,11 +153,10 @@ character*(512) sErrorMsg
 
   unit_id = open_file(sFilename)
   !loading data from file======================================
-  i = 0
+  i = 1
   istat = 0
   !detect number of columns
   flag = .false.
-  iLine = 0
   !Skipping header
   do i = 1, iSkipAmount
     read(unit_id,'(a)', iostat=istat) sLine
@@ -165,7 +165,15 @@ character*(512) sErrorMsg
     stop
     endif
   enddo
-
+  do while ((istat.eq.0).and.(i.le.MAX_ROW))
+    read(unit_id, fmt=*, iostat=istat) datatable(i, 1:iColnum)
+    datatable(i, 0) = dble(i)
+    i = i + 1
+  enddo
+  if (unit_id.ne.5) then
+    close(unit_id)
+  endif
+  iSize = i - 2
 end subroutine LoadFromFileFast
 
 subroutine LoadFromFileExt(sFilename, datatable, iColNum, iSize)

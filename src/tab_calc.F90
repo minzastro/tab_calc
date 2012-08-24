@@ -13,6 +13,8 @@ use tcGlobals
 use tcUtils
 use tcOutput
 use tcPower
+use tcFit
+use tcMath
 use operators
 use quickSort
 use array_works
@@ -148,6 +150,9 @@ implicit none
   cComment = clGetParamValue('-comment', cComment)
   bSingleValue = clCheckParam('-s')
   iSkipAmount = clGetParamValue('--skip')
+  if (clCheckParam('-n')) then
+    colnum = clGetParamValue('-n', 0)
+  endif
   if (clCheckParam('-S')) then
     call TStringArraySplit(clGetParamValue('-S'), ',', xSubCommands)
   endif
@@ -193,6 +198,8 @@ implicit none
     call LoadFromFileAligned(filename, colnum, rownum)
   else if ((xcol_ignore_num.gt.0).or.(cDelimiter.ne.' ')) then
     call LoadFromFileExt(filename, datatable, colnum, rownum )
+  else if (colnum.gt.0) then
+    call LoadFromFileFast(filename, colnum, datatable, rownum )
   else
     call LoadFromFile(filename, datatable, colnum, rownum )
   endif

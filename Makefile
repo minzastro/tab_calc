@@ -3,7 +3,7 @@ INSTALL_PATH=\'$(CURDIR)/bin/\'
 F90=gfortran -Jlib -Ilib -O3
 #F90=pgf90 -Llib -Ilib
 SRCS=file_io.f90 operators.f90 logs.f90 comline.f90 quickSort.f90 stringUtils.f90 array_works.f90 \
-ini_file.f90 StringArray.f90 histograms.f90 tcOutput.f90 tcUtils.f90 tcPower.f90
+ini_file.f90 StringArray.f90 histograms.f90 tcOutput.f90 tcMath.f90 tcFit.f90 tcUtils.f90 tcPower.f90
 OBJS=$(SRCS:%.f90=lib/%.o)
 XSRCS=$(SRCS:%.f90=src/%.f90)
 PROG=tab_calc
