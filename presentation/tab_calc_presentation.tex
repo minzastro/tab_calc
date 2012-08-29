@@ -1,0 +1,76 @@
+\documentclass[14pt]{beamer}
+\usetheme[pageofpages=of,% String used between the current page and the
+                         % total page count.
+          alternativetitlepage=true,% Use the fancy title page.
+	  titlepagelogo=tclogo
+          ]{Torino}
+\usecolortheme{freewilly}
+
+\usepackage{listings}
+\usepackage{amsmath}
+
+
+\author{Alexey Mints}
+\title{\texttt{tab\_calc} --- column calculator}
+
+% The log drawn in the upper right corner.
+\logo{\includegraphics[height=0.125\paperheight]{tclogo.png}}
+
+\begin{document}
+\maketitle
+
+\begin{frame}
+ \frametitle{Problem}
+ \begin{tiny}\lstinputlisting{example.dat } \end{tiny}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Motivation}
+\begin{itemize}
+ \item Everyday need in simple (and not very simple too) operations on data files;
+ \item No tool can do everything I want;
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Here it comes!}
+\begin{itemize}
+ \item FORTRAN-based $\xrightarrow{}$ extremely quick!
+ \item Column/row counts detected on-the-fly.
+ \item IO and commands are independent.
+ \item $\sim30$ commands ready.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+ \frametitle{Basic commands}
+\begin{itemize}
+ \item sum, average, minimum, maximum;
+ \item median, geometric and harmonic means;
+ \item dispersion, skewness and moments;
+ \item sorting;
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Advanced commands}
+\begin{itemize}
+ \item Histograms (1- and 2-dimensional);
+ \item Distributions (1- and 2-dimensional);
+ \item Fit (linear and power-law);
+ \item Table function integration, zero- and extremum- finding.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Future}
+\begin{itemize}
+ \item Python experiments (slow...);
+ \item Better string support.
+\end{itemize}
+
+\end{frame}
+
+\end{document}
+

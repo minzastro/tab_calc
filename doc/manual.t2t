@@ -376,5 +376,4 @@ Provides an easy way to accsess values of different types by thier names.
 + better error checking
 + non-numeric column grouping
 + better formatted output support
-+ new commands:
-  + moments of distribution
+
