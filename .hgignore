@@ -4,13 +4,3 @@ experiments/*
 syntax: regexp
 commands/\..*
 .*~
-glob:presentation/tab_calc_presentation.aux
-glob:presentation/tab_calc_presentation.log
-glob:presentation/tab_calc_presentation.nav
-glob:presentation/tab_calc_presentation.out
-glob:presentation/tab_calc_presentation.snm
-glob:presentation/tab_calc_presentation.tex.backup
-glob:presentation/tab_calc_presentation.toc
-glob:*.tgz
-glob:tab_calc_install/*
-glob:test/.hidden/*

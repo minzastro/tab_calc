@@ -1,6 +1,6 @@
 !normalize data
   case('norm', 'norm_max')
-    temp_values(1:xcol_num)=maxval(datatable(1:rownum,xcol_add(1:xcol_num)),dim=2)
+    temp_values(1:xcol_num)=maxval(datatable(1:rownum,xcol_add(1:xcol_num)),dim=1)
     do i = 1, rownum
       if (bSingleValue) then
         write(*,*) datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
