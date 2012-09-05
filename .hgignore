@@ -1,0 +1,6 @@
+src/*\.i
+lib/*
+experiments/*
+syntax: regexp
+commands/\..*
+.*~
