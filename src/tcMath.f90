@@ -45,8 +45,8 @@ real*8 da, dx, a1(n, n)
 end subroutine solveSystem
 
 real*8 function moment1d(arr, asize, order, average)
-real*8, intent(in) :: arr(asize)
 integer, intent(in) :: asize
+real*8, intent(in) :: arr(asize)
 integer, intent(in) :: order
 real*8, intent(in), optional :: average
 integer i
@@ -64,9 +64,9 @@ real*8 tmp, avg
 end function moment1d
 
 function moment2d(arr, asize, asize2, order, average) result (res)
-real*8, intent(in) :: arr(asize, asize2)
 integer, intent(in) :: asize
 integer, intent(in) :: asize2
+real*8, intent(in) :: arr(asize, asize2)
 integer, intent(in) :: order
 real*8, intent(in), optional :: average(asize2)
 real*8 :: res(asize2)

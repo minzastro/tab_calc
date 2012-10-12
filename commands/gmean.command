@@ -2,9 +2,9 @@
       if (.not.bGroupByMode) then
         temp_values(:) = 0d0
         do i = 1, rownum
-          temp_values(1:xcol_num) = temp_values(1:xcol_num) + log(datatable(i, xcol_add(1:xcol_num)))
+          temp_values(1:xcol_num) = temp_values(1:xcol_num) + dlog(datatable(i, xcol_add(1:xcol_num)))
         enddo
-        temp_values(1:xcol_num) = exp(temp_values(1:xcol_num)/rownum)
+        temp_values(1:xcol_num) = dexp(temp_values(1:xcol_num)/rownum)
         call PrepareRealFormat(xcol_num)
         !write(*,*) trim(sFormat)
         write(*,sFormat) temp_values(1:xcol_num)

@@ -21,6 +21,10 @@ profile:
 huge:
 	$(MAKE) -B $(MAKEFILE) F90="gfortran -Jlib -Ilib -O3 -DHUGE" EXECUTABLE="tab_calc_huge"
 
+intel:
+	$(MAKE) $(MAKEFILE) F90="ifort -module ./lib -Ilib -O3 -limf"
+
+
 update: src/commands.i #src/vars.i
 	ruby make_vers.rb
 	cat params/*.param > src/params.i

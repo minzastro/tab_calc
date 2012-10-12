@@ -20,6 +20,11 @@ case('int2') !integrate with Simpson's rule
                     (datatable(j+1, xcol_add(1))-datatable(j-1, xcol_add(1))) * &
                     (datatable(j-1, ycol_add(1))+4d0*datatable(j, ycol_add(1))+datatable(j+1, ycol_add(1)))/6d0
   enddo
+  if (rownum - rownum/2*2 .eq. 0) then
+    temp_values(1) = temp_values(1) + &
+                     0.5D0*(datatable(rownum, xcol_add(1))-datatable(rownum-1, xcol_add(1))) * &
+                    (datatable(rownum-1, ycol_add(1))+datatable(rownum, ycol_add(1)))
+  endif
   write(*,*) temp_values(1)
 case('int_avg')
   if ((xcol_num.lt.1).or.(ycol_num.lt.1)) then

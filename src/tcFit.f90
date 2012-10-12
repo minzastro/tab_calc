@@ -10,8 +10,8 @@ contains
 
 !! Least square fitting subroutine
 subroutine LinearFit(x, y, asize, a, b)
-real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: asize !! size of input arrays
+real*8, intent(in) :: x(asize), y(asize) !! input data
 real*8, intent(out):: a,b !! y = a*x + b : result
 !local variables
 real*8 xx, x2, xy, yy
@@ -27,9 +27,9 @@ real*8 det, a0, b0
 end subroutine LinearFit
 
 subroutine LinearFitWeight(x, y, w, asize, a, b)
+integer, intent(in) :: asize !! size of input arrays
 real*8, intent(in) :: x(asize), y(asize) !! input data
 real*8, intent(in) :: w(asize) ! Weights
-integer, intent(in) :: asize !! size of input arrays
 real*8, intent(out):: a,b !! y = a*x + b : result
 !local variables
 real*8 xx, x2, xy, yy, ww
@@ -48,8 +48,8 @@ end subroutine LinearFitWeight
 subroutine LinearFitFilter(x, y, asize, xSigma, a, b)
 ! Performs linear fit, then cuts off all outliers (more than xSigma
 ! dispersions) and re-fits.
-real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: asize !! size of input arrays
+real*8, intent(in) :: x(asize), y(asize) !! input data
 real*8, intent(in) :: xSigma ! Cut-off limit
 real*8, intent(out):: a,b !! y = a*x + b : result
 
@@ -84,8 +84,8 @@ end subroutine LinearFitFilter
 subroutine LinearFitPercFilter(x, y, asize, xSigma, a, b)
 ! Performs linear fit, then cuts off all outliers (leaving xSigma
 ! procents of best-fit data, and then re-fits.
-real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: asize !! size of input arrays
+real*8, intent(in) :: x(asize), y(asize) !! input data
 real*8, intent(in) :: xSigma ! Percentage of data to keep
 real*8, intent(out):: a,b !! y = a*x + b : result
 
@@ -116,8 +116,8 @@ end function ScanWeight
 
 
 subroutine LinearFitScanned(x, y, asize, window, a, b)
-real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: asize !! size of input arrays
+real*8, intent(in) :: x(asize), y(asize) !! input data
 integer, intent(in) :: window ! Percentage of data to keep
 real*8, intent(out):: a(asize),b(asize) !! y = a*x + b : result
 real*8 weight(asize)

@@ -24,8 +24,8 @@ integer i, n
 end function find_alpha
 
 subroutine fit_power_tails(in_x, asize, out_a1, out_b1, out_a2, out_b2, out_med)
-real*8, intent(in) :: in_x(asize)
 integer, intent(in) :: asize
+real*8, intent(in) :: in_x(asize)
 real*8, intent(out) :: out_a1, out_a2, out_b1, out_b2, out_med
 
 real*8 in_(asize), part(asize/2), diff(asize/2)

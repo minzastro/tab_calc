@@ -7,4 +7,8 @@ case('dis_med') !Dispersion around median value
         temp_values(1:xcol_num) = temp_values(1:xcol_num)+(datatable(j, xcol_add(1:xcol_num))-temp_values2(1,1:xcol_num))**2
       enddo !rownum
       temp_values(1:xcol_num) = dsqrt(temp_values(1:xcol_num))/rownum
-      write(*,*) temp_values(1:xcol_num)
+      if (mode.eq.0) then
+          write(*,*) temp_values(1:xcol_num)
+      else
+          write(*,*) temp_values(1:xcol_num), temp_values2(1,1:xcol_num)
+      endif

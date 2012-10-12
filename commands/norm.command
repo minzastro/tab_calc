@@ -22,7 +22,7 @@
       end if
     enddo !i
   case('norm_avg')
-    temp_values(1:xcol_num)=sum(datatable(1:rownum,xcol_add(1:xcol_num)),dim=2)/rownum
+    temp_values(1:xcol_num)=sum(datatable(1:rownum,xcol_add(1:xcol_num)),dim=1)/rownum
     do i = 1, rownum
       if (bSingleValue) then
         write(*,*) datatable(i, xcol_add(1:xcol_num))/temp_values(1:xcol_num)
