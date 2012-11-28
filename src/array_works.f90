@@ -3,7 +3,7 @@
 module array_works
 use tcGlobals
 use file_io ! io-file routines
-use stringUtils
+use StringUtils
 use StringArray
 
 implicit none
@@ -81,23 +81,23 @@ character*(512) sErrorMsg
   do while (flag.eqv..false.)
     read(unit_id,'(a)', iostat=istat) sLine
     if (istat.ne.0) then
-    write(*,*) 'Error! No data to proceed!'
-    stop
+      write(*,*) 'Error! No data to proceed!'
+      stop
     endif
     iLine = iLine + 1
     if (sLine(1:1) .ne. cComment) then !Looking for first non-commented line
-    call replace_substring(sLine, '  ', ' ') !replacing TABS with SPACEs
-    call TrimLeft(sLine, sLine) !adjust left
-    call sqeeze(sLine,' ') !remove double SPACEs
-    if (len(trim(sLine)).gt.0) then
-      iColnum=1 !first column
-    endif
-    do i = 1, len(trim(sLine)) !counting remaining spaces
-      if (sLine(i:i).eq.' ') then
-      iColnum=iColnum+1
+      call replace_substring(sLine, char(9), ' ') !replacing TABS with SPACEs
+      call TrimLeft(sLine, sLine) !adjust left
+      call sqeeze(sLine, ' ', sLine) !remove double SPACEs
+      if (len(trim(sLine)).gt.0) then
+        iColnum = 1 !first column
       endif
-    enddo
-    flag = .true.
+      do i = 1, len(trim(sLine)) !counting remaining spaces
+        if (sLine(i:i).eq.' ') then
+          iColnum = iColnum + 1
+        endif
+      enddo
+      flag = .true.
     endif
   enddo
   i = 1
@@ -261,6 +261,9 @@ character*(512) sErrorMsg
   enddo
   iColNum = iColnum
   iSize   = iLine
+  if (unit_id.ne.5) then
+    close(unit_id)
+  endif
 end subroutine LoadFromFileExt
 
 subroutine RemoveDelimiters(sLine, bRemoveRepeat, bExpandTabs)
@@ -380,6 +383,9 @@ character*(50) sField
       enddo
     endif
   enddo
+  if (unit_id.ne.5) then
+    close(unit_id)
+  endif
   iColNum = iColTotalEstimate
   iSize   = iLine
 end subroutine LoadFromFileAligned

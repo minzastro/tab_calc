@@ -1,3 +1,4 @@
+export FC=gfortran
 mv .hidden/* .
 cp -u ../src/*.[fF]90 .
 cp -u ../src/*.i .
