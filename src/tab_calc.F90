@@ -18,7 +18,7 @@ use tcMath
 use operators
 use quickSort
 use array_works
-use stringUtils
+use StringUtils
 use ini_file
 use StringArray
 use histograms
@@ -417,7 +417,6 @@ subroutine PrintInfo()
 #ifdef INCLUDE_TEXTFILES
 #include "USAGE.wrap"
 #else
-  use stringUtils
   call PrintFile(trim(INSTALL_PATH)//'USAGE')
 #endif
   stop
@@ -427,7 +426,6 @@ subroutine PrintVersion()
 #ifdef INCLUDE_TEXTFILES
 #include "VERSION.wrap"
 #else
-  use stringUtils
   call PrintFile(trim(INSTALL_PATH)//'VERSION')
 #endif
   stop

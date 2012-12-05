@@ -41,12 +41,7 @@ end function index2
 subroutine TrimLeft(input, output) !! Removes leading spaces from a string
 character*(*), intent(IN)::input
 character*(*), intent(OUT)::output
-integer i
-  i = 1
-  do while (input(i:i).eq.' ')
-    i = i + 1
-  end do
-  output = input(i:len(input))
+  output = input(verify(input, ' '):len(input))
 end subroutine TrimLeft
 
 pure character function LastChar(input) !! Returns the last character in the string
@@ -62,33 +57,38 @@ character( len= *), intent( inout) :: string !! the string containing the
 character( len= *), intent( in) :: substring !! the target substring
 character( len= *), intent( in) :: repstring !! the replacement string
 integer :: i                                 !! loop index
-   i = index( trim(string), substring)                                     ! try to find substring
+   i = index(string, substring)                                     ! try to find substring
    scan_string: do while( i > 0)                   ! find all substrings
       string = string( 1: i - 1) // repstring // string( i + len( substring): )
-      i = index( trim(string), substring)                                  ! find next substring, if any
+      i = index( string, substring)                                  ! find next substring, if any
    enddo scan_string                                                 ! loop thru quoted string
 return                                                               ! replace_substring()
 end subroutine replace_substring
 
 !! Removes repeating character 'symbol' from 'string'
-subroutine sqeeze(string, symbol)
-character( len= *), intent( inout) :: string
+subroutine sqeeze(sInput, symbol, sOutput)
+character(len=*), intent(in) :: sInput
+character(len=*), intent(out) :: sOutput
 character*(1), intent(in):: symbol
-character*(2) double_symbol
 integer i, l
-  double_symbol=symbol//symbol
-  i = 1
-  l = len(trim(string))
-  do while (i.le.l)
-    if (string(i:i+1).eq.double_symbol) then
-      string = string(1:(i-1))//string(i+1:)
-      i=i-1
-      l=l-1
+logical b
+  l = 1
+  b = .false.
+  do i = 1, len(sInput)
+    if (sInput(i:i).eq.symbol) then
+      if (.not.b) then
+        sOutput(l:l) = sInput(i:i)
+        l = l + 1
+        b = .true.
+      endif
+    else
+      sOutput(l:l) = sInput(i:i)
+      l = l + 1
+      b = .false.
     endif
-    i=i+1
   enddo
   return
-end subroutine Sqeeze
+end subroutine sqeeze
 
 !! Simply prints out file contents
 subroutine PrintFile(filename)
@@ -135,7 +135,7 @@ character*(1) LineSeparator
     SubStr = LongString(1:Pos-1)
     LongString = LongString(Pos+1 : Len(LongString))
     write (filenum, 100) trim(SubStr)
-	100 FORMAT(A)
+  100 FORMAT(A)
     Pos = Scan(LongString, LineSeparator)
   end do
 end subroutine WriteLongString

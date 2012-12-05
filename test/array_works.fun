@@ -2,6 +2,15 @@ test_suite array_works
 
 integer iX, iY
 
+test OpenFileTest
+  integer i
+  i = open_file('')
+  Assert_Equal(i, 5)
+  i = open_file('data_simple')
+  Assert_Equal(i, 7)
+  close(i)
+end test
+
 test ArraySequenceTest
   real*8 x(5)
   call ArraySequence(x, 5, 0d0, 1d0)
