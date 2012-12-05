@@ -23,6 +23,22 @@ integer i, n
   alpha = -(1d0 + n/tmp)
 end function find_alpha
 
+function find_positive_alpha(in_x, asize, x_cut) result (alpha)
+integer, intent(in) :: asize
+real*8, intent(in) :: in_x(asize), x_cut
+real*8 tmp, alpha
+integer i, n
+  tmp = 0d0
+  n = 0
+  do i = 1, asize
+    if (in_x(i).le.x_cut) then
+      n = n + 1
+      tmp = tmp + dlog(in_x(i)/x_cut)
+    endif
+  enddo
+  alpha = -(1d0 + n/tmp)
+end function find_positive_alpha
+
 subroutine fit_power_tails(in_x, asize, out_a1, out_b1, out_a2, out_b2, out_med)
 integer, intent(in) :: asize
 real*8, intent(in) :: in_x(asize)

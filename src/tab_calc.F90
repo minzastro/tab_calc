@@ -104,7 +104,7 @@ implicit none
   verbose    = .false.
   filename   = ''
   sRealFormat= 'F16.6'
-  sIntegerFormat = 'I4'
+  sIntegerFormat = 'I6'
   bFormattedOutput = .false.
   !Histogram
   mode = 0

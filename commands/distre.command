@@ -28,16 +28,17 @@
       do j = 1, rownum
         if ((datatable(j, xcol_add(1)).ge.range_min).and.(datatable(j, xcol_add(1)).le.range_max)) then
           k = int((datatable(j, xcol_add(1))-range_min)/step_size)
-	  temp_values(k) = temp_values(k) + &
-	                   ((datatable(j, xcol_add(2))-distr_sum(k))*(datatable(j, xcol_add(2))-distr_sum(k)))
+          temp_values(k) = temp_values(k) + &
+                    ((datatable(j, xcol_add(2))-distr_sum(k))*(datatable(j, xcol_add(2))-distr_sum(k)))
 !          write(*,*) k, temp_values(k)
         endif
       enddo !j
+      call PrepareCustomFormat('FFFI')
       do j = 0, step_num-1
         if (hist_data(j).gt.0) then
           temp_values(j) = dsqrt(temp_values(j)/real(hist_data(j)))
-          write(*,*) steps(j), distr_sum(j), temp_values(j), hist_data(j)
+          write(*,sFormat) steps(j), distr_sum(j), temp_values(j), hist_data(j)
         else
-          write(*,*) steps(j), 0D0, 0D0, 0
+          write(*,sFormat) steps(j), 0D0, 0D0, 0
         endif
       enddo !j

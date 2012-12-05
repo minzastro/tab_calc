@@ -7,9 +7,9 @@
       if (bSingleValue) then
         if (xcol_num.gt.0) then
           write(*,*) temp_values2(1:2,xcol_add(1:xcol_num))
-	else
+        else
           write(*,*) temp_values2(1:2,xcol_add(1):xcol_add(1))
-	endif
+        endif
       else
         write(*,*) temp_values2(1:2,1:colnum)
       end if

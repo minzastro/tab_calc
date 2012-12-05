@@ -11,15 +11,15 @@ character function GetColumnPreFormat(iCol) !Returns column type
 ! R for float/real
 integer, intent(in) :: iCol
   if (iCol.in.int_columns(1:int_col_num)) then
-		GetColumnPreFormat = 'I'
-	else
-	  GetColumnPreFormat = 'R'
-	endif
+        GetColumnPreFormat = 'I'
+    else
+      GetColumnPreFormat = 'R'
+    endif
 end function GetColumnPreFormat
 
 subroutine PrepareColumnPreFormat(iCol) !makes format for one column only
 integer, intent(in) :: iCol
-	sFormat = GetColumnPreFormat(iCol)
+    sFormat = GetColumnPreFormat(iCol)
 end subroutine PrepareColumnPreFormat
 
 function GetPreFormatSymForAll() result(c)
@@ -106,7 +106,7 @@ integer j, j_col
     sLine = trim(sLine)//' '//trim(sField)
   enddo
   call replace_substring(sLine, '!', '')
-  write(*,*) trim(sLine)
+  write(*,'(A)') trim(sLine)
 end subroutine WriteFormattedLineX
 
 subroutine WriteFormattedLine(xdata, sFmt) !write a line with a given preformat
@@ -124,7 +124,7 @@ integer j
     endif
     sLine = trim(sLine)//' '//trim(sField)
   enddo
-  write(*,*) trim(sLine)
+  write(*,'(A)') trim(sLine)
 end subroutine WriteFormattedLine
 
 subroutine PrepareFormatXcolFixed() !prepare format for all xcol's, with the default int format
@@ -161,5 +161,20 @@ real*8 xx
   sFormat = '('//trim(sFormat)//')'
 end subroutine PrepareFormatXcol
 
-
+subroutine PrepareCustomFormat(sFmt)
+character*(*), intent(in) :: sFmt
+type(TStringArray) sa
+integer j
+  sa%length = 0
+  do j = 1, len(trim(sFmt))
+    if (sFmt(j:j).eq.'I') then
+      call TStringArrayAdd(sa, sIntegerFormat)
+    else
+      call TStringArrayAdd(sa, sRealFormat)
+    endif
+  enddo
+  call TStringArrayJoin(sa, ',1X,', sFormat)
+  xFormat = sa
+  sFormat = '('//trim(sFormat)//')'
+end subroutine PrepareCustomFormat
 end module tcOutput
