@@ -18,6 +18,9 @@ character*(10) sInput, sOut
   sInput = '   Zzzz zzz'
   call sqeeze(sInput, 'z', sOut)
   Assert_Equal(trim(sOut), '   Zz z')
+  sInput = '   Zzzz    zzz    '
+  call sqeeze(sInput, ' ', sOut)
+  Assert_Equal(trim(sOut), '   Zz z')
 end test
 
 end test_suite

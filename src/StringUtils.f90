@@ -74,7 +74,8 @@ integer i, l
 logical b
   l = 1
   b = .false.
-  do i = 1, len(sInput)
+  sOutput = sInput
+  do i = 1, len(trim(sInput))
     if (sInput(i:i).eq.symbol) then
       if (.not.b) then
         sOutput(l:l) = sInput(i:i)
@@ -87,6 +88,7 @@ logical b
       b = .false.
     endif
   enddo
+  sOutput(l:len(sInput)) = ''
   return
 end subroutine sqeeze
 
