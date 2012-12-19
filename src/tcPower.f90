@@ -53,21 +53,23 @@ integer isize, i
     out_med = in_(asize/2)
     isize = asize/5
     part(1:isize) = in_(1:isize)
-    do i = 2, isize
-      diff(i) = dlog10(part(i) - part(i - 1))
-    enddo
-    part(1:isize) = dlog10(part(1:isize))
-    call LinearFit(part(1:isize), diff(1:isize), isize, out_a1, out_b1)
+    !do i = 2, isize
+    !  diff(i) = dlog10(part(i) - part(i - 1))
+    !enddo
+    !part(1:isize) = dlog10(part(1:isize))
+    !call LinearFit(part(1:isize), diff(1:isize), isize, out_a1, out_b1)
+    out_a1 = find_positive_alpha(part(1:isize), isize, maxval(part(1:isize)))
 
     part(1:isize) = in_(2*isize : 3*isize-1+isize)
-    do i = 2, isize
-      diff(i) = dlog10(part(i) - part(i - 1))
-    enddo
-    part(1:isize) = dlog10(part(1:isize))
+    !do i = 2, isize
+    !  diff(i) = dlog10(part(i) - part(i - 1))
+    !enddo
+    !part(1:isize) = dlog10(part(1:isize))
     call LinearFit(part(1:isize), diff(1:isize), isize, out_a2, out_b2)
-    out_a1 = -out_a1
-    out_b1 = -out_b1
-    out_a2 = -out_a2
-    out_b2 = -out_b2
+    out_a2 = find_alpha(part(1:isize), isize, minval(part(1:isize)))
+    !out_a1 = -out_a1
+    !out_b1 = -out_b1
+    !out_a2 = -out_a2
+    !out_b2 = -out_b2
 end subroutine fit_power_tails
 end module tcPower
