@@ -16,12 +16,15 @@
         endif
         write(*,*) '# Minimum= ', range_min, ' Maximum=', range_max, ' Step=', step_size
       end if
-      do j = 0, step_num - 1
+      do j = 0, step_num - 1 
         steps(j)=range_min + j*step_size
       enddo
       do j = 1, rownum
         if ((datatable(j, xcol_add(1)).ge.range_min).and.(datatable(j, xcol_add(1)).le.range_max)) then
           k = int((datatable(j, xcol_add(1))-range_min)/step_size)
+          if (datatable(j, xcol_add(1)).eq.range_max) then !exact upper bound
+            k = step_num - 1
+          end if
           hist_data(k) = hist_data(k) + 1
       endif
       enddo

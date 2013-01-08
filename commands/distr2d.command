@@ -35,12 +35,13 @@
           distr_sum_2d(k,k2) = distr_sum_2d(k, k2) + datatable(j, xcol_add(3))
         endif
       enddo !j
+      call PrepareCustomFormat('FFFI')
       do j = 0, step_num-1
         do k = 0, step_num-1
           if (hist_data_2d(j,k).gt.0) then
-            write(*,*) steps(j), steps_2(k), distr_sum_2d(j,k)/real(hist_data_2d(j,k)), hist_data_2d(j,k)
+            write(*,sFormat) steps(j), steps_2(k), distr_sum_2d(j,k)/real(hist_data_2d(j,k)), hist_data_2d(j,k)
           else
-            write(*,*) steps(j), steps_2(k), 0D0, hist_data_2d(j,k)
+            write(*,sFormat) steps(j), steps_2(k), 0D0, hist_data_2d(j,k)
           endif
         enddo !k
       enddo !j

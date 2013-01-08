@@ -10,8 +10,9 @@
 	        enddo
           write(*,*) temp_values(1:xcol_num)
         else
+          call PrepareFormatAllExt()
           pos = maxloc(datatable(1:rownum, xcol_add(1):xcol_add(1)))
-          write(*,*) datatable(pos(1), 1:colnum)
+          call WriteFormattedLineX(datatable(pos(1), 1:colnum), xFormat)
         end if
       else
         aGroupByValues(:,:) = 0D0

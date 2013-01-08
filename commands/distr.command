@@ -23,10 +23,11 @@
           distr_sum(k) = distr_sum(k) + datatable(j, xcol_add(2))
         endif
       enddo !j
+      call PrepareCustomFormat('FFI')
       do j = 0, step_num-1
         if (hist_data(j).gt.0) then
-          write(*,*) steps(j), distr_sum(j)/real(hist_data(j)), hist_data(j)
+          write(*,sFormat) steps(j), distr_sum(j)/real(hist_data(j)), hist_data(j)
         else
-          write(*,*) steps(j), 0D0, hist_data(j)
+          write(*,sFormat) steps(j), 0D0, hist_data(j)
         endif
       enddo !j
