@@ -1,3 +1,14 @@
+!+ fit # fitting (linear) with extended output
+!+ fit_filter # fitting (linear) with outliers removed
+!+ fit_percent_filter # fitting (linear) with outliers removed
+!+ fit_weight # weighted fitting (linear)
+!+ fit_scan # ???
+!+ fit_log # fitting (logarithmic) with extended output
+!+ fit_log_filter # fitting (logarithmic) with outliers removed
+!+ fit_log_percent_filter # fitting (logarithmic) with outliers removed
+!+ fit_log_weight # weighted fitting (logarithmic)
+!+ fit_log_scan # ???
+
     case ('fit') !fitting (linear) with extended output
       call RequireXCols(2)
       call TabCalcFit(.false., .false., 0, .false., fit_a, fit_b)

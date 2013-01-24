@@ -1,3 +1,4 @@
+!+ hmean # harmonic mean of the data
     case('hmean') !harmonic mean
       if (.not.bGroupByMode) then
         temp_values(:) = 0d0

@@ -13,7 +13,9 @@ EXECUTABLE=$(PROG)
 $(PROG): src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/commands.i #src/vars.i
 	mkdir -p lib
 	mkdir -p bin
-	#ruby make_vers.rb
+	python make_vers.py
+	egrep -h "\!\+" commands/* | colrm 1 2 > commands.list
+	python get_commands.py $(INSTALL_PATH)
 	cat params/*.param > src/params.i
 	$(F90) -o $(EXECUTABLE) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)
 
@@ -27,12 +29,12 @@ intel:
 	$(MAKE) $(MAKEFILE) F90="ifort -module ./lib -Ilib -O3 -limf -static"
 
 update: src/commands.i #src/vars.i
-	#ruby make_vers.rb
+	python make_vers.py
 	cat params/*.param > src/params.i
 	$(F90) -o $(PROG) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)
 
 inline: src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/commands.i #src/vars.i
-	ruby make_vers.rb
+	python make_vers.py
 	cat params/*.param > src/params.i
 	Fortran_wrap_print.sh < USAGE > src/USAGE.wrap
 	Fortran_wrap_print.sh < VERSION > src/VERSION.wrap

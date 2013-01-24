@@ -1,4 +1,5 @@
-!dispersion
+!+ dis # calculates dispersion
+!+ rel_dis # calculates relative dispersion (dispersion/average)
 case ('dis')
   if (.not.bGroupByMode) then
     temp_values(1:xcol_num) = dsqrt(moment(datatable(1:rownum, xcol_add(1:xcol_num)), rownum, xcol_num, 2))

@@ -1,3 +1,4 @@
+!+count # count all values (grouping allowed)
     case('count') !Minimum value
       if (.not.bGroupByMode) then
         write(*,*) rownum

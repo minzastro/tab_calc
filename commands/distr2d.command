@@ -1,3 +1,4 @@
+!+ distr2d # 2D Data distribution (average z value in bins of x and y)
 !this option is to be upgraded for good binning
     case('distr2d') !2D distribution
       hist_data_2d(:,:)=0

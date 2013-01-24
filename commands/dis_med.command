@@ -1,4 +1,6 @@
-case('dis_med') !Dispersion around median value
+!+ dis_med # Dispersion around median value
+!+ rel_dis_med # Relative dispersion around median value
+case('dis_med') 
       do j = 1, xcol_num
         call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
         temp_values2(1,j) = long_values((rownum+1)/2)

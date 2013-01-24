@@ -1,3 +1,7 @@
+!+ distr # Data distribution (average y value in bins of x)
+!+ distr_avg # Data distribution (average y value in bins of x)
+!+ distr_min # Data distribution (minimum y value in bins of x)
+!+ distr_max # Data distribution (maximum y value in bins of x)
 !this option is to be upgraded for good binning
     case('distr', 'distr_avg', 'distr_min', 'distr_max') !distribution
       hist_data(:)=0

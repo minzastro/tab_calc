@@ -418,6 +418,7 @@ subroutine PrintInfo()
 #include "USAGE.wrap"
 #else
   call PrintFile(trim(INSTALL_PATH)//'USAGE')
+  call PrintFile(trim(INSTALL_PATH)//'commands.list')
 #endif
   stop
 end subroutine PrintInfo

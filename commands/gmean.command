@@ -1,3 +1,4 @@
+!+ gmean # geometric mean of the data
     case('gmean') !geometric mean
       if (.not.bGroupByMode) then
         temp_values(:) = 0d0
