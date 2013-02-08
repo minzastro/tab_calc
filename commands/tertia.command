@@ -1,3 +1,4 @@
+!+ tertia # Firts and seconds tertiary values
     case ('tertia') !Tertia values
       do j = 1, colnum
         call quick_sort(datatable(1:rownum, j), long_values(1:rownum))

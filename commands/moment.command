@@ -1,4 +1,4 @@
-!Central moments
+!+ moment # Central moments
 case ('moment')
   if (.not.bGroupByMode) then
     temp_values2(1,1:xcol_num)=sum(datatable(1:rownum,xcol_add(1:xcol_num)),dim=1)/rownum

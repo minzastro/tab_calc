@@ -1,3 +1,4 @@
+!+ sort_line # sort data within each line
 case('sort_line')
   do i = 1, rownum
     call quick_sort(datatable(i, 1:colnum), temp_values(1:colnum))

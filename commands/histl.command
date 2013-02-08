@@ -1,3 +1,4 @@
+!+ histl # histogram with logarithmic binning
     case ('histl') !histogramming
       hist_data(:)=0
       !changind data limits

@@ -1,3 +1,4 @@
+!+ max # data maximum
     case('max') !Minimum value
       if (.not.bGroupByMode) then
         if (xcol_num.gt.1) then

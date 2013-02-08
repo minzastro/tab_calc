@@ -1,4 +1,4 @@
-!statistics: average and dispersion
+!+ stat # statistics: average and dispersion
 case ('stat')
   !Grouping is not yet supported
     temp_values2(1,1:xcol_num)=sum(transpose(datatable(1:rownum,xcol_add(1:xcol_num))),dim=2)/rownum
@@ -9,7 +9,7 @@ case ('stat')
     call PrepareRealFormat(2*xcol_num)
     write(*,sFormat) temp_values2(1:2, 1:xcol_num)
 
-!statistics: median and dispersion around it.
+!+ stat_med # statistics: median and dispersion around it.
 case ('stat_med')
     do j = 1, xcol_num
       call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
@@ -21,6 +21,7 @@ case ('stat_med')
     temp_values2(2,1:xcol_num) = dsqrt(temp_values(1:xcol_num))/rownum
     call PrepareRealFormat(2*xcol_num)
     write(*,sFormat) temp_values2(1:2, 1:xcol_num)
+
 
 case('many')
     temp_values(1:xcol_num)=sum(transpose(datatable(1:rownum,xcol_add(1:xcol_num))),dim=2)/rownum
