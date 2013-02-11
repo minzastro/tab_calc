@@ -7,7 +7,6 @@
         enddo
         temp_values(1:xcol_num) = dexp(temp_values(1:xcol_num)/rownum)
         call PrepareRealFormat(xcol_num)
-        !write(*,*) trim(sFormat)
         write(*,sFormat) temp_values(1:xcol_num)
       else
         aGroupByValues(:,:) = 0D0

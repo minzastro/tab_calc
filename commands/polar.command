@@ -1,3 +1,4 @@
+!+ polar # convert catresian coordinates to polar.
   case('polar')
     if ((xcol_num.ne.2).and.(xcol_num.ne.4)) then
       write(*,*) 'Please specify 2 or 4 columns with -x switch'

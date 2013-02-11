@@ -1,4 +1,7 @@
-!normalize data
+!+ norm # normalize data (set maximum to 1)
+!+ norm_max # normalize data (set maximum to 1)
+!+ norm_min # normalize data (set minimum to 1)
+!+ norm_avg # normalize data (set average to 1)
   case('norm', 'norm_max')
     temp_values(1:xcol_num)=maxval(datatable(1:rownum,xcol_add(1:xcol_num)),dim=1)
     do i = 1, rownum

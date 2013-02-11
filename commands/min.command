@@ -1,3 +1,4 @@
+!+ min # data minimum
     case('min') !Minimum value
       if (.not.bGroupByMode) then
         if (xcol_num.gt.1) then
