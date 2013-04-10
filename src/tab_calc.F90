@@ -321,7 +321,7 @@ implicit none
       enddo
       if (bSingleValue) then
         sFormat = '('//trim(GetRealFormat(3))//')'
-        write(*,sFormat) temp_values2(1:3, xcol_add(1):xcol_add(1))
+        write(*,sFormat) temp_values2(1:3, 1)
       else
         sFormat = '('//trim(GetRealFormat(3*colnum))//')'
         write(*,sFormat) temp_values2(1:3, 1:colnum)
