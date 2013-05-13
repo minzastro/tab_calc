@@ -14,7 +14,7 @@ $(PROG): src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/
 	mkdir -p lib
 	mkdir -p bin
 	python make_vers.py
-	egrep -h "\!\+" commands/* | colrm 1 2 > commands.list
+	egrep -h "\!\+" commands/* src/tab_calc.F90| sed 's/^ *//g' | colrm 1 2 | sed 's/^ *//g' | sort > commands.list
 	python get_commands.py $(INSTALL_PATH)
 	cat params/*.param > src/params.i
 	$(F90) -o $(EXECUTABLE) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)

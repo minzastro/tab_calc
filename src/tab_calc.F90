@@ -210,7 +210,7 @@ implicit none
     write(*,*) cComment//' ', rownum, ' data lines. ', colnum, ' data fields'
   endif
 
-  !++++++++++++++++++++++++++ Parameter checking +++++++++++++++++++++
+  !-++++++++++++++++++++++++++ Parameter checking +++++++++++++++++++++
   !check for proper colnum number
   if((maxval(xcol_add).gt.colnum))then
     write(*,*) cComment//' WARNING! Number of column to proceed is greater, than total number of columns in the file'
@@ -262,15 +262,17 @@ implicit none
   end if
   call ApplyDataCuts(range_min, range_max, xcol_add(1))
 
-  !++++++++++++++++++++++++++ MAIN PART ++++++++++++++++++++++++++++++
+  !-++++++++++++++++++++++++++ MAIN PART ++++++++++++++++++++++++++++++
   my_case: select case (trim(sCommand))
     case('none')
+      !+none#do nothing (print with selected columns, formats and filters)
       call PrepareFormatXcol()
       do j = 1,rownum
         call WriteFormattedLineX(datatable(j, xcol_add(1:xcol_num)), xFormat)
       enddo
 
-    case('avg') !Average value by columns
+    case('avg')
+      !+avg#Average value by columns
       if (.not.bGroupByMode) then
         if (xcol_num.gt.0) then
           datatable(1:rownum, 1:xcol_num) = datatable(1:rownum, xcol_add(1:xcol_num))
@@ -287,7 +289,8 @@ implicit none
         enddo
       endif
 
-    case('sum') !Sum of columns
+    case('sum')
+      !+sum#Sum of columns
       if (.not.bGroupByMode) then
         if (xcol_num.gt.0) then
           datatable(1:rownum, 1:xcol_num) = datatable(1:rownum, xcol_add(1:xcol_num))
@@ -304,7 +307,8 @@ implicit none
         enddo
       endif
 
-    case ('med') !Median value
+    case ('med')
+      !+med#Median value
       do j = 1, xcol_num
         call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
         temp_values(j) = long_values((rownum+1)/2)
@@ -312,7 +316,8 @@ implicit none
       call PrepareFormatXcol()
       call WriteFormattedLineX(temp_values(1:xcol_num), xFormat)
 
-    case ('med_q') !Median value with quartiles
+    case ('med_q')
+      !+med_q#Median value with quartiles
       do j = 1, xcol_num
         call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
         temp_values2(1, j) = long_values((rownum + 1)*3/4) !25%
@@ -327,7 +332,8 @@ implicit none
         write(*,sFormat) temp_values2(1:3, 1:colnum)
       endif
 
-    case ('sort_by') !sorting
+    case ('sort_by')
+      !+sort_by#sorting by column
       call quick_sort_index(datatable(1:rownum, xcol_add(1)), &
                             long_values(1:rownum), &
                             index_values(1:rownum))
@@ -336,14 +342,16 @@ implicit none
         call WriteFormattedLine(datatable(index_values(j), 1:colnum), sFormat)
       enddo
 
-    case ('sort') !sorting
+    case ('sort')
+      !+sort#sort just one column
       call quick_sort(datatable(1:rownum, xcol_add(1)), long_values(1:rownum))
       sFormat = GetColumnPreFormat(xcol_add(1))
       do j = 1, rownum
         call WriteFormattedLine(long_values(j:j), sFormat)
       enddo
 
-    case ('smooth') !smooth with window size = step_num
+    case ('smooth')
+      !+smooth#smooth with window size = step_num
       do k = 1, xcol_num
         do j = 1, step_num
           long_values(j) = sum(datatable(1:2*j-1, xcol_add(k):xcol_add(k)))/(2*j-1)
@@ -371,7 +379,8 @@ implicit none
         enddo
       endif
 
-    case ('sqrt') !getting vector length
+    case ('sqrt')
+      !+sqrt#getting vector length
       do j=1,rownum
         k = 1
         temp_values(1) = 0D0
@@ -383,6 +392,7 @@ implicit none
       enddo
 
     case ('help')
+      !+help#print help
       call PrintInfo
 
 #include "commands.i"

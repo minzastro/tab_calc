@@ -15,7 +15,7 @@ integer i, n
   tmp = 0d0
   n = 0
   do i = 1, asize
-    if (in_x(i).ge.x_cut) then
+    if ((in_x(i).ge.x_cut).and.(in_x(i).gt.0d0)) then
       n = n + 1
       tmp = tmp + dlog(in_x(i)/x_cut)
     endif
@@ -31,7 +31,7 @@ integer i, n
   tmp = 0d0
   n = 0
   do i = 1, asize
-    if (in_x(i).le.x_cut) then
+    if ((in_x(i).le.x_cut).and.(in_x(i).gt.0d0)) then
       n = n + 1
       tmp = tmp + dlog(in_x(i)/x_cut)
     endif
