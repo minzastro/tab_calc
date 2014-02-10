@@ -309,12 +309,29 @@ implicit none
 
     case ('med')
       !+med#Median value
-      do j = 1, xcol_num
-        call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
-        temp_values(j) = long_values((rownum+1)/2)
-      enddo
-      call PrepareFormatXcol()
-      call WriteFormattedLineX(temp_values(1:xcol_num), xFormat)
+      if (.not.bGroupByMode) then
+        do j = 1, xcol_num
+          call quick_sort(datatable(1:rownum, xcol_add(j)), long_values(1:rownum))
+          temp_values(j) = long_values((rownum+1)/2)
+        enddo
+        call PrepareFormatXcol()
+        call WriteFormattedLineX(temp_values(1:xcol_num), xFormat)
+      else
+        call FillGroupBySums()
+        do j = 1, iGroupByCount
+          bGroupByMask(1:rownum) = iGroupByIndex(1:rownum).eq.j
+          k2 = count(bGroupByMask(1:rownum))
+          do k = 1, xcol_num
+            !write(*, *) k2
+            !write(*, *) pack(datatable(1:rownum, xcol_add(k)), bGroupByMask(1:rownum))
+            call quick_sort(pack(datatable(1:rownum, xcol_add(k)), bGroupByMask(1:rownum)), &
+                            long_values(1:k2))
+            temp_values(k) = long_values((k2+1)/2)
+          enddo
+          write(*, *) aGroupByValues(j, 1:iGroupByColumns), &
+                      temp_values(1:xcol_num)
+        enddo
+      endif
 
     case ('med_q')
       !+med_q#Median value with quartiles

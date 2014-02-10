@@ -5,7 +5,7 @@ case ('stat')
     do j = 1, rownum
       temp_values(1:xcol_num) = temp_values(1:xcol_num)+(datatable(j, xcol_add(1:xcol_num))-temp_values2(1,1:xcol_num))**2
     enddo !rownum
-    temp_values2(2,1:xcol_num) = dsqrt(temp_values(1:xcol_num))/rownum
+    temp_values2(2,1:xcol_num) = dsqrt(temp_values(1:xcol_num)/rownum)
     call PrepareRealFormat(2*xcol_num)
     write(*,sFormat) temp_values2(1:2, 1:xcol_num)
 
@@ -18,7 +18,7 @@ case ('stat_med')
     do j = 1, rownum
       temp_values(1:xcol_num) = temp_values(1:xcol_num)+(datatable(j, xcol_add(1:xcol_num))-temp_values2(1,1:xcol_num))**2
     enddo !rownum
-    temp_values2(2,1:xcol_num) = dsqrt(temp_values(1:xcol_num))/rownum
+    temp_values2(2,1:xcol_num) = dsqrt(temp_values(1:xcol_num)/rownum)
     call PrepareRealFormat(2*xcol_num)
     write(*,sFormat) temp_values2(1:2, 1:xcol_num)
 
@@ -40,7 +40,7 @@ case('many')
             do k = 1, rownum
               temp_values2(j,i) = temp_values2(j,i)+(datatable(k, xcol_add(i))-temp_values(i))**2
             enddo !rownum
-            temp_values2(j, i) = dsqrt(temp_values2(j,i))/rownum
+            temp_values2(j, i) = dsqrt(temp_values2(j,i)/rownum)
           case('med')
             call quick_sort(datatable(1:rownum, xcol_add(i)), long_values(1:rownum))
             temp_values2(j, i) = long_values((rownum+1)/2)

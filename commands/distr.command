@@ -23,8 +23,18 @@
       do j = 1, rownum
         if ((datatable(j, xcol_add(1)).ge.range_min).and.(datatable(j, xcol_add(1)).le.range_max)) then
           k = int((datatable(j, xcol_add(1))-range_min)/step_size)
+          if (trim(sCommand).eq.'distr_min') then
+            if (datatable(j, xcol_add(2)).lt.distr_sum(k)) then
+              distr_sum(k) = datatable(j, xcol_add(2))
+            endif
+          else if (trim(sCommand).eq.'distr_max') then
+            if (datatable(j, xcol_add(2)).gt.distr_sum(k)) then
+              distr_sum(k) = datatable(j, xcol_add(2))
+            endif
+          else
+            distr_sum(k) = distr_sum(k) + datatable(j, xcol_add(2))
+          endif
           hist_data(k) = hist_data(k) + 1
-          distr_sum(k) = distr_sum(k) + datatable(j, xcol_add(2))
         endif
       enddo !j
       call PrepareCustomFormat('FFI')

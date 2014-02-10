@@ -13,6 +13,7 @@ mkdir tab_calc_install/doc
 cp -u doc/manual.html tab_calc_install/doc
 cp -u Makefile tab_calc_install
 cp -u VERSION tab_calc_install/bin
+cp -u *.py tab_calc_install/
 cp -H USAGE tab_calc_install/bin
 rm tab_calc_install/lib/*
 mkdir -p tab_calc_install/lib

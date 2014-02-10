@@ -50,6 +50,7 @@ integer, save :: index_values(MAX_ROW) !index for sorting
 
 !Variables for GROUP BY mode (-g option)
 logical , save :: bGroupByMode =  .false. !use grouping
+logical , save :: bGroupByMask(1:MAX_ROW)
 integer , save :: iGroupByColumns ! Number of distinct coluumns
 integer , save :: aGroupByColumns(ARRAY_SIZE) !Limited to maximum size of StringArray
 real*8  , save :: aGroupByValues(MAX_ROW, -ARRAY_SIZE-1:ARRAY_SIZE) !1st index is group, 2nd = value
