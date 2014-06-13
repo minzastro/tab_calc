@@ -20,8 +20,8 @@
       do j = 0, step_num - 1
         bGroupByMask(1:rownum) = iGroupByIndex(1:rownum).eq.j
         k2 = count(bGroupByMask(1:rownum))
-        call quick_sort(pack(datatable(1:rownum, xcol_add(1)), bGroupByMask(1:rownum)), &
+        call quick_sort(pack(datatable(1:rownum, xcol_add(2)), bGroupByMask(1:rownum)), &
                         long_values(1:k2))
         temp_value = long_values((k2+1)/2)
-        write(*, *) steps(j), temp_value
+        write(*, *) steps(j), temp_value, k2
       enddo
