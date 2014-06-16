@@ -48,7 +48,7 @@ end interface TStringArraySplitX
 
 contains
 
-subroutine TStringAssign(s1, c)
+subroutine TStringAssign(s1, c) ! Assign character array to string
 type(TString), intent(out) :: s1
 character*(*), intent(in)  :: c
   s1%chars = c
@@ -184,7 +184,7 @@ integer i
   s = trim(s)//trim(sa%member(i)%chars)
 end subroutine TStringArrayJoin
 
-integer function len_array(sa)
+integer function len_array(sa) ! Length of string array
 type(TStringArray), intent(in) :: sa  !input array
   len_array = sa%length
 end function len_array
