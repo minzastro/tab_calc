@@ -130,6 +130,7 @@ integer i
   return
 end subroutine TIniFileGetItem
 
+!Check if the name is present in the ini-file.
 logical function TIniFileCheck(xIniFile, sName)
 type (TIniFile), intent(in) :: xIniFile
 character*(*), intent(in) :: sName
