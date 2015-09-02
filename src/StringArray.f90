@@ -7,7 +7,7 @@ use logs
 
 implicit none
 
-integer, parameter :: ARRAY_SIZE = 50 !Maximum size of array
+integer, parameter :: ARRAY_SIZE = 60 !Maximum size of array
 
 type TString !! fixed-legnth type
   character*(256) chars
