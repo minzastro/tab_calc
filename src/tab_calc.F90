@@ -271,7 +271,7 @@ implicit none
         call WriteFormattedLineX(datatable(j, xcol_add(1:xcol_num)), xFormat)
       enddo
 
-    case('avg')
+    case('avg', 'mean')
       !+avg#Average value by columns
       if (.not.bGroupByMode) then
         if (xcol_num.gt.0) then
@@ -307,7 +307,7 @@ implicit none
         enddo
       endif
 
-    case ('med')
+    case ('med', 'median')
       !+med#Median value
       if (.not.bGroupByMode) then
         do j = 1, xcol_num
