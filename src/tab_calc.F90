@@ -23,6 +23,9 @@ use ini_file
 use StringArray
 use histograms
 use comline
+#ifdef USE_FITS
+use fits_reader
+#endif
 
 implicit none
 
@@ -196,6 +199,10 @@ implicit none
       print *, cComment//'Reading aligned data'
     endif
     call LoadFromFileAligned(filename, colnum, rownum)
+#ifdef USE_FITS
+  else if (EndsWith(filename, '.fits')) then
+    call LoadFromFileFITS(filename, colnum, rownum)
+#endif
   else if ((xcol_ignore_num.gt.0).or.(cDelimiter.ne.' ')) then
     call LoadFromFileExt(filename, datatable, colnum, rownum )
   else if (colnum.gt.0) then
@@ -261,7 +268,6 @@ implicit none
     range_max = maxval(datatable(1:rownum, xcol_add(1):xcol_add(1)))
   end if
   call ApplyDataCuts(range_min, range_max, xcol_add(1))
-
   !-++++++++++++++++++++++++++ MAIN PART ++++++++++++++++++++++++++++++
   my_case: select case (trim(sCommand))
     case('none')
