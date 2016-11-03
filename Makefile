@@ -8,6 +8,7 @@ OBJS=$(SRCS:%.f90=lib/%.o)
 XSRCS=$(SRCS:%.f90=src/%.f90)
 PROG=tab_calc
 EXECUTABLE=$(PROG)
+EXTRAS=
 #COMMANDS=
 
 $(PROG): src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/commands.i #src/vars.i
@@ -17,7 +18,10 @@ $(PROG): src/tcGlobals.F90 lib/tcGlobals.o src/$(PROG).F90 $(XSRCS) $(OBJS) src/
 	egrep -h "\!\+" commands/* src/tab_calc.F90| sed 's/^ *//g' | colrm 1 2 | sed 's/^ *//g' | sort > commands.list
 	python get_commands.py $(INSTALL_PATH)
 	cat params/*.param > src/params.i
-	$(F90) -o $(EXECUTABLE) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH)
+	$(F90) -o $(EXECUTABLE) src/$(PROG).F90 $(OBJS) lib/tcGlobals.o -DINSTALL_PATH=$(INSTALL_PATH) $(EXTRAS)
+
+with_fits: src/fits_reader.F90 lib/fits_reader.o
+	$(MAKE) $(MAKEFILE) EXTRAS="-lcfitsio -DUSE_FITS" OBJS="$(OBJS) lib/fits_reader.o"
 
 profile:
 	$(MAKE) $(MAKEFILE) F90="gfortran -Jlib -Ilib -pg"
@@ -51,6 +55,9 @@ variables/%.vars: ;
 
 src/commands.i: commands/%.commands
 	cat commands/*.command > src/commands.i
+
+lib/fits_reader.o: src/fits_reader.F90 src/tcGlobals.F90 lib/tcGlobals.o
+	$(F90) -c -o $@ src/fits_reader.F90 -lcfitsio
 
 lib/tcGlobals.o: src/tcGlobals.F90 src/vars.i src/StringArray.f90 lib/StringArray.o lib/operators.o
 	$(F90) -c -o $@ src/tcGlobals.F90

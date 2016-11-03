@@ -1,0 +1,596 @@
+#ifndef _LONGNAME_H
+#define _LONGNAME_H
+
+#define fits_parse_input_url ftiurl
+#define fits_parse_input_filename ftifile
+#define fits_parse_rootname ftrtnm
+#define fits_file_exists    ftexist
+#define fits_parse_output_url ftourl
+#define fits_parse_extspec  ftexts
+#define fits_parse_extnum   ftextn
+#define fits_parse_binspec  ftbins
+#define fits_parse_binrange ftbinr
+#define fits_parse_range    ftrwrg
+#define fits_parse_rangell    ftrwrgll
+#define fits_open_memfile   ftomem
+
+/* 
+   use the following special macro to test that the fitsio.h include file
+   that was used to build the CFITSIO library is compatible with the version
+   as included when compiling the application program
+*/
+#define fits_open_file(A, B, C, D)  ftopentest( CFITSIO_SONAME, A, B, C, D)
+
+#define fits_open_data      ftdopn
+#define fits_open_extlist   fteopn
+#define fits_open_table     fttopn
+#define fits_open_image     ftiopn
+#define fits_open_diskfile  ftdkopn
+#define fits_reopen_file    ftreopen
+#define fits_create_file    ftinit
+#define fits_create_diskfile ftdkinit
+#define fits_create_memfile ftimem
+#define fits_create_template fttplt
+#define fits_flush_file     ftflus
+#define fits_flush_buffer   ftflsh
+#define fits_close_file     ftclos
+#define fits_delete_file    ftdelt
+#define fits_file_name      ftflnm
+#define fits_file_mode      ftflmd
+#define fits_url_type       fturlt
+
+#define fits_get_version    ftvers
+#define fits_uppercase      ftupch
+#define fits_get_errstatus  ftgerr
+#define fits_write_errmsg   ftpmsg
+#define fits_write_errmark  ftpmrk
+#define fits_read_errmsg    ftgmsg
+#define fits_clear_errmsg   ftcmsg
+#define fits_clear_errmark  ftcmrk
+#define fits_report_error   ftrprt
+#define fits_compare_str    ftcmps
+#define fits_test_keyword   fttkey
+#define fits_test_record    fttrec
+#define fits_null_check     ftnchk
+#define fits_make_keyn      ftkeyn
+#define fits_make_nkey      ftnkey
+#define fits_make_key       ftmkky
+#define fits_get_keyclass   ftgkcl
+#define fits_get_keytype    ftdtyp
+#define fits_get_inttype    ftinttyp
+#define fits_parse_value    ftpsvc
+#define fits_get_keyname    ftgknm
+#define fits_parse_template ftgthd
+#define fits_ascii_tform    ftasfm
+#define fits_binary_tform   ftbnfm
+#define fits_binary_tformll   ftbnfmll
+#define fits_get_tbcol      ftgabc
+#define fits_get_rowsize    ftgrsz
+#define fits_get_col_display_width    ftgcdw
+
+#define fits_write_record       ftprec
+#define fits_write_key          ftpky
+#define fits_write_key_unit     ftpunt
+#define fits_write_comment      ftpcom
+#define fits_write_history      ftphis 
+#define fits_write_date         ftpdat
+#define fits_get_system_time    ftgstm
+#define fits_get_system_date    ftgsdt
+#define fits_date2str           ftdt2s
+#define fits_time2str           fttm2s
+#define fits_str2date           fts2dt
+#define fits_str2time           fts2tm
+#define fits_write_key_longstr  ftpkls
+#define fits_write_key_longwarn ftplsw
+#define fits_write_key_null     ftpkyu
+#define fits_write_key_str      ftpkys
+#define fits_write_key_log      ftpkyl
+#define fits_write_key_lng      ftpkyj
+#define fits_write_key_fixflt   ftpkyf
+#define fits_write_key_flt      ftpkye
+#define fits_write_key_fixdbl   ftpkyg
+#define fits_write_key_dbl      ftpkyd
+#define fits_write_key_fixcmp   ftpkfc
+#define fits_write_key_cmp      ftpkyc
+#define fits_write_key_fixdblcmp ftpkfm
+#define fits_write_key_dblcmp   ftpkym
+#define fits_write_key_triple   ftpkyt
+#define fits_write_tdim         ftptdm
+#define fits_write_tdimll       ftptdmll
+#define fits_write_keys_str     ftpkns
+#define fits_write_keys_log     ftpknl
+#define fits_write_keys_lng     ftpknj
+#define fits_write_keys_fixflt  ftpknf
+#define fits_write_keys_flt     ftpkne
+#define fits_write_keys_fixdbl  ftpkng
+#define fits_write_keys_dbl     ftpknd
+#define fits_copy_key           ftcpky
+#define fits_write_imghdr       ftphps
+#define fits_write_imghdrll     ftphpsll
+#define fits_write_grphdr       ftphpr
+#define fits_write_grphdrll     ftphprll
+#define fits_write_atblhdr      ftphtb
+#define fits_write_btblhdr      ftphbn
+#define fits_write_exthdr       ftphext
+#define fits_write_key_template ftpktp
+
+#define fits_get_hdrspace      ftghsp
+#define fits_get_hdrpos        ftghps
+#define fits_movabs_key        ftmaky
+#define fits_movrel_key        ftmrky
+#define fits_find_nextkey      ftgnxk
+
+#define fits_read_record       ftgrec
+#define fits_read_card         ftgcrd
+#define fits_read_str          ftgstr
+#define fits_read_key_unit     ftgunt
+#define fits_read_keyn         ftgkyn
+#define fits_read_key          ftgky
+#define fits_read_keyword      ftgkey
+#define fits_read_key_str      ftgkys
+#define fits_read_key_log      ftgkyl
+#define fits_read_key_lng      ftgkyj
+#define fits_read_key_lnglng   ftgkyjj
+#define fits_read_key_flt      ftgkye
+#define fits_read_key_dbl      ftgkyd
+#define fits_read_key_cmp      ftgkyc
+#define fits_read_key_dblcmp   ftgkym
+#define fits_read_key_triple   ftgkyt
+#define fits_get_key_strlen    ftgksl
+#define fits_read_key_longstr  ftgkls
+#define fits_read_string_key   ftgsky
+#define fits_free_memory       ftfree
+#define fits_read_tdim         ftgtdm
+#define fits_read_tdimll       ftgtdmll
+#define fits_decode_tdim       ftdtdm
+#define fits_decode_tdimll     ftdtdmll
+#define fits_read_keys_str     ftgkns
+#define fits_read_keys_log     ftgknl
+#define fits_read_keys_lng     ftgknj
+#define fits_read_keys_lnglng  ftgknjj
+#define fits_read_keys_flt     ftgkne
+#define fits_read_keys_dbl     ftgknd
+#define fits_read_imghdr       ftghpr
+#define fits_read_imghdrll     ftghprll
+#define fits_read_atblhdr      ftghtb
+#define fits_read_btblhdr      ftghbn
+#define fits_read_atblhdrll    ftghtbll
+#define fits_read_btblhdrll    ftghbnll
+#define fits_hdr2str           fthdr2str
+#define fits_convert_hdr2str   ftcnvthdr2str
+
+#define fits_update_card       ftucrd
+#define fits_update_key        ftuky
+#define fits_update_key_null   ftukyu
+#define fits_update_key_str    ftukys
+#define fits_update_key_longstr    ftukls
+#define fits_update_key_log    ftukyl
+#define fits_update_key_lng    ftukyj
+#define fits_update_key_fixflt ftukyf
+#define fits_update_key_flt    ftukye
+#define fits_update_key_fixdbl ftukyg
+#define fits_update_key_dbl    ftukyd
+#define fits_update_key_fixcmp ftukfc
+#define fits_update_key_cmp    ftukyc
+#define fits_update_key_fixdblcmp ftukfm
+#define fits_update_key_dblcmp ftukym
+
+#define fits_modify_record     ftmrec
+#define fits_modify_card       ftmcrd
+#define fits_modify_name       ftmnam
+#define fits_modify_comment    ftmcom
+#define fits_modify_key_null   ftmkyu
+#define fits_modify_key_str    ftmkys
+#define fits_modify_key_longstr    ftmkls
+#define fits_modify_key_log    ftmkyl
+#define fits_modify_key_lng    ftmkyj
+#define fits_modify_key_fixflt ftmkyf
+#define fits_modify_key_flt    ftmkye
+#define fits_modify_key_fixdbl ftmkyg
+#define fits_modify_key_dbl    ftmkyd
+#define fits_modify_key_fixcmp ftmkfc
+#define fits_modify_key_cmp    ftmkyc
+#define fits_modify_key_fixdblcmp ftmkfm
+#define fits_modify_key_dblcmp ftmkym
+
+#define fits_insert_record     ftirec
+#define fits_insert_card       ftikey
+#define fits_insert_key_null   ftikyu
+#define fits_insert_key_str    ftikys
+#define fits_insert_key_longstr    ftikls
+#define fits_insert_key_log    ftikyl
+#define fits_insert_key_lng    ftikyj
+#define fits_insert_key_fixflt ftikyf
+#define fits_insert_key_flt    ftikye
+#define fits_insert_key_fixdbl ftikyg
+#define fits_insert_key_dbl    ftikyd
+#define fits_insert_key_fixcmp ftikfc
+#define fits_insert_key_cmp    ftikyc
+#define fits_insert_key_fixdblcmp ftikfm
+#define fits_insert_key_dblcmp ftikym
+
+#define fits_delete_key     ftdkey
+#define fits_delete_str     ftdstr
+#define fits_delete_record  ftdrec
+#define fits_get_hdu_num    ftghdn
+#define fits_get_hdu_type   ftghdt
+#define fits_get_hduaddr    ftghad
+#define fits_get_hduaddrll    ftghadll
+#define fits_get_hduoff     ftghof
+
+#define fits_get_img_param  ftgipr
+#define fits_get_img_paramll  ftgiprll
+
+#define fits_get_img_type   ftgidt
+#define fits_get_img_equivtype   ftgiet
+#define fits_get_img_dim    ftgidm
+#define fits_get_img_size   ftgisz
+#define fits_get_img_sizell   ftgiszll
+
+#define fits_movabs_hdu     ftmahd
+#define fits_movrel_hdu     ftmrhd
+#define fits_movnam_hdu     ftmnhd
+#define fits_get_num_hdus   ftthdu
+#define fits_create_img     ftcrim
+#define fits_create_imgll   ftcrimll
+#define fits_create_tbl     ftcrtb
+#define fits_create_hdu     ftcrhd
+#define fits_insert_img     ftiimg
+#define fits_insert_imgll   ftiimgll
+#define fits_insert_atbl    ftitab
+#define fits_insert_btbl    ftibin
+#define fits_resize_img     ftrsim
+#define fits_resize_imgll   ftrsimll
+
+#define fits_delete_hdu     ftdhdu
+#define fits_copy_hdu       ftcopy
+#define fits_copy_file      ftcpfl
+#define fits_copy_header    ftcphd
+#define fits_copy_data      ftcpdt
+#define fits_write_hdu      ftwrhdu
+
+#define fits_set_hdustruc   ftrdef
+#define fits_set_hdrsize    fthdef
+#define fits_write_theap    ftpthp
+
+#define fits_encode_chksum  ftesum
+#define fits_decode_chksum  ftdsum
+#define fits_write_chksum   ftpcks
+#define fits_update_chksum  ftupck
+#define fits_verify_chksum  ftvcks
+#define fits_get_chksum     ftgcks
+
+#define fits_set_bscale     ftpscl
+#define fits_set_tscale     fttscl
+#define fits_set_imgnull    ftpnul
+#define fits_set_btblnull   fttnul
+#define fits_set_atblnull   ftsnul
+
+#define fits_get_colnum     ftgcno
+#define fits_get_colname    ftgcnn
+#define fits_get_coltype    ftgtcl
+#define fits_get_coltypell  ftgtclll
+#define fits_get_eqcoltype  fteqty
+#define fits_get_eqcoltypell fteqtyll
+#define fits_get_num_rows   ftgnrw
+#define fits_get_num_rowsll   ftgnrwll
+#define fits_get_num_cols   ftgncl
+#define fits_get_acolparms  ftgacl
+#define fits_get_bcolparms  ftgbcl
+#define fits_get_bcolparmsll  ftgbclll
+
+#define fits_iterate_data   ftiter
+
+#define fits_read_grppar_byt  ftggpb
+#define fits_read_grppar_sbyt  ftggpsb
+#define fits_read_grppar_usht  ftggpui
+#define fits_read_grppar_ulng  ftggpuj
+#define fits_read_grppar_sht  ftggpi
+#define fits_read_grppar_lng  ftggpj
+#define fits_read_grppar_lnglng  ftggpjj
+#define fits_read_grppar_int  ftggpk
+#define fits_read_grppar_uint  ftggpuk
+#define fits_read_grppar_flt  ftggpe
+#define fits_read_grppar_dbl  ftggpd
+
+#define fits_read_pix         ftgpxv
+#define fits_read_pixll       ftgpxvll
+#define fits_read_pixnull     ftgpxf
+#define fits_read_pixnullll   ftgpxfll
+#define fits_read_img         ftgpv
+#define fits_read_imgnull     ftgpf
+#define fits_read_img_byt     ftgpvb
+#define fits_read_img_sbyt     ftgpvsb
+#define fits_read_img_usht     ftgpvui
+#define fits_read_img_ulng     ftgpvuj
+#define fits_read_img_sht     ftgpvi
+#define fits_read_img_lng     ftgpvj
+#define fits_read_img_lnglng     ftgpvjj
+#define fits_read_img_uint     ftgpvuk
+#define fits_read_img_int     ftgpvk
+#define fits_read_img_flt     ftgpve
+#define fits_read_img_dbl     ftgpvd
+
+#define fits_read_imgnull_byt ftgpfb
+#define fits_read_imgnull_sbyt ftgpfsb
+#define fits_read_imgnull_usht ftgpfui
+#define fits_read_imgnull_ulng ftgpfuj
+#define fits_read_imgnull_sht ftgpfi
+#define fits_read_imgnull_lng ftgpfj
+#define fits_read_imgnull_lnglng ftgpfjj
+#define fits_read_imgnull_uint ftgpfuk
+#define fits_read_imgnull_int ftgpfk
+#define fits_read_imgnull_flt ftgpfe
+#define fits_read_imgnull_dbl ftgpfd
+
+#define fits_read_2d_byt      ftg2db
+#define fits_read_2d_sbyt     ftg2dsb
+#define fits_read_2d_usht      ftg2dui
+#define fits_read_2d_ulng      ftg2duj
+#define fits_read_2d_sht      ftg2di
+#define fits_read_2d_lng      ftg2dj
+#define fits_read_2d_lnglng      ftg2djj
+#define fits_read_2d_uint      ftg2duk
+#define fits_read_2d_int      ftg2dk
+#define fits_read_2d_flt      ftg2de
+#define fits_read_2d_dbl      ftg2dd
+
+#define fits_read_3d_byt      ftg3db
+#define fits_read_3d_sbyt      ftg3dsb
+#define fits_read_3d_usht      ftg3dui
+#define fits_read_3d_ulng      ftg3duj
+#define fits_read_3d_sht      ftg3di
+#define fits_read_3d_lng      ftg3dj
+#define fits_read_3d_lnglng      ftg3djj
+#define fits_read_3d_uint      ftg3duk
+#define fits_read_3d_int      ftg3dk
+#define fits_read_3d_flt      ftg3de
+#define fits_read_3d_dbl      ftg3dd
+
+#define fits_read_subset      ftgsv
+#define fits_read_subset_byt  ftgsvb
+#define fits_read_subset_sbyt  ftgsvsb
+#define fits_read_subset_usht  ftgsvui
+#define fits_read_subset_ulng  ftgsvuj
+#define fits_read_subset_sht  ftgsvi
+#define fits_read_subset_lng  ftgsvj
+#define fits_read_subset_lnglng  ftgsvjj
+#define fits_read_subset_uint  ftgsvuk
+#define fits_read_subset_int  ftgsvk
+#define fits_read_subset_flt  ftgsve
+#define fits_read_subset_dbl  ftgsvd
+
+#define fits_read_subsetnull_byt ftgsfb
+#define fits_read_subsetnull_sbyt ftgsfsb
+#define fits_read_subsetnull_usht ftgsfui
+#define fits_read_subsetnull_ulng ftgsfuj
+#define fits_read_subsetnull_sht ftgsfi
+#define fits_read_subsetnull_lng ftgsfj
+#define fits_read_subsetnull_lnglng ftgsfjj
+#define fits_read_subsetnull_uint ftgsfuk
+#define fits_read_subsetnull_int ftgsfk
+#define fits_read_subsetnull_flt ftgsfe
+#define fits_read_subsetnull_dbl ftgsfd
+
+#define ftcpimg fits_copy_image_section
+#define fits_compress_img fits_comp_img
+#define fits_decompress_img fits_decomp_img
+
+#define fits_read_col        ftgcv
+#define fits_read_colnull    ftgcf
+#define fits_read_col_str    ftgcvs
+#define fits_read_col_log    ftgcvl
+#define fits_read_col_byt    ftgcvb
+#define fits_read_col_sbyt    ftgcvsb
+#define fits_read_col_usht    ftgcvui
+#define fits_read_col_ulng    ftgcvuj
+#define fits_read_col_sht    ftgcvi
+#define fits_read_col_lng    ftgcvj
+#define fits_read_col_lnglng    ftgcvjj
+#define fits_read_col_uint    ftgcvuk
+#define fits_read_col_int    ftgcvk
+#define fits_read_col_flt    ftgcve
+#define fits_read_col_dbl    ftgcvd
+#define fits_read_col_cmp    ftgcvc
+#define fits_read_col_dblcmp ftgcvm
+#define fits_read_col_bit    ftgcx
+#define fits_read_col_bit_usht ftgcxui
+#define fits_read_col_bit_uint ftgcxuk
+
+#define fits_read_colnull_str    ftgcfs
+#define fits_read_colnull_log    ftgcfl
+#define fits_read_colnull_byt    ftgcfb
+#define fits_read_colnull_sbyt    ftgcfsb
+#define fits_read_colnull_usht    ftgcfui
+#define fits_read_colnull_ulng    ftgcfuj
+#define fits_read_colnull_sht    ftgcfi
+#define fits_read_colnull_lng    ftgcfj
+#define fits_read_colnull_lnglng    ftgcfjj
+#define fits_read_colnull_uint    ftgcfuk
+#define fits_read_colnull_int    ftgcfk
+#define fits_read_colnull_flt    ftgcfe
+#define fits_read_colnull_dbl    ftgcfd
+#define fits_read_colnull_cmp    ftgcfc
+#define fits_read_colnull_dblcmp ftgcfm
+
+#define fits_read_descript ftgdes
+#define fits_read_descriptll ftgdesll
+#define fits_read_descripts ftgdess
+#define fits_read_descriptsll ftgdessll
+#define fits_read_tblbytes    ftgtbb
+
+#define fits_write_grppar_byt ftpgpb
+#define fits_write_grppar_sbyt ftpgpsb
+#define fits_write_grppar_usht ftpgpui
+#define fits_write_grppar_ulng ftpgpuj
+#define fits_write_grppar_sht ftpgpi
+#define fits_write_grppar_lng ftpgpj
+#define fits_write_grppar_lnglng ftpgpjj
+#define fits_write_grppar_uint ftpgpuk
+#define fits_write_grppar_int ftpgpk
+#define fits_write_grppar_flt ftpgpe
+#define fits_write_grppar_dbl ftpgpd
+
+#define fits_write_pix        ftppx
+#define fits_write_pixll      ftppxll
+#define fits_write_pixnull    ftppxn
+#define fits_write_pixnullll  ftppxnll
+#define fits_write_img        ftppr
+#define fits_write_img_byt    ftpprb
+#define fits_write_img_sbyt    ftpprsb
+#define fits_write_img_usht    ftpprui
+#define fits_write_img_ulng    ftppruj
+#define fits_write_img_sht    ftppri
+#define fits_write_img_lng    ftpprj
+#define fits_write_img_lnglng    ftpprjj
+#define fits_write_img_uint    ftppruk
+#define fits_write_img_int    ftpprk
+#define fits_write_img_flt    ftppre
+#define fits_write_img_dbl    ftpprd
+
+#define fits_write_imgnull     ftppn
+#define fits_write_imgnull_byt ftppnb
+#define fits_write_imgnull_sbyt ftppnsb
+#define fits_write_imgnull_usht ftppnui
+#define fits_write_imgnull_ulng ftppnuj
+#define fits_write_imgnull_sht ftppni
+#define fits_write_imgnull_lng ftppnj
+#define fits_write_imgnull_lnglng ftppnjj
+#define fits_write_imgnull_uint ftppnuk
+#define fits_write_imgnull_int ftppnk
+#define fits_write_imgnull_flt ftppne
+#define fits_write_imgnull_dbl ftppnd
+
+#define fits_write_img_null ftppru
+#define fits_write_null_img ftpprn
+
+#define fits_write_2d_byt   ftp2db
+#define fits_write_2d_sbyt   ftp2dsb
+#define fits_write_2d_usht   ftp2dui
+#define fits_write_2d_ulng   ftp2duj
+#define fits_write_2d_sht   ftp2di
+#define fits_write_2d_lng   ftp2dj
+#define fits_write_2d_lnglng   ftp2djj
+#define fits_write_2d_uint   ftp2duk
+#define fits_write_2d_int   ftp2dk
+#define fits_write_2d_flt   ftp2de
+#define fits_write_2d_dbl   ftp2dd
+
+#define fits_write_3d_byt   ftp3db
+#define fits_write_3d_sbyt   ftp3dsb
+#define fits_write_3d_usht   ftp3dui
+#define fits_write_3d_ulng   ftp3duj
+#define fits_write_3d_sht   ftp3di
+#define fits_write_3d_lng   ftp3dj
+#define fits_write_3d_lnglng   ftp3djj
+#define fits_write_3d_uint   ftp3duk
+#define fits_write_3d_int   ftp3dk
+#define fits_write_3d_flt   ftp3de
+#define fits_write_3d_dbl   ftp3dd
+
+#define fits_write_subset  ftpss
+#define fits_write_subset_byt  ftpssb
+#define fits_write_subset_sbyt  ftpsssb
+#define fits_write_subset_usht  ftpssui
+#define fits_write_subset_ulng  ftpssuj
+#define fits_write_subset_sht  ftpssi
+#define fits_write_subset_lng  ftpssj
+#define fits_write_subset_lnglng  ftpssjj
+#define fits_write_subset_uint  ftpssuk
+#define fits_write_subset_int  ftpssk
+#define fits_write_subset_flt  ftpsse
+#define fits_write_subset_dbl  ftpssd
+
+#define fits_write_col         ftpcl
+#define fits_write_col_str     ftpcls
+#define fits_write_col_log     ftpcll
+#define fits_write_col_byt     ftpclb
+#define fits_write_col_sbyt     ftpclsb
+#define fits_write_col_usht     ftpclui
+#define fits_write_col_ulng     ftpcluj
+#define fits_write_col_sht     ftpcli
+#define fits_write_col_lng     ftpclj
+#define fits_write_col_lnglng     ftpcljj
+#define fits_write_col_uint     ftpcluk
+#define fits_write_col_int     ftpclk
+#define fits_write_col_flt     ftpcle
+#define fits_write_col_dbl     ftpcld
+#define fits_write_col_cmp     ftpclc
+#define fits_write_col_dblcmp  ftpclm
+#define fits_write_col_null    ftpclu
+#define fits_write_col_bit     ftpclx
+#define fits_write_nulrows     ftprwu
+#define fits_write_nullrows    ftprwu
+
+#define fits_write_colnull ftpcn
+#define fits_write_colnull_str ftpcns
+#define fits_write_colnull_log ftpcnl
+#define fits_write_colnull_byt ftpcnb
+#define fits_write_colnull_sbyt ftpcnsb
+#define fits_write_colnull_usht ftpcnui
+#define fits_write_colnull_ulng ftpcnuj
+#define fits_write_colnull_sht ftpcni
+#define fits_write_colnull_lng ftpcnj
+#define fits_write_colnull_lnglng ftpcnjj
+#define fits_write_colnull_uint ftpcnuk
+#define fits_write_colnull_int ftpcnk
+#define fits_write_colnull_flt ftpcne
+#define fits_write_colnull_dbl ftpcnd
+
+#define fits_write_ext ftpextn
+#define fits_read_ext  ftgextn
+
+#define fits_write_descript  ftpdes
+#define fits_compress_heap   ftcmph
+#define fits_test_heap   fttheap
+
+#define fits_write_tblbytes  ftptbb
+#define fits_insert_rows  ftirow
+#define fits_delete_rows  ftdrow
+#define fits_delete_rowrange ftdrrg
+#define fits_delete_rowlist ftdrws
+#define fits_delete_rowlistll ftdrwsll
+#define fits_insert_col   fticol
+#define fits_insert_cols  fticls
+#define fits_delete_col   ftdcol
+#define fits_copy_col     ftcpcl
+#define fits_copy_rows    ftcprw
+#define fits_modify_vector_len  ftmvec
+
+#define fits_read_img_coord ftgics
+#define fits_read_img_coord_version ftgicsa
+#define fits_read_tbl_coord ftgtcs
+#define fits_pix_to_world ftwldp
+#define fits_world_to_pix ftxypx
+
+#define fits_get_image_wcs_keys ftgiwcs
+#define fits_get_table_wcs_keys ftgtwcs
+
+#define fits_find_rows          ftfrow
+#define fits_find_first_row     ftffrw
+#define fits_find_rows_cmp      ftfrwc
+#define fits_select_rows        ftsrow
+#define fits_calc_rows          ftcrow
+#define fits_calculator         ftcalc
+#define fits_calculator_rng     ftcalc_rng
+#define fits_test_expr          fttexp
+
+#define fits_create_group       ftgtcr 
+#define fits_insert_group       ftgtis 
+#define fits_change_group       ftgtch 
+#define fits_remove_group       ftgtrm 
+#define fits_copy_group         ftgtcp 
+#define fits_merge_groups       ftgtmg 
+#define fits_compact_group      ftgtcm 
+#define fits_verify_group       ftgtvf 
+#define fits_open_group         ftgtop 
+#define fits_add_group_member   ftgtam 
+#define fits_get_num_members    ftgtnm 
+
+#define fits_get_num_groups     ftgmng 
+#define fits_open_member        ftgmop 
+#define fits_copy_member        ftgmcp 
+#define fits_transfer_member    ftgmtf 
+#define fits_remove_member      ftgmrm
+
+#endif

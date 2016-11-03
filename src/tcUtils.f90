@@ -39,7 +39,6 @@ real*8, intent(in) :: xMin ! Lower-limit
 real*8, intent(in) :: xMax ! Upper-limit
 integer, intent(in) :: iCol ! Column index
 integer i, iCountOk
-  i = 1
   iCountOk = count(datatable(1:rownum, iCol).le.xMax)
   index_values(1:iCountOk) = pack(datatable(1:rownum, 0), datatable(1:rownum, iCol).le.xMax)
   datatable(1:iCountOk, 1:colnum) = datatable(index_values(1:iCountOk), 1:colnum)
@@ -48,18 +47,6 @@ integer i, iCountOk
   index_values(1:iCountOk) = pack(datatable(1:rownum, 0), datatable(1:rownum, iCol).ge.xMin)
   datatable(1:iCountOk, 1:colnum) = datatable(index_values(1:iCountOk), 1:colnum)
   rownum = iCountOk
-  !iCountOk = count(datatable(1:rownum, iCol).ge.xMin)
-  !datatable(1:iCountOk, 1:colnum) = pack(datatable(1:rownum, 1:colnum), &
-  !                                       datatable(1:rownum, iCol).ge.xMin)
-  !rownum = iCountOk
-!  do while (i.le.rownum)
-!    if ((datatable(i, iCol).gt.xMax).or.(datatable(i, iCol).lt.xMin)) then
-!      datatable(i:rownum-1, :) = datatable(i+1:rownum, :)
-!      rownum = rownum - 1
-!    else
-!      i = i + 1
-!    endif
-!  enddo
 end subroutine ApplyDataCuts
 
 

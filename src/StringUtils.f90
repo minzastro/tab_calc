@@ -152,4 +152,15 @@ end subroutine PrintChars
 
 !IsInteger & IsReal are moved to Operators
 
+logical function EndsWith(LongString, EndString)
+character*(*) LongString, EndString
+integer iLength, iEndLength
+  iLength = len(trim(LongString))
+  iEndLength = len(trim(EndString))
+  if (index(LongString, EndString, .True.).eq.(iLength - iEndLength + 1)) then
+    EndsWith = .True.
+  else
+    EndsWith = .False.
+  endif
+end function EndsWith
 end module StringUtils
