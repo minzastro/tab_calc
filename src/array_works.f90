@@ -243,12 +243,10 @@ character*(512) sErrorMsg
       iLine = iLine + 1
       datatable(iLine, 0) = dble(iLine)
       call RemoveDelimiters(sLine, bRemoveDuplicateDelimiters, bTabsToSpaces)
-      !write(*,*) '+', trim(sLine)
       aFields = TStringArraySplitX(sLine, cDelimiter)
       do iTemp = 1, iColnum
         if (.not.(iTemp.in.xcol_ignore(1:xcol_ignore_num))) then
           read(aFields%member(iTemp)%chars, *, iostat=istat) datatable(iLine, iTemp)
-          !write(*, *) aFields%member(iTemp)%chars, istat, datatable(iLine, iTemp)
           if (istat.ne.0) then
             datatable(iLine, iTemp) = get_empty_value()
             istat = 0
@@ -257,7 +255,6 @@ character*(512) sErrorMsg
           datatable(iLine, iTemp) = get_empty_value()
         endif
       enddo
-      !write(*, *) '-', iLine, datatable(iLine, 1:iColnum)
       read(unit_id,'(a)', iostat=istat) sLine
     endif
   enddo
@@ -306,7 +303,8 @@ real*8 q
   enddo
 end subroutine ArraySequence
 
-real*8 function get_empty_value()
+function get_empty_value()
+real*8 get_empty_value
   if (iIgnoranceMode.eq.0) then
     get_empty_value = 0d0
   else

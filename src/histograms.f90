@@ -26,7 +26,8 @@ integer k
   enddo
 end subroutine histBuilder
 
-real*8 function get_derivatives_estimate() !Gives an estimate of the derivatives
+function get_derivatives_estimate() !Gives an estimate of the derivatives
+real*8 get_derivatives_estimate
 integer ii
 real*8 tmp, td, one12th
   tmp = 0D0

@@ -92,9 +92,9 @@ integer j, j_col
   sLine = ''
   j_col = 0
   do j = 1, ubound(xdata, 1)
-    if (j.in.xcol_ignore(1:xcol_ignore_num)) then
-      cycle
-    end if
+    !if (j.in.xcol_ignore(1:xcol_ignore_num)) then
+    !  cycle
+    !end if
     j_col = j_col + 1
     sField = ''
     call TStringArrayGet(xFmt, j_col, sFmt)

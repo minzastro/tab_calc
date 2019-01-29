@@ -250,7 +250,6 @@ implicit none
       endif
     enddo
   endif
-
   ! Removing empty rows:
   call RemoveNanRows()
   if (bAligned) then
@@ -301,7 +300,9 @@ implicit none
         if (xcol_num.gt.0) then
           datatable(1:rownum, 1:xcol_num) = datatable(1:rownum, xcol_add(1:xcol_num))
           call PrepareFormatXcolFixed()
-          call WriteFormattedLineX(sum(transpose(datatable(1:rownum, 1:xcol_num)), dim=2), xFormat)
+          write(*,sFormat) &
+                sum(transpose(datatable(1:rownum, 1:xcol_num)), dim=2)
+          !call WriteFormattedLineX(sum(transpose(datatable(1:rownum, 1:xcol_num)), dim=2), xFormat)
         endif
       else
         call FillGroupBySums()

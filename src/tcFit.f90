@@ -109,7 +109,8 @@ integer i, arrsize, iDy(asize)
   endif
 end subroutine LinearFitPercFilter
 
-real*8 function ScanWeight(i, w)
+function ScanWeight(i, w)
+real*8 ScanWeight
 integer, intent(in) :: i, w
   ScanWeight = exp(-10d0*dble(i*i)/dble(w*w))
 end function ScanWeight
@@ -167,8 +168,8 @@ real*8 det(2, 2), disp(2), axes(2)
 real*8 a, b
   posX = sum(datatable(1:rownum, xcol_add(1)))/rownum
   posY = sum(datatable(1:rownum, xcol_add(2)))/rownum
-  disp(1) = dsqrt(sum((datatable(1:rownum, xcol_add(1)) - posX)**2)/rownum)
-  disp(2) = dsqrt(sum((datatable(1:rownum, xcol_add(2)) - posY)**2)/rownum)
+  disp(1) = sqrt(sum((datatable(1:rownum, xcol_add(1)) - posX)**2)/rownum)
+  disp(2) = sqrt(sum((datatable(1:rownum, xcol_add(2)) - posY)**2)/rownum)
   call LinearFit(datatable(1:rownum, xcol_add(1)), datatable(1:rownum, xcol_add(2)), rownum, a, b)
   tilt = datan(a)
   write(*, *) posX, posY, disp(:), a, b, tilt

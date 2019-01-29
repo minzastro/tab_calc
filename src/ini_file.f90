@@ -49,8 +49,9 @@ contains
 !! if available; otherwise n is incremented until an unused unit is found.
 !! Unit numbers are limited to the range 1-100; if n reaches 100 the
 !! search starts again at 1.
-INTEGER FUNCTION find_io(start)
+FUNCTION find_io(start)
 IMPLICIT NONE
+INTEGER find_io
 INTEGER, INTENT(IN) :: start
 LOGICAL :: in_use, exists
 CHARACTER(LEN=40) :: string
@@ -73,7 +74,8 @@ end do
 find_io=n
 END FUNCTION find_io
 
-logical function TIniFileOpen(xIniFile, filename)
+function TIniFileOpen(xIniFile, filename)
+logical TIniFileOpen
 type (TIniFile), intent(inout) :: xIniFile
 character*(*), intent(in) :: filename
 integer unit_no, ini_no, istat, ind, iFileLine
@@ -131,7 +133,8 @@ integer i
 end subroutine TIniFileGetItem
 
 !Check if the name is present in the ini-file.
-logical function TIniFileCheck(xIniFile, sName)
+function TIniFileCheck(xIniFile, sName)
+logical TIniFileCheck
 type (TIniFile), intent(in) :: xIniFile
 character*(*), intent(in) :: sName
 type (TIniItem) xIniItem
@@ -139,7 +142,8 @@ type (TIniItem) xIniItem
   TIniFileCheck = xIniItem%exists
 end function TIniFileCheck
 
-integer function TIniFileGetInteger(xIniFile, sName, iDefault)
+function TIniFileGetInteger(xIniFile, sName, iDefault)
+integer TIniFileGetInteger
 type (TIniFile), intent(in) :: xIniFile
 character*(*), intent(in) :: sName
 integer, intent(in), optional :: iDefault
@@ -156,7 +160,8 @@ type (TIniItem) xIniItem
   endif
 end function TIniFileGetInteger
 
-real*8 function TIniFileGetReal(xIniFile, sName,rDefault)
+function TIniFileGetReal(xIniFile, sName,rDefault)
+real*8 TIniFileGetReal
 type (TIniFile), intent(in) :: xIniFile
 character*(*), intent(in) :: sName
 real*8, intent(in), optional :: rDefault
@@ -173,7 +178,8 @@ type (TIniItem) xIniItem
   endif
 end function TIniFileGetReal
 
-logical function TIniFileGetLogical(xIniFile, sName, bDefault)
+function TIniFileGetLogical(xIniFile, sName, bDefault)
+logical TIniFileGetLogical
 type (TIniFile), intent(in) :: xIniFile
 character*(*), intent(in) :: sName
 logical, intent(in), optional :: bDefault

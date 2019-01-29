@@ -44,7 +44,8 @@ real*8 da, dx, a1(n, n)
   enddo
 end subroutine solveSystem
 
-real*8 function moment1d(arr, asize, order, average)
+function moment1d(arr, asize, order, average)
+real*8 moment1d
 integer, intent(in) :: asize
 real*8, intent(in) :: arr(asize)
 integer, intent(in) :: order
