@@ -1,6 +1,5 @@
 Tab_calc program
 Alexey A. Mints
-Last updated: %%mtime(%c)
 
 
 # Quickref 
@@ -82,7 +81,7 @@ as well as VERSION, MANUAL, USAGE files.
 For pre-compiled files it is not defined, so the code will look for 
 the [ini-file](#ini_file) in the current folder. (On Linux) One can also add to .bashrc: 
 
-```alias tab_calc='tab_calc --ini /path/to/ini/file'
+```alias tab_calc='tab_calc --ini /path/to/ini/file'```
 
 ## Avaliable commands 
 
@@ -90,6 +89,7 @@ Some of operations are predefined, although the system can be easily extended by
 adding more operation file into 'commands' folder (see [Developer manual](#d_manual) for details)
 
 |**Command** |**Description** |Supported number of columns |Grouping support |Binning mode|
+|------------|----------------|----------------------------|-----------------|------------|
 |avg |Get average values |1-any |yes |no|
 |count |Count lines/values |1-any |yes |no|
 |dis |Value dispersion |1-any |yes |no|
@@ -175,6 +175,7 @@ then median values for each column is evaluated.
 ## Command line options 
 
 |**Option** |**Explanation** [**Default value**]|
+|-----------|-----------------------------------|
 |-c command |specify [command](#commands)|
 |-f filename |input file name [$stdin]|
 |-g column_numbers |comma-separated numbers of group-by columns [-]|
@@ -219,7 +220,7 @@ but this can be overriden by *-i* option
 Here's the list of supported ini-options:
 
 | Ini-option |command-line option |default value|
-|---------------|
+|---------------|----------------|--------------|
 |COMMAND |-c |help|
 |XCOL |-x |1|
 |DATA_FILE |-f |''|
@@ -341,7 +342,7 @@ performed in each case separately. At the moment formatted output is not support
 ## Important variables and constants 
 
 | variable |type |description|
-|---------------|
+|---------------|--------|---|
 |data_table |real (2-dim array) |contains all data read from the file|
 |rownum |integer |number of rows in data_table|
 |column |integer |number of columns in data_table|
