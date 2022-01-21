@@ -1,0 +1,392 @@
+Tab_calc program
+Alexey A. Mints
+Last updated: %%mtime(%c)
+
+
+# Quickref 
+
+    Usage: tab_calc [-c command] [-f filename] 
+           [-m value] [-n column_number] [-o mode]
+           [-t steps] [-x column_number]
+           [-M value]
+           [-hsQVv]
+    Options:
+      -c command          command [avg|sum|max|min|med|med_q|smooth|hist|hist2|fit|root|...]
+      -f filename         input file name
+      -h                  print this help
+      -i ini-filename     name of ini-file
+      -m value            minimum range value [data minimum]
+      -n column_number    number of columns in the file [autodetect]
+      -o mode             histogram mode (0 - absolute values, 
+                                          1 - normalized to maximum value,
+                                          2 - normalized to total)
+      -s                  print result only for one column
+      -t steps            number of bins for a histogram/smoothing range [10]
+      -thr threshold      threshold for root-finder
+      -v                  print version & author information
+      -x column_number    number of column to proceed
+      -M value            maximum range value [data maximum]
+      -Q                  quiet mode: hide information messages
+      -V                  verbose mode: print all information messages
+
+# User manual 
+
+## Introduction 
+
+This is a simple tool to perform various statistical and mathematical
+operations on single ASCII data-files. The entire file is read into an
+array, which is then analyzed. Number of columns is detected automatically.
+Some support for Vizier-format datafiles is also provided.
+
+Data size is limited to 50 columns and 300.000 rows. Comment lines are allowed,
+starting with ';' symbol (this can be changed in [ini-file](#ini_file) COMMENT option)
+
+## Installation 
+
+One can download pre-compiled binaries or the source code.
+
+### Compiling 
+
+Before doing this, check *Makefile* for the following:
+
+ * modify [INSTALL_PATH](#idir)
+ * check that fortran compiler, that You are using is stated in F90=
+
+Then type **make** and enjoy!
+If You want VERSION and USAGE files to be included into binary, type **make inline**,
+but this work only in Linux system, because *Fortran_wrap_print.sh* works only there.
+
+The code is compatible with the following compilers (maybe more, but not tested):
+
+**Windows**
+
+ * g95 (GCC 4.0.2 and later) for MinGW
+
+**LINUX**
+
+ * g95
+ * gfortran
+
+### Installation of addons 
+
+"Addons" contain additional command-line parameters, commands and program variables.
+Adding them needs re-compilation, so You will need sources.
+To install addon, just copy .param .command and .vars files into appropriate directory
+(**commands**, **params**, **variables**) and re-run **make**
+
+### Install directory 
+
+This directory can be specified in Makefile as INSTALL_PATH variable.
+Here must stay the default [ini-file](#ini_file),
+as well as VERSION, MANUAL, USAGE files.
+For pre-compiled files it is not defined, so the code will look for 
+the [ini-file](#ini_file) in the current folder. (On Linux) One can also add to .bashrc: 
+
+```alias tab_calc='tab_calc --ini /path/to/ini/file'
+
+## Avaliable commands 
+
+Some of operations are predefined, although the system can be easily extended by
+adding more operation file into 'commands' folder (see [Developer manual](#d_manual) for details)
+
+|**Command** |**Description** |Supported number of columns |Grouping support |Binning mode|
+|avg |Get average values |1-any |yes |no|
+|count |Count lines/values |1-any |yes |no|
+|dis |Value dispersion |1-any |yes |no|
+|dis_med |Dispersion w.r.t. Median value |1-any |no |no|
+|distr |Value distribution |2 |no |yes|
+|distr2d |2D distribution |3 |no |yes|
+|distre |Value distribution with dispersions |2 |no |yes|
+|fit |Perform simple linear fit for the data |2 |no |no|
+|fit_ext |Linear fit with extended output |2 |no |no|
+|fit_filter |Linear fit with outliers rejection |2 |no |no|
+|fit_log |Logarithmic fit |2 |no |no|
+|fit_log_filter |Logarithmic fit with outliers rejection (absolute value of maximum error given) |2 |no |no|
+|fit_log_procent_filter |Logarithmic fit with outliers rejection (percentage of maximum error given) |2 |no |no|
+|fit_power |Logarithmic fit (maximum likelihood method) |2 |no |no|
+|gmean |Get geometric mean from values in column |1-any |yes |no|
+|grid |Make equal-spaced grid from table function |2 |no |yes|
+|help |Print help and quit |not needed |no |no|
+|hist |Make dimple histogram |1 |no |yes|
+|hist2 |Make local density distribution |1 |no |yes|
+|histl |Make histogram with logarithmic bins |1 |no |yes|
+|hmean |Get harmonic mean from values in column |1-any |yes |no|
+|int |Integrate table function |2 |no |no|
+|int_avg |Make average for a given table function |2-any |no |no|
+|many |Various statistical information on column(s) |1-any |no |no|
+|max |Find maximum values in columns |1-any |yes |no|
+|med |Find medians for columns |1-any |no |no|
+|med_q |Find medians and quartiles for columns |1-any |no |no|
+|min |Find minimum values in columns |1-any |yes |no|
+|none |Do nothing (pipe data to output) |1-any |no |no|
+|norm |Normalize data (set maximum value to 1) |1-any |no |no|
+|norm_avg |Normalize data (set average value to 1) |1-any |no |no|
+|norm_max |Same as norm |1-any |no |no|
+|norm_min |Normalize data (set minimum value to 1) |1-any |no |no|
+|path |Write install path end quit |not needed |no |no|
+|polar |Convert X,Y (and, optionaly, VX and VY) from cartesian to polar coordinates |2 or 4 |no |no|
+|rel_dis |Relative dispersion |1-any |yes |no|
+|root |Find root of f(x)=t equation |2 |no |no|
+|shift_center |Shift columns, so that the average value is zero |1-any |no |no|
+|smooth |Smooth table function with a given window |2 |no |no|
+|sort |Sort one column |1 |no |no|
+|sort_by |Sort table by one column |1 |no |no|
+|sort_line |Sort data in lines |not needed |no |no|
+|sqrt |Take square root from the sum of the squares of columns |1-any |no |no|
+|stat |Gets both average and dispersion of columns |1-any |no |no|
+|sum |Sum data in columns |1-any |yes |no|
+|sys |Print system information and quit |not needed |no |no|
+|tertia |Find first and second tertias |1-any |no |no|
+|xhist |Experimental histogram |1 |no |yes|
+
+Some more comments:                                                                                                                                          
+
+ * *distr*  - makes distribution of values. Two columns must be stated with *-x*
+option. Average values for the 2nd column values grouped in bins of the first one are calculated.
+ * *distre* - same as *distr* command, but errors are estimated as well
+ * *distr2* - same as *distr* command, but makes a two-dimensional distribution (thus, three columns be stated with *-x* option.
+ * *fit*    - performs linear fit to the data
+ * *fit_ext*- performs linear fit to the data, and output various information, depending on the mode (specified by *-o* option):
+1. fit parameters (a & b)
+1. x, y, fitted y, fit error
+(this is still under development)
+ * *hist*   - prints histogram information on key column. Number of bins is
+defined by *-t* option (10 by default). Three modes are
+avaliable (specified by *-o* option):
+1. Absolute values are computed (default)
+1. Relative values are computed (maximum value is 1)
+1. Relative values are computed (total is 1)
+Lower and upper limits can be set by *-m* and *-M* options [Data minimum
+and data maximum are taken by default]
+ * *hist2*  - additional version of histogram making: neighbour density is
+calculated for each particle (neighbour number can be set by *-t* option).
+ * *int*    - integrates (1-st order) function. X and Y columns must be set
+ * *int_avg*    - integrates (1-st order) function, then devides the result by the length of integration interval. X and Y columns must be set.
+ * *many* - several sub-commands can be defined via *-S* option. Then for every column results of these
+sub-commands are printed. Implemented sub-commands are **avg, min, max, dis, med, gmean, hmean**.
+ * *med*    - gives median column value. NOTE: if *-s* option is not set,
+then median values for each column is evaluated.
+ * *rel_dis* - finds relatve dispersion (dis/avg)
+ * *root*   - finds values from xcol_add(1), where xcol_add(2) equals to 0 (or another value, set by *-thr* option). Linear interpolation between points assumed at the moment.
+ * *sort*   - performs sorting of a given column (*-x*)
+ * *smooth* - performs simple n-point smoothing on key column. n can be set by *-t* option
+ * *sqrt*   - returns sqare root of columns from *-x* option (from 1 to 3 columns)
+
+## Command line options 
+
+|**Option** |**Explanation** [**Default value**]|
+|-c command |specify [command](#commands)|
+|-f filename |input file name [$stdin]|
+|-g column_numbers |comma-separated numbers of group-by columns [-]|
+|-h |print help|
+|-i column_numbers |defines list of integer columns [-]||
+|--ini ini-filename |name of [ini-file](#ini_file)|
+|-m value |minimum range value [data minimum]|
+|-n column_number |number of columns in the file [autodetect]|
+|-o mode |[histogram](#histogram) or fit mode|
+|-path |show path to [ini-file](#ini_file), help and version files|
+|-s |print result only for one column|
+|-t steps |number of bins for a histogram/smoothing range [10]|
+|-thr threshold |threshold for root-finder [0.0]|
+|-v |print version & author information and exit|
+|-x column_numbers |comma-separated numbers of 'x' columns to proceed [all]|
+|-xi column_numbers |comma-separated numbers of columns to ignore []|
+|-y column_numbers |comma-separated numbers of 'y' columns to proceed []|
+|-M value |maximum range value [data maximum]|
+|-Q |quiet mode: hide information messages|
+|-S column_numbers |sub-commands, used in 'many' command []|
+|--sys |prints system information, such as maximum input file sizes etc.|
+|-V |verbose mode: print additional information messages|
+|-comment char |specify comment char [from [ini-file](#ini_file)]|
+
+## Ini-file 
+
+The ini file contains some commonly-used options. As in any ini-file options are
+set as follows:
+
+  OPTION=value
+
+*Warning! this feature is case-sensitive*
+
+As well, comments are possible, starting with '#' symbol.
+If some command-line option is omitted, it's value is taken from ini-file.
+If it is not present even in ini-file, some default value is taken, but this
+values can vary from version to version.
+
+By default, ini-file is located in the [install directory](#idir) and named *tab_calc.ini*,
+but this can be overriden by *-i* option
+
+Here's the list of supported ini-options:
+
+| Ini-option |command-line option |default value|
+|---------------|
+|COMMAND |-c |help|
+|XCOL |-x |1|
+|DATA_FILE |-f |''|
+|COMMENT |-comment |;|
+|REAL_FORMAT | |'*'|
+|MIN_VALUE |-m |autodetect|
+|MAX_VALUE |-M |autodetect|
+|THRESHOLD |-thr |0.0|
+|STEP_NUMBER |-t |10|
+
+## Histogram 
+
+Histogram command (*-c hist*) allows plotting 1D distributions. Important values are:
+
+ * lower end of histogram
+ * upper end of histogram
+ * number of steps
+ * mode
+
+by default data minimum and maximum are taken as a range (this can be also set with *-m* and *-M*
+options, as well as through [.ini-file](#ini_file)).
+    Min   Step1  Step2 Stepi-1  Max
+     | Bin1 | Bin2 | Bin3 | BinI |
+     +------+------+------+------+
+
+Three modes are avaliable (specified by *-o* option):
+
+1. Absolute values are computed (default)
+1. Relative values are computed (maximum value is 1)
+1. Relative values are computed (total is 1)
+
+## Group by 
+
+If the group by columns are specified (by *-g* option), then the results are grouped by unique combinations
+of values in theese columns. In this case only one column can be specified in *-x* option.
+
+Commands supported at the moment: dis, max, min, rel_dis
+
+## Tips & Examples 
+
+For some operations one or more key columns can be set with *-x* key.
+
+Setting *-s* key leads to printing information only on the key column(s).
+Whole data line will be printed otherwise. For example,
+
+     tab_calc -c max -x 1 -s
+
+will print maximum value in the first column, and
+
+     tab_calc -c max -x 1
+
+will print whole table line, containing maximum value in the first column.
+
+Number of columns is now detected automatically, although you still
+can set it explicitly by *-n* option (with unpredictable results)
+
+     tab_calc -c hist -t 20 -f test.dat -x 2
+
+This command will print the distribution of values in 2nd column of file "test.dat", in 20 bins.
+
+# Developer manual 
+
+## Program structure 
+
+Program can be devided in three main parts:
+
+### 1. Reading input parameters 
+
+Intrinsic subroutine *GetArg* is used for obtaining [command-line options](#options).
+Intrinsic function *iargc* is used for obtaining the number of command-line options.
+If theese two functions are not supported by Your compiler - shame on You 8)
+
+First step is to check, wether *-i* option is set. If so, then get [ini-file](#ini_file)
+name. If not, then the default name **tab_calc.ini** is taken. Default [ini-file](#ini_file)
+must be located in [INSTALL_PATH](#idir).
+
+Then [ini-file](#ini_file) is opened, and all values are read from it. If some of
+the standard values is not present, the default one is taken.
+
+Next step is a cycle over all parameters, using 'case' to define appropriate reactions.
+If You want to define a new parameter(s), You can do it with addind new
+file into **params** folder. File must be like this:
+
+        case('-m')
+          range_min=Char2Real(sKeyValue)
+
+this file will be included into **tab_calc.f90** during compilation. Not, that `sKeyValue`
+is the corresponding option value (like *-m sKeyValue*). If You don't use it,
+add
+
+       i = i - 1
+
+to Your file... This is done, because most of options in this program need values.
+If You need more, than one value for the option, there're two solutions:
+
+ * Get this value(s) with *GetArg* subroutine(s), but don't forget to increase `i` in this case.
+ * Support comma-separated values. String array is a good way to do this, like in *-x* option.
+
+### 2. Reading data from file 
+
+First step is to define input unit. If `filename` (file name, defined with *-f* option
+or in [ini-file](#ini_file) is empty, then `unit_id = 5`, i.e. $stdin. Otherwise,
+first unused unit is detected, opened and assigned to `unit_id` variable.
+
+If file is not $stdin, it should be opened, as ASCII file with `status="UNKNOWN"`.
+Then first non-commentary line is read. After transformation (replace TABs with SPACEs, remove
+double SPACEs, adjust left), number_of_spaces + 1 is counted - that gives the number
+of columns.
+
+The following lines are supposed to have the same number of columns, as the first one.
+If this is not the case, "bad" lines are simply skipped (if "verbose" mode is on, warning is shown)
+
+### 3. Processing data and printing the results 
+
+Data processing is controlled by "command" parameter via simple `case` construction.
+As results can be significantly different from each other, printing the results is
+performed in each case separately. At the moment formatted output is not supported.
+
+## Important variables and constants 
+
+| variable |type |description|
+|---------------|
+|data_table |real (2-dim array) |contains all data read from the file|
+|rownum |integer |number of rows in data_table|
+|column |integer |number of columns in data_table|
+|xcol_add |integer (array) |mask for columns to process|
+|xcol_num |integer |number of columns to process|
+|sInstallPath |character |[INSTALL_PATH](#idir)|
+|temp_values |real (array) |temporary values (for any use in data processing)|
+|verbose |logical |verbose flag|
+|cComment |character*(1) |comment char (defined in *array_works.f90*)|
+|MAX_COLUMN |integer constant |maximum number of columns in file (defined in *array_works.f90*)|
+|MAX_ROW |integer constant |maximum number of rows in file (defined in *array_works.f90*)|
+|MAX_STEPS |integer constant |maximum number of steps in histogram/smoothing range|
+|XCOL_NULL |integer constant |Value for xcol_add(), treated as "not set"|
+
+## Writing addons 
+
+The purpose of addons is to provide some new functionality to the program,
+without modifying the source code itself. This allows You to use them, even
+if main modules of the program will be replaced with newer versions. I'll do
+my best to provide full compatibility of addons for different versions.
+
+There are 3 ways to extend the program. You can add:
+
+ * *new variables*, are stored in files in **variables** directory with **.vars** extension.
+They should contain definitions of variables, just as in standart programs. All predefined constants
+can be used as well.
+ * *new command-line parameters*, are stored in files in **params** directory with **.param** extension.
+They should be organized just like standart [command-line parameters](#options), as it is shown in [Chapter 1](#inp_pars) of "Developer manual".
+
+## Special modules 
+
+### ini_file.f90 
+
+This is a special module for dealing with .ini-files, that contain some global program settings.
+Provides an easy way to accsess values of different types by thier names.
+
+### string_Utils.f90 
+
+## TODO list 
+
+1. Better sorting (2-ways, global sort)
+1. extremum search
+1. total min/max search
+1. better error checking
+1. non-numeric column grouping
+1. better formatted output support
+
+

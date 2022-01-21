@@ -58,7 +58,7 @@ integer , save :: iGroupByIndex(1:MAX_ROW)
 integer , save :: iGroupByCount ! Number of distinct values
 
 !Variables for formatted output
-character*(300), save :: sFormat            !!FORMAT string
+character*(3000), save :: sFormat            !!FORMAT string
 character*(6), save :: sRealFormat          !!FORMAT for real values
 character*(4), save :: sIntegerFormat       !!FORMAT for integer values
 type(TStringArray), save :: xFormat

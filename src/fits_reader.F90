@@ -32,6 +32,7 @@ real*8 xReal2
     call fits_movabs_hdu(iUnit, 2, hdutype, iStatus)
     if ((hdutype .ne. 1) .and. (hdutype .ne. 2)) then
       write(*, *) 'HDU type not supported!', hdutype
+      write(*, *) 'Status=', iStatus
     end if
 
     call fits_get_num_cols(iUnit, iColNum, iStatus)

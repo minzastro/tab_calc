@@ -1,0 +1,56 @@
+avg#Average value by columns
+count # count all values (grouping allowed)
+cumul_back#Create an inverse cumulative distribution
+cumul#Create a cumulative distribution
+deriv # first derivative
+dis # calculates dispersion
+dis_med # Dispersion around median value
+distr2d # 2D Data distribution (average z value in bins of x and y)
+distr_avg # Data distribution (average y value in bins of x)
+distr # Data distribution (average y value in bins of x)
+distr_dis # Data dispersion distribution (maximum y value in bins of x)
+distr_max # Data distribution (maximum y value in bins of x)
+distr_med # distribution of medians
+distr_min # Data distribution (minimum y value in bins of x)
+fit_filter # fitting (linear) with outliers removed
+fit # fitting (linear) with extended output
+fit_log_filter # fitting (logarithmic) with outliers removed
+fit_log # fitting (logarithmic) with extended output
+fit_log_percent_filter # fitting (logarithmic) with outliers removed
+fit_log_scan # ???
+fit_log_weight # weighted fitting (logarithmic)
+fit_percent_filter # fitting (linear) with outliers removed
+fit_positive_power # positive power-law fit to a dataset
+fit_power # negative power-law fit to a dataset
+fit_power_tail # power-law fits to a upper and lower 1/5 parts of a dataset
+fit_scan # ???
+fit_tail # power-law fits to a upper and lower 1/5 parts of a dataset
+fit_weight # weighted fitting (linear)
+gmean # geometric mean of the data
+help#print help
+histl # histogram with logarithmic binning
+hmean # harmonic mean of the data
+max # data maximum
+med#Median value
+med_q#Median value with quartiles
+min # data minimum
+moment # Central moments
+none#do nothing (print with selected columns, formats and filters)
+norm_avg # normalize data (set average to 1)
+norm_max # normalize data (set maximum to 1)
+norm_min # normalize data (set minimum to 1)
+norm # normalize data (set maximum to 1)
+polar # convert catresian coordinates to polar.
+rel_dis # calculates relative dispersion (dispersion/average)
+rel_dis_med # Relative dispersion around median value
+shift_center_med # shift column values so that median is 0
+shift_center # shift column values so that average is 0
+smooth#smooth with window size = step_num
+sort_by#sorting by column
+sort_line # sort data within each line
+sort#sort just one column
+sqrt#getting vector length
+stat_med # statistics: median and dispersion around it.
+stat # statistics: average and dispersion
+sum#Sum of columns
+tertia # Firts and seconds tertiary values

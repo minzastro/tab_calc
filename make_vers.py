@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 from datetime import datetime
 fbuild = open('build', 'r').readlines()
 build_pars = fbuild[0].split('_')
